@@ -13,7 +13,7 @@ export class Home extends Component {
                             <Card>
                                 <CardTitle className="text-center">Online</CardTitle>
                                 <CardBody>
-
+  
                                 </CardBody>
                             </Card>
                         </div>

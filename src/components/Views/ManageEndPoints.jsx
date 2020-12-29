@@ -46,7 +46,7 @@ export class ManageEndPoints extends Component {
                             <Card>
                                 <CardTitle className="text-center">Top 10 Endpoints with Errors</CardTitle>
                                 <CardBody>
-                               {display}
+                               {display} this is a test
                                 </CardBody>
                             </Card>
                         </div>
