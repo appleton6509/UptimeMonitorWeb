@@ -44,9 +44,9 @@ export class ManageEndPoints extends Component {
                     <Col lg="12" >
                         <div className="shadow mt-4">
                             <Card>
-                                <CardTitle className="text-center">Top 10 Endpoints with Errors</CardTitle>
+                                <CardTitle className="text-center">Top 100 Endpoints with Errors</CardTitle>
                                 <CardBody>
-                               {display} this is a test
+                                    {display} this is a test
                                 </CardBody>
                             </Card>
                         </div>
