@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
-import { createLogin } from '../Services/authservice'
+import { AuthService } from '../Services/authservice'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,15 +18,19 @@ export class SignUp extends PureComponent {
     onSubmit = async (event) => {
         event.preventDefault();
         this.setState({isLoading: true});
-        let result = await createLogin(event.target.username.value,event.target.password.value);
+        let result = await AuthService.createLogin(event.target.username.value,event.target.password.value);
         if (result.success) {
-            toast.success("Success");
-            window.location.replace("/");
+            let loginResult = await AuthService.login(event.target.username.value,event.target.password.value);
+            if (loginResult.success) {
+                toast.success("created account "+ AuthService.getUserName());
+                window.location.replace("/"); 
+            }
+            else 
+                toast.error(loginResult.error);
         }
         else
             toast.error(result.error);
-            setTimeout(()=>{this.setState({isLoading: false});},500);
-        
+        setTimeout(()=>{this.setState({isLoading: false});},500);
     }
 
     render() {

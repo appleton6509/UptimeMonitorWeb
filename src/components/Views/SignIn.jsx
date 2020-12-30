@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
-import {login} from '../Services/authservice'
+import {AuthService} from '../Services/authservice'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,7 +18,7 @@ export class SignIn extends Component {
     onSubmit = async (event) => {
         event.preventDefault();
         this.setState({isLoading: true});
-        let result = await login(event.target.username.value,event.target.password.value);
+        let result = await AuthService.login(event.target.username.value,event.target.password.value);
         if (result.success)
             toast.success("Success");
         else 
