@@ -2,8 +2,9 @@
  * @param {string} id
  */
 export class EndPoint {
-    constructor(userid, description) {
-        this.userid = userid;
+    constructor(id,ip ,description) {
+        this.id = id;
+        this.ip = ip;
         this.description = description
     }
     /**

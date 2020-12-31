@@ -10,15 +10,21 @@ export class FetchService {
             'Authorization': 'Bearer '+ token
         }
     };
-
-    static async fetchapi(route, method, body = null) {
+    static async fetchNow(route, method, body = null) {
         const uri = API_URI + route;
         const headers = this.getHeaders();
-        return await fetch(uri, {
+         return await fetch(uri, {
             method: method,
             headers: headers,
-            body: (body != null ? JSON.stringify(body) : null) 
-        });
+            body: (body != null ? JSON.stringify(body) : null)})
+            .then(res => {
+                if (!res.ok)
+                    throw Error(res.statusText);
+                return res.json();
+            })
+            .catch(console.log);
+            
+ 
     }
 }
 
