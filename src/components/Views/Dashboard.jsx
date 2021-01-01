@@ -21,7 +21,7 @@ export class Dashboard extends Component {
                     <Col lg="4">
                         <div className="shadow mt-4">
                             <Card>
-                                <CardTitle className="text-center">Devices Online</CardTitle>
+                                <CardTitle className="text-center">Offline</CardTitle>
                                 <CardBody>
 
                                 </CardBody>
@@ -30,10 +30,20 @@ export class Dashboard extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg="12" >
+                <Col lg="6" >
                         <div className="shadow mt-4">
                             <Card>
-                                <CardTitle className="text-center">Top 10 Endpoints with Errors</CardTitle>
+                                <CardTitle className="text-center">Top 10 Reliable</CardTitle>
+                                <CardBody>
+
+                                </CardBody>
+                            </Card>
+                        </div>
+                    </Col>
+                    <Col lg="6" >
+                        <div className="shadow mt-4">
+                            <Card>
+                                <CardTitle className="text-center">Bottom 10 Reliable</CardTitle>
                                 <CardBody>
 
                                 </CardBody>

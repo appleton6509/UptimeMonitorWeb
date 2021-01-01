@@ -5,7 +5,7 @@ export class EndPoint {
     constructor(id,ip ,description) {
         this.id = id;
         this.ip = ip;
-        this.description = description
+        this.description = description;
     }
     /**
      * 

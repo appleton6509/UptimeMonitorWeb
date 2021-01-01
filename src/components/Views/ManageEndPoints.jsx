@@ -16,19 +16,9 @@ export class ManageEndPoints extends Component {
             endpoints: []
         }
     }
-    componentDidMount() {
-
-        // this.timer = setInterval(()=> this.fetchGetAllEndPoints(), 60000);
-    }
-    componentWillUnmount() {
-        // clearInterval(this.timer);
-        // this.timer = null;
-    }
     onSubmitAddEndpoint = async (event) => {
-        const desc = event.target.description.value
-        const ip = event.target.ip.value
-        const id = event.target.id.value
-        let endpoint = new EndPoint(id, desc, ip);
+        let endpoint = 
+            new EndPoint(event.target.id.value,event.target.ip.value,event.target.description.value);
         this.state.isModifying ?
             await this.fetchPutEndPoint(endpoint).catch(err => toast.error(err)) :
             await this.fetchPostEndPoint(endpoint).catch(err => toast.error(err));
@@ -43,17 +33,21 @@ export class ManageEndPoints extends Component {
     onClickReset = () => {
         this.setState({isModifying: false});
     }
+    onClickDelete = (e) => {
+        EndPointService.delete(document.getElementById("id").value);
+        this.setState({isModifying: false});
+    }
     onChangeHandler = (e) => {
         document.getElementById(e.target.id).value = e.target.value
     }
     fetchPutEndPoint = async (endPoint) => {
-        EndPointService.putEndPoint(endPoint)
+        EndPointService.put(endPoint)
             .catch(err => toast.error(err))
             .finally(() => toast.success("Updated"));
     }
     fetchPostEndPoint = async (endPoint) => {
         this.setState({ isFetching: true });
-        await EndPointService.postEndPoint(endPoint)
+        await EndPointService.post(endPoint)
             .catch(err => toast.error(err));
         this.setState({ isFetching: false });
     }
@@ -62,6 +56,9 @@ export class ManageEndPoints extends Component {
             "id": "ID",
             "ip": "IP / DNS",
             "description": "DESCRIPTION"
+        }
+        const hideColumns = {
+            "id": "id"
         }
         return (
             <Container>
@@ -92,6 +89,7 @@ export class ManageEndPoints extends Component {
                                                 <Button type="submit" hidden={this.state.isModifying}>ADD</Button>
                                                 <Button type="submit" hidden={!this.state.isModifying}>UPDATE</Button>
                                                 <Button type="reset" onClick={this.onClickReset} hidden={!this.state.isModifying}>RESET</Button>
+                                                <Button type="reset" onClick={this.onClickDelete} hidden={!this.state.isModifying}>DELETE</Button>
                                             </Col>
                                             <Col>
                                                 <FormGroup>
@@ -116,7 +114,7 @@ export class ManageEndPoints extends Component {
                                 <CardTitle></CardTitle>
                                 <CardBody>
                                     <div className="text-center">
-                                        <FetchTable route="EndPoints" headersMap={headers} onClick={this.onClickGetSelected}></FetchTable>
+                                        <FetchTable route="EndPoints" headersMap={headers} hideColumns={hideColumns} onClick={this.onClickGetSelected}></FetchTable>
                                     </div>
                                 </CardBody>
                             </Card>
