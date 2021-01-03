@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
-import { AuthService } from '../Services/authservice'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,12 +16,15 @@ export class SignUp extends PureComponent {
     }
     onSubmit = async (event) => {
         event.preventDefault();
+        let context = this.context;
+        let username = event.target.username;
+        let password = event.target.password.value;
         this.setState({isLoading: true});
-        let result = await AuthService.createLogin(event.target.username.value,event.target.password.value);
+        let result = context.createLogin(username,password);
         if (result.success) {
-            let loginResult = await AuthService.login(event.target.username.value,event.target.password.value);
+            let loginResult = context.login(username,password);
             if (loginResult.success) {
-                toast.success("created account "+ AuthService.getUserName());
+                toast.success("created account " + username);
                 window.location.replace("/"); 
             }
             else 

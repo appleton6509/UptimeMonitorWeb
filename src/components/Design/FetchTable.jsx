@@ -99,7 +99,7 @@ export class FetchTable extends PureComponent {
                 this.setState({ data: tableData.data, isLoading: false });
             }).catch(err => {
                 console.log(err);
-                throw Error(err);
+                
             });
     }
     /**

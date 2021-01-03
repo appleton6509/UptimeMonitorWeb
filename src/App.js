@@ -6,7 +6,7 @@ import { SignUp} from './components/Views/SignUp';
 import { SignIn} from './components/Views/SignIn';
 import { Home} from './components/Views/Home';
 import { ManageEndPoints } from './components/Views/ManageEndPoints';
-import './custom.css'
+import './custom.css';
 
 export default class App extends Component {
   static displayName = App.name;

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
-import {AuthService} from '../Services/authservice'
-import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../Context/UserContext';
 
 export class SignIn extends Component {
     static displayName = SignIn.name;
+    static contextType = UserContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -14,33 +14,18 @@ export class SignIn extends Component {
             password: "",
         }
     }
-
     onSubmit = async (event) => {
         event.preventDefault();
+        let context = this.context;
         this.setState({isLoading: true});
-        let result = await AuthService.login(event.target.username.value,event.target.password.value);
-        if (result.success)
-            toast.success("Success");
-        else 
-            toast.error(result.error);
-        setTimeout(()=>{this.setState({isLoading: false});},500);
+        await context.login(event.target.username.value,event.target.password.value);
+        setTimeout(()=>{this.setState({isLoading: false});},300);
         //do something
     }
 
     render() {
         return (
             <Container>
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={5000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    />
                 <Row>
                     <Col>
                         <h1 className="mt-3 mb-3 text-center">

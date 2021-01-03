@@ -1,9 +1,11 @@
-import {AuthService} from '../Services/authservice'
 import {API_URI} from '../Settings/API'
+import {UserContext} from '../Context/UserContext';
 
 export class FetchService {
+    static contextType = UserContext;
     static getHeaders() {
-        const token = AuthService.getToken();
+        let context = this.context;
+        const token =  context.user.token;
         return {
             'Accept': '*/*',
             'Content-Type': 'application/json',

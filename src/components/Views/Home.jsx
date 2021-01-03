@@ -1,5 +1,5 @@
-﻿import React, { Component } from 'react';
-import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
+import React, { Component } from 'react';
+import { Container} from 'reactstrap';
 
 export class Home extends Component {
     static displayName = Home.name;

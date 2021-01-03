@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
 
 export class Dashboard extends Component {
