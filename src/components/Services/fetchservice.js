@@ -1,20 +1,20 @@
-import {API_URI} from '../Settings/API'
-import {UserContext} from '../Context/UserContext';
 
-export class FetchService {
-    static contextType = UserContext;
-    static getHeaders() {
-        let context = this.context;
-        const token =  context.user.token;
+import { Component } from 'react';
+import { API_URI } from '../Settings/API';
+
+export class FetchService extends Component {
+    static getHeaders = (token) => {
         return {
             'Accept': '*/*',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+ token
         }
     };
-    static async fetchNow(route, method, body = null) {
+    static fetchNow = async(route, method, body = null, token = null) => {
+        if (!token)
+            throw Error("Missing Token");
         const uri = API_URI + route;
-        const headers = this.getHeaders();
+        const headers = this.getHeaders(token);
          return await fetch(uri, {
             method: method,
             headers: headers,
@@ -25,10 +25,6 @@ export class FetchService {
                 return res.json();
             })
             .catch(console.log);
-            
- 
     }
 }
-
-
 

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserContext } from '../Context/UserContext';
+import { Context } from '../Provider/AuthContext';
 
 export class SignIn extends Component {
     static displayName = SignIn.name;
-    static contextType = UserContext;
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {

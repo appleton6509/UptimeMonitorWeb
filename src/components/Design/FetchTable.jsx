@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import {FetchService} from '../Services/fetchservice';
 import "./FetchTable.css"
-
+import { Context } from '../Provider/AuthContext';
 /**
  * unqiue number used for keys/id's
  */
@@ -19,7 +19,7 @@ export class FetchTable extends PureComponent {
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object
     }
-
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
@@ -29,13 +29,16 @@ export class FetchTable extends PureComponent {
         }
     }
 
-    componentDidMount() {
-        this.fetchData();
+    componentDidMount(){
         this.fetchTimer = setInterval(() => {
-            this.fetchData();
-        }, 60000);
+            this.fetchData(this.getToken());
+        }, 6000);
+        this.fetchData(this.getToken());
     }
-
+    getToken = () => {
+        let mycontext = this.context;
+        return mycontext.user.token;
+    }
     componentWillUnmount() {
         clearInterval(this.fetchTimer);
     }
@@ -70,22 +73,18 @@ export class FetchTable extends PureComponent {
         }
         return obj;
     }
-    async updateTable() {
-        await this.fetchData();
-    }
-    hideColumns() {
-
-    }
     /**
      * fetches the data from API
      */
-    async fetchData() {
+     fetchData = async (token) => {
         const { headersMap, route} = this.props;
         let tableData = {
             pagination: {},
             data: []
         };
-        await FetchService.fetchNow(route,"GET")
+
+        !token ? console.log("No token found, skipping fetch in fetchtable.jsx") :
+        await FetchService.fetchNow(route,"GET",null,token)
         .then(json => { //data received
                 json.forEach(data => {
                     //map data key/values to header columns to preserve display order
@@ -99,7 +98,6 @@ export class FetchTable extends PureComponent {
                 this.setState({ data: tableData.data, isLoading: false });
             }).catch(err => {
                 console.log(err);
-                
             });
     }
     /**

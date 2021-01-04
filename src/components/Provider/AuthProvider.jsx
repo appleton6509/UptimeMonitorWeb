@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { UserContext } from './UserContext';
 import { API_URI } from "../Settings/API.js";
 import jwt_decode from "jwt-decode";
 import { toast, ToastContainer } from 'react-toastify';
+import {Context} from './AuthContext';
 
-export class AuthProvider extends Component {
-    static contextType = UserContext;
+const {Provider, Consumer} = Context;
+
+class AuthProvider extends Component {
+
     constructor(props) {
         super(props);
 
@@ -21,13 +23,18 @@ export class AuthProvider extends Component {
             logout: () => {}
         }
     }
-    componentDidMount() {
+    componentDidMount = () => {
+        this.createState();
+        this.props.isLoaded(true);
+    }
+    createState =() => {
         const user = this.getUserAuthentication();
         const logout = this.logout;
         const create = this.createLogin;
         const login = this.login;
         this.setState({user,login,create,logout});
     }
+
     logout = () => {
         toast.info("Logging out.");
         this.setToken("");
@@ -73,7 +80,7 @@ export class AuthProvider extends Component {
  * @returns {Object} a object containing "error" message and boolean "success"
  */
       login = async (username, password) => {
-          toast.info("Logging in.");
+          const loginToastId = toast.info("Logging in.");
         var status = {
             error: "",
             success: false
@@ -91,19 +98,22 @@ export class AuthProvider extends Component {
             if (res.ok)
                 status.success = true
             return res.text()
-        }).then(message => {
+        }).then(reply => {
             if (status.success) {
-                this.updateUserState(message);
+                this.updateUserState(reply); //token
                 this.navigateHome();
             }
             else {
-                toast.error(message);
-                status.error = message;
+                toast.dismiss(loginToastId);
+                toast.error(reply);
+                status.error = reply;
             }
         }).catch(err => {
             status.error = "Something broke. please try again.";
+            toast.dismiss(loginToastId);
             toast.warning(status.error);
         });
+        
         return new Promise((resolve, reject) => {
             resolve(status);
         });
@@ -117,10 +127,10 @@ export class AuthProvider extends Component {
         this.setState({user: newUser});
     }
     getUserAuthentication = () => {
-        const username = this.getUserName();
         const token = this.getToken();
+        const username = this.getUserName();
         const id = this.getUserID();
-        const auth = this.getToken() ? true : false;
+        const auth = token ? true : false;
         return {
             name: username,
             token: token,
@@ -147,15 +157,16 @@ export class AuthProvider extends Component {
      * returns the existing token string
      */
      getToken = () =>  {
-        return localStorage.getItem("x-auth-token")
+        const token = localStorage.getItem("x-auth-token") ? localStorage.getItem("x-auth-token") : "";
+        return token;
     }
      setToken = (token) =>  {
         localStorage.setItem("x-auth-token", token);
     }
     render() {
         return (
-            <UserContext.Provider value={this.state}>
-                            <ToastContainer
+            <Provider value={this.state}>
+                 <ToastContainer
                     position="bottom-center"
                     autoClose={5000}
                     hideProgressBar
@@ -167,7 +178,8 @@ export class AuthProvider extends Component {
                     pauseOnHover
                     />
                 {this.props.children}
-            </UserContext.Provider>
+            </Provider>
         );
     }
 }
+export { AuthProvider, Consumer as AuthConsumer};

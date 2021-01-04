@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Collapse, Container, Navbar, Button, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
-import { UserContext } from './Context/UserContext';
+import { AuthConsumer } from './Provider/AuthProvider';
+
 
 export class NavMenu extends Component {
     static displayName = NavMenu.name;
@@ -22,16 +23,16 @@ export class NavMenu extends Component {
     authenticated = (auth) => (
         <Fragment>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/ManageEndPoints">EndPoints</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/Dashboard">Dashboard</NavLink>
             </NavItem>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/Dashboard">Dashboard</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/ManageEndPoints">Manage</NavLink>
             </NavItem>
             <NavItem>
                 <Button onClick={auth.logout}>Logout</Button>
             </NavItem>
             <NavItem>
-               <NavLink className="ml-2">Hello! {auth.user.name}</NavLink> 
+                <NavLink className="ml-2">Hello! {auth.user.name}</NavLink>
             </NavItem>
         </Fragment>
     );
@@ -54,7 +55,7 @@ export class NavMenu extends Component {
                         <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow">
-                                <UserContext.Consumer>
+                                <AuthConsumer>
                                     {(auth) => {
                                         return (
                                             <Fragment>
@@ -62,7 +63,7 @@ export class NavMenu extends Component {
                                             </Fragment>
                                         );
                                     }}
-                                </UserContext.Consumer>
+                                </AuthConsumer>
                             </ul>
                         </Collapse>
                     </Container>
