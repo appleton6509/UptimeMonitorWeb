@@ -16,11 +16,10 @@ export class SignIn extends Component {
     }
     onSubmit = async (event) => {
         event.preventDefault();
-        let context = this.context;
         this.setState({isLoading: true});
+        let context = this.context;
         await context.login(event.target.username.value,event.target.password.value);
         setTimeout(()=>{this.setState({isLoading: false});},300);
-        //do something
     }
 
     render() {

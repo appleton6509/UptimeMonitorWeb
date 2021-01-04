@@ -15,12 +15,17 @@ export class ManageEndPoints extends PureComponent {
         this.state = {
             isFetching: false,
             isModifying: false,
-            endpoints: [], 
-            token: ""
+            endpoints: []
         }
     }
+
     componentDidMount() {
         this.setState({token: this.context.user.token})
+    }
+
+    getToken = () => {
+        let mycontext = this.context;
+        return mycontext.user.token;
     }
     onSubmitAddEndpoint = async (event) => {
         let endpoint = 
