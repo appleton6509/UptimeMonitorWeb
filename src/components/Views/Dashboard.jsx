@@ -13,8 +13,7 @@ export class Dashboard extends Component {
             data: [{
                 online: 0,
                 offline: 0
-            }],
-            labels: [{"o"}]
+            }]
         }
     }
 
@@ -34,6 +33,7 @@ export class Dashboard extends Component {
         await DashboardService.getOnlineOffline(this.getToken())
         .then(data=> {
             data.forEach(element => {
+                // eslint-disable-next-line no-unused-vars
                 const [ip,timedate,reachable] = Object.entries(element);
                 reachable[1] ? on++ : off++;
             });

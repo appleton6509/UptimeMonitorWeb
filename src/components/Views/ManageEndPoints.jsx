@@ -1,5 +1,5 @@
 
-import React, { Component, PureComponent } from 'react';
+import React, {  PureComponent } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody, Form, Button, Label, Input, FormGroup } from 'reactstrap';
 import { EndPoint } from '../Models/EndPoint';
 import { EndPointService } from '../Services/endpointservice';
