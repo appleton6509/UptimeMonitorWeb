@@ -1,4 +1,3 @@
-
 import React, {  PureComponent } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody, Form, Button, Label, Input, FormGroup } from 'reactstrap';
 import { EndPoint } from '../Models/EndPoint';
@@ -47,7 +46,7 @@ export class ManageEndPoints extends PureComponent {
     onClickReset = () => {
         this.setState({isModifying: false});
     }
-    onClickDelete = (e) => {
+    onClickDelete = () => {
         EndPointService.delete(document.getElementById("id").value,this.state.token);
         this.setState({isModifying: false});
     }

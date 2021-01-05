@@ -3,11 +3,14 @@ import { API_URI } from "../Settings/API.js";
 import jwt_decode from "jwt-decode";
 import { toast, ToastContainer } from 'react-toastify';
 import {Context} from './AuthContext';
+import PropTypes from 'prop-types';
 
 const {Provider, Consumer} = Context;
 
 class AuthProvider extends Component {
-
+    static propTypes = {
+        isLoaded: PropTypes.func.isRequired
+    }
     constructor(props) {
         super(props);
 
@@ -68,7 +71,7 @@ class AuthProvider extends Component {
         }).then(message => {
             if (!status.success)
                 status.error = message
-        }).catch(err => {
+        }).catch(() => {
             status.error = "something went wrong"
         });
         return status
@@ -108,13 +111,12 @@ class AuthProvider extends Component {
                 toast.error(reply);
                 status.error = reply;
             }
-        }).catch(err => {
+        }).catch(() => {
             status.error = "Something broke. please try again.";
             toast.dismiss(loginToastId);
             toast.warning(status.error);
         });
-        
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             resolve(status);
         });
     }

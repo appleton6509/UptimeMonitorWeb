@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
@@ -17,7 +17,8 @@ export class FetchTable extends PureComponent {
     static propTypes = {
         route: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
-        hideColumns: PropTypes.object
+        hideColumns: PropTypes.object,
+        onClick: PropTypes.func
     }
     static contextType = Context;
     constructor(props) {
@@ -43,8 +44,8 @@ export class FetchTable extends PureComponent {
         clearInterval(this.fetchTimer);
     }
 
-    componentDidUpdate(prevProps,prevState) {
-        if (prevProps.uri !== this.props.uri)
+    componentDidUpdate(prevProps,_prevState) {
+        if (prevProps.route !== this.props.route)
             this.fetchData();
     }
 

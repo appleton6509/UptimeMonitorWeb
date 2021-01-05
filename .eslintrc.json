@@ -1,0 +1,30 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module",
+        "emitWarning": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "no-unused-vars": "off",
+        "react/prop-types": "off"
+      }
+}

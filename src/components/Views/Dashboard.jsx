@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { Context } from '../Provider/AuthContext';
 import { DashboardService } from '../Services/dashboardservice';
+import CustomChart from '../Charts/CustomChart';
 
 export class Dashboard extends Component {
     static displayName = Dashboard.name;
@@ -10,10 +11,9 @@ export class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
-                online: 0,
-                offline: 0
-            }]
+            data: [],
+            labels: ['Online', 'Offline'],
+            title: 'Connected Devices'
         }
     }
 
@@ -22,37 +22,33 @@ export class Dashboard extends Component {
         return mycontext.user.token;
     }
     componentDidMount() {
-        this.getOnlineOfflineData()
-        .then(myData=> {
-            this.setState({data: myData });
-        });
-    }
-    getOnlineOfflineData = async () => {
         let on = 0;
         let off = 0;
-        await DashboardService.getOnlineOffline(this.getToken())
-        .then(data=> {
-            data.forEach(element => {
-                // eslint-disable-next-line no-unused-vars
-                const [ip,timedate,reachable] = Object.entries(element);
-                reachable[1] ? on++ : off++;
+     DashboardService.getOnlineOffline(this.getToken())
+            .then(data => {
+                data.forEach(element => {
+                    // eslint-disable-next-line no-unused-vars
+                    const [ip, timedate, reachable] = Object.entries(element);
+                    reachable[1] ? on++ : off++;
+                });
+            })
+            .then(() => {
+                this.setState({ data: [on, off] })})
+            .catch(err => {
+                    console.log(err);
             });
-        }).catch(err => {
-            console.log(err);
-        })
-        return {online: on, offline: off}
     }
-    render() {
 
+    render() {
+        const {title,labels} = this.state
         return (
             <Container>
-                <Row >
-                    <Col lg="4">
+                <Row>
+                    <Col lg="6">
                         <div className="shadow mt-4">
                             <Card>
-                                <CardTitle className="text-center">Online</CardTitle>
                                 <CardBody>
-                              
+                                    <CustomChart data={this.state.data} title={title} labels={labels}></CustomChart>
                                 </CardBody>
                             </Card>
                         </div>
