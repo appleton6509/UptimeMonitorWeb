@@ -16,43 +16,60 @@ export default class DoughnutChart extends React.Component {
             isLoading: true
         }
         this.chartRef = React.createRef();
-      
+
     }
     componentDidMount() {
-        const {labels, title, data} = this.props;
+        const { labels, title, data, backgroundColor } = this.props;
         this.myChart = new Chart(this.chartRef.current, {
             type: 'doughnut',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: title, 
+                    label: title,
                     data: data,
-                    backgroundColor: [
-                        'rgba(50, 200, 82, 1)',
-                        'rgba(238, 51, 23, 1)'
-                    ]
+                    backgroundColor: backgroundColor ? backgroundColor :
+                        [
+                            'rgba(50, 200, 82, 1)',
+                            'rgba(238, 51, 23, 1)'
+                        ]
                 }]
             }
         });
+        this.myChart.ctx.restore();
+      this.myChart.ctx.font = 20 + "em sans-serif";
+      this.myChart.ctx.textBaseline = "middle"
+
+        this.myChart.ctx.fillText("bob", 100, 100);
+        this.myChart.ctx.save();
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.data !== this.props.data || prevState !== this.state)
-            if (this.props.data != null) {
-                this.myChart.data.datasets[0].data = this.props.data;
-                this.myChart.data.labels = this.props.labels;
-                this.myChart.data.label = this.props.title;
+        const { data, labels, title, backgroundColor } = this.props;
+        if (prevProps.data !== data || prevState !== this.state)
+            if (data !== null && data !== undefined) {
+                this.myChart.data.datasets[0].data = data;
+                this.myChart.data.labels = labels;
+                this.myChart.data.label = title
+                this.myChart.data.datasets[0].backgroundColor = backgroundColor ?
+                    backgroundColor : this.myChart.data.datasets[0].backgroundColor
                 this.myChart.update();
-                if (this.state.isLoading == true) this.setState({isLoading: false})
-            } 
+                if (this.state.isLoading == true) this.setState({ isLoading: false })
+            }
     }
     render() {
-            return (
-                <Fragment>
-                    { (this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
+        return (
+            <Fragment>
+                { (this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
+                <div className="relative">
                     <div className={this.state.isLoading ? "hide" : ""}>
-                        <canvas ref={this.chartRef} />
+                        <canvas ref={this.chartRef} >
+                            <div className="absolute-center text-center">
+                                <p>Some text</p>
+                                <p>Some text</p>
+                            </div>
+                       </canvas>
                     </div>
-                </Fragment>
-            );
+                </div>
+            </Fragment>
+        );
     }
 }
