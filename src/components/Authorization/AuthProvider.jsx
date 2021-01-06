@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { API_URI } from "../Settings/API.js";
 import jwt_decode from "jwt-decode";
 import { toast, ToastContainer } from 'react-toastify';
-import {Context} from './AuthContext';
+import { AuthContext } from './AuthContext';
 import PropTypes from 'prop-types';
 
-const {Provider, Consumer} = Context;
+const { Provider, Consumer } = AuthContext;
 
 class AuthProvider extends Component {
     static propTypes = {
@@ -21,21 +21,29 @@ class AuthProvider extends Component {
                 id: "",
                 isAuthenticated: ""
             },
-            login: (username,password) => {},
-            createLogin: (username,password) => {},
-            logout: () => {}
+            login: (username, password) => { },
+            createLogin: (username, password) => { },
+            logout: () => { },
+            unauthorized: () => { },
+            checkauthorization: () => { }
         }
     }
     componentDidMount = () => {
         this.createState();
         this.props.isLoaded(true);
     }
-    createState =() => {
+    createState = () => {
         const user = this.getUserAuthentication();
         const logout = this.logout;
         const create = this.createLogin;
         const login = this.login;
-        this.setState({user,login,create,logout});
+        const unauthorized = this.unauthorized;
+        const checkauthorization = this.checkauthorization;
+        this.setState({ user, login, create, logout, unauthorized, checkauthorization });
+    }
+    checkauthorization = () => {
+        if (!this.state.user.isAuthenticated)
+            window.location.replace("/deauthorize");
     }
 
     logout = () => {
@@ -49,7 +57,7 @@ class AuthProvider extends Component {
     * @param {string} username 
     * @param {string} password 
     */
-     createLogin = async (username, password) => {
+    createLogin = async (username, password) => {
         const jsonbody = JSON.stringify({ Username: username, Password: password });
         const uri = API_URI + 'Auth/SignUp';
 
@@ -76,14 +84,14 @@ class AuthProvider extends Component {
         });
         return status
     }
-/**
- * 
- * @param {string} username 
- * @param {string} password 
- * @returns {Object} a object containing "error" message and boolean "success"
- */
-      login = async (username, password) => {
-          const loginToastId = toast.info("Logging in.");
+    /**
+     * 
+     * @param {string} username 
+     * @param {string} password 
+     * @returns {Object} a object containing "error" message and boolean "success"
+     */
+    login = async (username, password) => {
+        const loginToastId = toast.info("Logging in.");
         var status = {
             error: "",
             success: false
@@ -123,10 +131,14 @@ class AuthProvider extends Component {
     navigateHome = () => {
         window.location.replace("/");
     }
+    unauthorized = () => {
+        this.setToken("");
+        this.setState({ user: { name: "", token: "", id: "", isAuthenticated: false } });
+    }
     updateUserState = (token) => {
         this.setToken(token);
         const newUser = this.getUserAuthentication();
-        this.setState({user: newUser});
+        this.setState({ user: newUser });
     }
     getUserAuthentication = () => {
         const token = this.getToken();
@@ -148,7 +160,7 @@ class AuthProvider extends Component {
         return username;
     }
 
-     getUserID = () =>  {
+    getUserID = () => {
         const token = this.getToken();
         if (!token) return "";
         const decoded = jwt_decode(token);
@@ -158,17 +170,17 @@ class AuthProvider extends Component {
     /**
      * returns the existing token string
      */
-     getToken = () =>  {
+    getToken = () => {
         const token = localStorage.getItem("x-auth-token") ? localStorage.getItem("x-auth-token") : "";
         return token;
     }
-     setToken = (token) =>  {
+    setToken = (token) => {
         localStorage.setItem("x-auth-token", token);
     }
     render() {
         return (
             <Provider value={this.state}>
-                 <ToastContainer
+                <ToastContainer
                     position="bottom-center"
                     autoClose={5000}
                     hideProgressBar
@@ -178,10 +190,10 @@ class AuthProvider extends Component {
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover
-                    />
+                />
                 {this.props.children}
             </Provider>
         );
     }
 }
-export { AuthProvider, Consumer as AuthConsumer};
+export { AuthProvider, Consumer as AuthConsumer };

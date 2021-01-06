@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
-import { Context } from '../Provider/AuthContext';
+import { AuthContext } from '../Authorization/AuthContext';
 import { DashboardService } from '../Services/dashboardservice';
-import CustomChart from '../Charts/CustomChart';
+import DoughnutChart from '../Charts/DoughnutChart';
 
 export class Dashboard extends Component {
     static displayName = Dashboard.name;
-    static contextType = Context;
+    static contextType = AuthContext;
     
     constructor(props) {
         super(props);
@@ -17,14 +17,10 @@ export class Dashboard extends Component {
         }
     }
 
-    getToken = () => {
-        let mycontext = this.context;
-        return mycontext.user.token;
-    }
-    componentDidMount() {
+    fetchOnlineOfflineData = async () => {
         let on = 0;
         let off = 0;
-     DashboardService.getOnlineOffline(this.getToken())
+        return await DashboardService.getOnlineOffline()
             .then(data => {
                 data.forEach(element => {
                     // eslint-disable-next-line no-unused-vars
@@ -38,6 +34,10 @@ export class Dashboard extends Component {
                     console.log(err);
             });
     }
+    async componentDidMount() {
+        this.context.checkauthorization();
+        await this.fetchOnlineOfflineData();
+    }
 
     render() {
         const {title,labels} = this.state
@@ -48,7 +48,7 @@ export class Dashboard extends Component {
                         <div className="shadow mt-4">
                             <Card>
                                 <CardBody>
-                                    <CustomChart data={this.state.data} title={title} labels={labels}></CustomChart>
+                                    <DoughnutChart data={this.state.data} title={title} labels={labels}/>
                                 </CardBody>
                             </Card>
                         </div>

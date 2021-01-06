@@ -6,6 +6,7 @@ import { SignUp} from './components/Views/SignUp';
 import { SignIn} from './components/Views/SignIn';
 import { Home} from './components/Views/Home';
 import { ManageEndPoints } from './components/Views/ManageEndPoints';
+import { Deauthorize } from './components/Authorization/Deauthorize';
 import './custom.css';
 
 export default class App extends Component {
@@ -17,6 +18,7 @@ export default class App extends Component {
         <Route exact path='/Dashboard' component={Dashboard} />
         <Route exact path='/SignUp' component={SignUp} />
         <Route exact path='/SignIn' component={SignIn} />
+        <Route exact path='/Deauthorize' component={Deauthorize} />
         <Route exact path='/' component={Home} />
         <Route exact path='/ManageEndPoints' component={ManageEndPoints} />
       </Layout>

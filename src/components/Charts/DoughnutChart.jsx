@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
 
-export default class CustomChart extends React.Component {
+export default class DoughnutChart extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         labels: PropTypes.arrayOf(PropTypes.string).isRequired,

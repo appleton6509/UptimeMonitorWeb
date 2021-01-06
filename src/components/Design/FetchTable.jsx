@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import {FetchService} from '../Services/fetchservice';
 import "./FetchTable.css"
-import { Context } from '../Provider/AuthContext';
+
 /**
  * unqiue number used for keys/id's
  */
@@ -20,7 +20,6 @@ export class FetchTable extends PureComponent {
         hideColumns: PropTypes.object,
         onClick: PropTypes.func
     }
-    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
@@ -29,17 +28,13 @@ export class FetchTable extends PureComponent {
             uniqueId: 0
         }
     }
-
     componentDidMount(){
         this.fetchTimer = setInterval(() => {
-            this.fetchData(this.getToken());
+            this.fetchData();
         }, 6000);
-        this.fetchData(this.getToken());
+        this.fetchData();
     }
-    getToken = () => {
-        let mycontext = this.context;
-        return mycontext.user.token;
-    }
+
     componentWillUnmount() {
         clearInterval(this.fetchTimer);
     }
@@ -77,28 +72,27 @@ export class FetchTable extends PureComponent {
     /**
      * fetches the data from API
      */
-     fetchData = async (token) => {
-        const { headersMap, route} = this.props;
+    fetchData = async () => {
+        const { headersMap, route } = this.props;
         let tableData = {
             pagination: {},
             data: []
         };
-
-        !token ? console.log("No token found, skipping fetch in fetchtable.jsx") :
-        await FetchService.fetchNow(route,"GET",null,token)
-        .then(json => { //data received
+        await FetchService.fetchNow(route, "GET")
+            .then(json => { //data received
                 json.forEach(data => {
-                    //map data key/values to header columns to preserve display order
+                    //  map data key/values to header columns to preserve display order
                     var obj = {}
                     for (let [key] of Object.entries(headersMap)) {
-                            obj[key] = data[key];
+                        obj[key] = data[key];
                     }
                     if (Object.keys(obj).length > 0)
                         tableData.data.push(obj);
-                });
-                this.setState({ data: tableData.data, isLoading: false });
-            }).catch(err => {
-                console.log(err);
+                })
+            })
+            .then(() => this.setState({ data: tableData.data, isLoading: false }))
+            .catch(err => {
+                console.log(err.code + " - " + err.message);
             });
     }
     /**

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Card, Button, Container, Row, Col, CardBody, Form, 
     FormGroup, Label, Input, Spinner} from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
-import { Context } from '../Provider/AuthContext';
+import { AuthContext } from '../Authorization/AuthContext';
 
 export class SignIn extends Component {
     static displayName = SignIn.name;
-    static contextType = Context;
+    static contextType = AuthContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -17,8 +17,8 @@ export class SignIn extends Component {
     onSubmit = async (event) => {
         event.preventDefault();
         this.setState({isLoading: true});
-        let context = this.context;
-        await context.login(event.target.username.value,event.target.password.value);
+        let authContext = this.context;
+        await authContext.login(event.target.username.value,event.target.password.value);
         setTimeout(()=>{this.setState({isLoading: false});},300);
     }
 

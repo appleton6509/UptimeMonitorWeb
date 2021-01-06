@@ -3,9 +3,11 @@ import { Card, Button, Container, Row, Col, CardBody, Form,
     FormGroup, Label, Input, Spinner} from 'reactstrap';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../Authorization/AuthContext';
 
 export class SignUp extends PureComponent {
     static displayName = SignUp.name;
+    static contextType = AuthContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -16,13 +18,13 @@ export class SignUp extends PureComponent {
     }
     onSubmit = async (event) => {
         event.preventDefault();
-        let context = this.context;
+        let authContext = this.context;
         let username = event.target.username;
         let password = event.target.password.value;
         this.setState({isLoading: true});
-        let result = context.createLogin(username,password);
+        let result = authContext.createLogin(username,password);
         if (result.success) {
-            let loginResult = context.login(username,password);
+            let loginResult = authContext.login(username,password);
             if (loginResult.success) {
                 toast.success("created account " + username);
                 window.location.replace("/"); 

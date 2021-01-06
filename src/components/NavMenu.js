@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Collapse, Container, Navbar, Button, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
-import { AuthConsumer } from './Provider/AuthProvider';
+import { AuthConsumer } from './Authorization/AuthProvider';
+import { ToastContainer } from 'react-toastify';
 
 
 export class NavMenu extends Component {
@@ -49,6 +50,17 @@ export class NavMenu extends Component {
     render() {
         return (
             <header>
+                     <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    />
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm bg-white border-bottom box-shadow" light>
                     <Container>
                         <NavbarBrand tag={Link} to="/">Uptime Monitor</NavbarBrand>

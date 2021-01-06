@@ -1,8 +1,12 @@
 
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { API_URI } from '../Settings/API';
 
 export class FetchService extends Component {
+    static getToken = () => {
+        return localStorage.getItem("x-auth-token");
+    };
+
     static getHeaders = (token) => {
         return {
             'Accept': '*/*',
@@ -10,21 +14,29 @@ export class FetchService extends Component {
             'Authorization': 'Bearer '+ token
         }
     };
-    static fetchNow = async(route, method, body = null, token = null) => {
+    static fetchNow = async(route, method, body = null) => {
+        const token = this.getToken();
         if (!token)
-            throw Error("Missing Token");
+            console.log("Token missing");
         const uri = API_URI + route;
         const headers = this.getHeaders(token);
-         return await fetch(uri, {
+        let data = await fetch(uri, {
             method: method,
             headers: headers,
             body: (body != null ? JSON.stringify(body) : null)})
-            .then(res => {
-                if (!res.ok)
-                    throw Error(res.statusText);
-                return res.json();
-            })
-            .catch(console.log);
+            .then(this.handleErrors)
+            .then(res=> {return res.json()})
+            .catch((err) => {throw {code: 0, message: err};})
+        return data;
+    }
+    static handleErrors = (res) => {
+       if (res.status === 401) {
+        window.location.replace("/deauthorize");
+       }
+
+       if (!res.ok)
+            throw {code: res.status, message: res.statusText};
+        return res;
     }
 }
 

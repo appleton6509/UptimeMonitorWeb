@@ -4,11 +4,11 @@ import { EndPoint } from '../Models/EndPoint';
 import { EndPointService } from '../Services/endpointservice';
 import { toast, ToastContainer } from 'react-toastify';
 import { FetchTable } from '../Design/FetchTable';
-import { Context } from '../Provider/AuthContext';
+import { AuthContext } from '../Authorization/AuthContext';
 
 export class ManageEndPoints extends PureComponent {
     // static displayName = ManageEndPoints.name;
-    static contextType = Context;
+    static contextType = AuthContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -16,10 +16,6 @@ export class ManageEndPoints extends PureComponent {
             isModifying: false,
             endpoints: []
         }
-    }
-
-    componentDidMount() {
-        this.setState({token: this.context.user.token})
     }
 
     getToken = () => {
@@ -33,8 +29,7 @@ export class ManageEndPoints extends PureComponent {
                 event.target.ip.value,
                 event.target.description.value);
         this.state.isModifying ?
-            await this.fetchPutEndPoint(endpoint).catch(err => toast.error(err)) :
-            await this.fetchPostEndPoint(endpoint).catch(err => toast.error(err));
+            await this.fetchPutEndPoint(endpoint) : await this.fetchPostEndPoint(endpoint);
         this.setState({isModifying: false}); 
     }
     onClickGetSelected = (epobject) => {
@@ -47,20 +42,20 @@ export class ManageEndPoints extends PureComponent {
         this.setState({isModifying: false});
     }
     onClickDelete = () => {
-        EndPointService.delete(document.getElementById("id").value,this.state.token);
+        EndPointService.delete(document.getElementById("id").value,this.getToken());
         this.setState({isModifying: false});
     }
     onChangeHandler = (e) => {
         document.getElementById(e.target.id).value = e.target.value
     }
     fetchPutEndPoint = async (endPoint) => {
-        EndPointService.put(endPoint,this.state.token)
+        EndPointService.put(endPoint,this.getToken())
             .catch(err => toast.error(err))
             .finally(() => toast.success("Updated"));
     }
     fetchPostEndPoint = async (endPoint) => {
         this.setState({ isFetching: true });
-        await EndPointService.post(endPoint,this.state.token)
+        await EndPointService.post(endPoint,this.getToken())
             .catch(err => toast.error(err));
         this.setState({ isFetching: false });
     }

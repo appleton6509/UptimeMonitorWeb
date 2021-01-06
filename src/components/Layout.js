@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { NavMenu } from './NavMenu';
-import { AuthProvider } from './Provider/AuthProvider';
+import { AuthProvider } from './Authorization/AuthProvider';
 
 export class Layout extends Component {
   static displayName = Layout.name;
@@ -11,15 +11,15 @@ export class Layout extends Component {
     }
   }
   handleLoadChange = (value) => {
-    this.setState({isLoaded: value});
+    this.setState({ isLoaded: value });
   }
 
   render() {
-    const {isLoaded} = this.state;
+    const { isLoaded } = this.state;
     return (
-        <AuthProvider isLoaded={this.handleLoadChange}>
-        {isLoaded ? <Fragment><NavMenu /> {this.props.children}</Fragment> : ""}
-        </AuthProvider>
+      <AuthProvider isLoaded={this.handleLoadChange}>
+          {isLoaded ? <Fragment><NavMenu /> {this.props.children}</Fragment> : ""}
+      </AuthProvider>
     );
   }
 }
