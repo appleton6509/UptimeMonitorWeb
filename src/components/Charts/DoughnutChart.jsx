@@ -35,12 +35,7 @@ export default class DoughnutChart extends React.Component {
                 }]
             }
         });
-        this.myChart.ctx.restore();
-      this.myChart.ctx.font = 20 + "em sans-serif";
-      this.myChart.ctx.textBaseline = "middle"
 
-        this.myChart.ctx.fillText("bob", 100, 100);
-        this.myChart.ctx.save();
     }
     componentDidUpdate(prevProps, prevState) {
         const { data, labels, title, backgroundColor } = this.props;

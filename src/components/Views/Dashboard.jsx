@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
-import OnOffDoughnutChart from '../Charts/OnOffDoughnutChart';
 import { OfflineTable } from 'components/Tables/OfflineTable';
 import OnlineDoughnutChart from 'components/Charts/OnlineDoughnutChart';
 import OfflineDoughnutChart from 'components/Charts/OfflineDoughnutChart';
@@ -27,7 +26,6 @@ export class Dashboard extends Component {
                         <div className="shadow mt-4">
                             <Card>
                                 <CardBody>
-                                    <OnOffDoughnutChart/>
                                 </CardBody>
                             </Card>
                         </div>

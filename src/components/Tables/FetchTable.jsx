@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../Design/LoadingSpinner';
 import {FetchService} from '../Services/fetchservice';
-import "./FetchTable.css"
+import '../CSS/GlowingTextStyle.css';
+import './FetchTable.css';
 
 /**
  * unqiue number used for keys/id's
@@ -84,7 +85,7 @@ export class FetchTable extends PureComponent {
                 json.forEach(data => {
                     //  map data key/values to header columns to preserve display order
                     var obj = {}
-                    for (let [key] of Object.entries(headersMap)) {
+                        for (let [key] of Object.entries(headersMap)) {
                         obj[key] = data[key];
                     }
                     if (Object.keys(obj).length > 0)
@@ -111,7 +112,7 @@ export class FetchTable extends PureComponent {
         return Object.values(headersMap)
                 .map((header, index) => {
                 return <th 
-                className={(Object.keys(headersMap)[index] === hideColumns[Object.keys(headersMap)[index]]) ? "hide " + Object.keys(headersMap)[index]  : "" + Object.keys(headersMap)[index] }
+                className={(Object.keys(headersMap)[index] === hideColumns[Object.keys(headersMap)[index]]) ? "hide " + Object.keys(headersMap)[index] : "" + Object.keys(headersMap)[index] }
                 key={"headers-"+index}>{header}</th>;
         });
     }
@@ -126,10 +127,13 @@ export class FetchTable extends PureComponent {
             data.map((values, index) => {
                 const rawData = Object.values(values);
                 return (
-                    <tr key={index + "row"} onMouseDown={(e)=> document.getElementById(e.target.id).style="cursor:grabbing"} onMouseUp={(e)=> document.getElementById(e.target.id).style="cursor:grab"} style={{cursor : "grab"}}>
+                    <tr key={index + "row"} 
+                    onMouseDown={(e)=> document.getElementById(e.target.id).style="cursor:grabbing"} 
+                    onMouseUp={(e)=> document.getElementById(e.target.id).style="cursor:grab"} 
+                    style={{cursor : "grab"}}>
                         {rawData.map((value, cellindex) => {
-                                return (<td headers={headersArray[cellindex]} 
-                                className={(headersArray[cellindex] === hideColumns[headersArray[cellindex]] ? "hide" : "")} 
+                                return (
+                                <td headers={headersArray[cellindex]} className={(headersArray[cellindex] === hideColumns[headersArray[cellindex]] ? "hide" : "")} 
                                 id={this.getId()} key={"cell-"+cellindex}>{value}</td>);
                         })}
                     </tr>
@@ -142,7 +146,7 @@ export class FetchTable extends PureComponent {
         if (isLoading && data.length === 0) 
             return (<LoadingSpinner />);
         return (
-                <Table  hover>
+                <Table hover>
                     <thead>
                         <tr>
                             {this.renderHeaders()}

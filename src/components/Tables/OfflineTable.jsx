@@ -1,4 +1,4 @@
-import { FetchTable } from 'components/Design/FetchTable';
+import { FetchTable } from 'components/Tables/FetchTable';
 import React, {Component, Fragment} from 'react';
 
 export class OfflineTable extends Component {
@@ -7,14 +7,13 @@ export class OfflineTable extends Component {
     }
     render() {
         const headersMap = {
-            "ip" : "IP /DNS",
-            "IsReachable" : "IsOnline",
-            "description" : "DESCRIPTION",
+            "IsReachable" : "IsReachable",
+            "ip" : "Site",
+            "description" : "Name",
             "id" : "id"
         }
         const hideColumns = {
-            "id":"id",
-            "IsReachable":"IsReachable"
+            "id" : "id"
         }
         return(
         <Fragment>

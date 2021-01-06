@@ -3,7 +3,7 @@ import { CardTitle, Card, Container, Row, Col, CardBody, Form, Button, Label, In
 import { EndPoint } from '../Models/EndPoint';
 import { EndPointService } from '../Services/endpointservice';
 import { toast, ToastContainer } from 'react-toastify';
-import { FetchTable } from '../Design/FetchTable';
+import { FetchTable } from '../Tables/FetchTable';
 import { AuthContext } from '../Authorization/AuthContext';
 
 export class ManageEndPoints extends PureComponent {
@@ -61,9 +61,9 @@ export class ManageEndPoints extends PureComponent {
     }
     render() {
         const headers = {
-            "id": "ID",
-            "ip": "IP / DNS",
-            "description": "DESCRIPTION"
+            "id": "id",
+            "ip": "Site",
+            "description": "Description"
         }
         const hideColumns = {
             "id": "id"
@@ -101,7 +101,7 @@ export class ManageEndPoints extends PureComponent {
                                             </Col>
                                             <Col>
                                                 <FormGroup>
-                                                    <Label>IP / DNS</Label>
+                                                    <Label>Site</Label>
                                                     <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="ip address / DNS" />
                                                 </FormGroup>
                                                 <FormGroup>

@@ -30,6 +30,9 @@ export class NavMenu extends Component {
                 <NavLink tag={Link} className="text-dark" to="/ManageEndPoints">Manage</NavLink>
             </NavItem>
             <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/Logs">Logs</NavLink>
+            </NavItem>
+            <NavItem>
                 <Button onClick={auth.logout}>Logout</Button>
             </NavItem>
             <NavItem>
