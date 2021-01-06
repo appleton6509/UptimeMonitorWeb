@@ -46,7 +46,8 @@ export class FetchTable extends PureComponent {
 
     onClick_GetSelected = (event) => {
         const rowData = this.getRowData(event);
-        this.props.onClick(rowData);
+        if (this.props.onClick !== undefined)
+            this.props.onClick(rowData);
     }
     /**
      * gets the row data from a table by using the headers tag and on click event

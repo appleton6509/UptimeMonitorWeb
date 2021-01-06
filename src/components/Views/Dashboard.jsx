@@ -3,6 +3,7 @@ import { CardTitle, Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { DashboardService } from '../Services/dashboardservice';
 import DoughnutChart from '../Charts/DoughnutChart';
+import { OfflineTable } from 'components/Tables/OfflineTable';
 
 export class Dashboard extends Component {
     static displayName = Dashboard.name;
@@ -58,7 +59,7 @@ export class Dashboard extends Component {
                             <Card>
                                 <CardTitle className="text-center">Offline</CardTitle>
                                 <CardBody>
-
+                                    <OfflineTable />
                                 </CardBody>
                             </Card>
                         </div>
