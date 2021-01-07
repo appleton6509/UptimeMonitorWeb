@@ -18,23 +18,23 @@ export class SignUp extends PureComponent {
     }
     onSubmit = async (event) => {
         event.preventDefault();
-        let authContext = this.context;
-        let username = event.target.username;
-        let password = event.target.password.value;
+        const authContext = this.context;
+        const username = event.target.username;
+        const password = event.target.password.value;
         this.setState({isLoading: true});
         let result = authContext.createLogin(username,password);
+        let loginResult;
+
         if (result.success) {
-            let loginResult = authContext.login(username,password);
-            if (loginResult.success) {
-                toast.success("created account " + username);
-                window.location.replace("/"); 
-            }
-            else 
-                toast.error(loginResult.error);
+             loginResult= await authContext.login(username,password);
+            loginResult.success ? window.location.replace("/") : toast.error(loginResult.error);
         }
         else
             toast.error(result.error);
-        setTimeout(()=>{this.setState({isLoading: false});},500);
+
+        (!loginResult.success || !result.success) ? 
+            setTimeout(()=>{this.setState({isLoading: false});},300) : "";
+         
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Table } from 'reactstrap';
+import { Container, Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
 import {FetchService} from '../Services/fetchservice';
@@ -19,7 +19,8 @@ export class FetchTable extends PureComponent {
         route: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        interval: PropTypes.number.isRequired
     }
     constructor(props) {
         super(props);
@@ -32,7 +33,7 @@ export class FetchTable extends PureComponent {
     componentDidMount(){
         this.fetchTimer = setInterval(() => {
             this.fetchData();
-        }, 6000);
+        }, this.props.interval);
         this.fetchData();
     }
 
@@ -146,7 +147,8 @@ export class FetchTable extends PureComponent {
         if (isLoading && data.length === 0) 
             return (<LoadingSpinner />);
         return (
-                <Table hover>
+            <Container>
+                <Table className="table-small" hover responsive >
                     <thead>
                         <tr>
                             {this.renderHeaders()}
@@ -156,6 +158,10 @@ export class FetchTable extends PureComponent {
                         {this.renderRows()}
                     </tbody>
                 </Table>
+                </Container>
         );
     }
+}
+FetchTable.defaultProps = {
+    interval: 60000
 }

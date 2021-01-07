@@ -8,7 +8,7 @@ export default class uribuilder {
      * @param {String} uri 
      */
     constructor(uri) {
-        this.uri = uri;
+        this.uri = uri ? uri : ""; 
         this.route = "";
         this.query = "";
     }

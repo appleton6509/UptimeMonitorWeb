@@ -1,3 +1,6 @@
 .hide {
     display: none
 }
+.table-small {
+    font-size: 10px !important
+}

@@ -112,7 +112,7 @@ class AuthProvider extends Component {
         }).then(reply => {
             if (status.success) {
                 this.updateUserState(reply); //token
-                this.navigateHome();
+                this.navigateDashboard();
             }
             else {
                 toast.dismiss(loginToastId);
@@ -130,6 +130,9 @@ class AuthProvider extends Component {
     }
     navigateHome = () => {
         window.location.replace("/");
+    }
+    navigateDashboard = () => {
+        window.location.replace("/Dashboard");
     }
     unauthorized = () => {
         this.setToken("");

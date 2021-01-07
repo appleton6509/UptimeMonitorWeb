@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { CardTitle, Card, Container, Row, Col, CardBody, Form, Button, Label, Input, FormGroup } from 'reactstrap';
-import { EndPoint } from '../Models/EndPoint';
-import { EndPointService } from '../Services/endpointservice';
+import { Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { toast, ToastContainer } from 'react-toastify';
-import { FetchTable } from '../Tables/FetchTable';
 import { AuthContext } from '../Authorization/AuthContext';
+import { LogsTable } from 'components/Tables/LogsTable';
 
 export class ResultLogs extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -18,18 +16,7 @@ export class ResultLogs extends PureComponent {
         }
     }
     render() {
-        const headers = {
-            "id" : "id",
-            "timeStamp": "Timestamp",
-            "ip": "Site",
-            "isReachable": "Avaliable?",
-            "description": "Description",
-            "latency" : "Latency",
-            "status" : "Status"
-        }
-        const hideColumns = {
-            "id": "id"
-        }
+
         return (
             <Container>
                 <Row>
@@ -45,15 +32,8 @@ export class ResultLogs extends PureComponent {
                             draggable
                             pauseOnHover
                         />
-                        <div className="shadow mt-4">
-                            <Card>
-                                <CardTitle></CardTitle>
-                                <CardBody>
-                                    <div className="text-center">
-                                        <FetchTable route="EndPoints/logs" headersMap={headers} hideColumns={hideColumns}></FetchTable>
-                                    </div>
-                                </CardBody>
-                            </Card>
+                        <div className="shadow mt-3">
+                            <LogsTable />
                         </div>
                     </Col>
                 </Row>

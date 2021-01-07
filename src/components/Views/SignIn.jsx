@@ -19,7 +19,6 @@ export class SignIn extends Component {
         this.setState({isLoading: true});
         let authContext = this.context;
         await authContext.login(event.target.username.value,event.target.password.value);
-        setTimeout(()=>{this.setState({isLoading: false});},300);
     }
 
     render() {

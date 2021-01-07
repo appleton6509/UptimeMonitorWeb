@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
+import "./DoughnutChart.css";
+import { Container, Row, Col } from 'reactstrap';
 
-export default class DoughnutChart extends React.Component {
+export default class DoughnutChart extends Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-        title: PropTypes.string.isRequired,
-        options: PropTypes.object
+        title: PropTypes.string.isRequired
     }
     constructor(props) {
         super(props);
@@ -20,12 +21,26 @@ export default class DoughnutChart extends React.Component {
     }
     componentDidMount() {
         const { labels, title, data, backgroundColor } = this.props;
+        var option = {
+            responsive: true,
+            legend: {
+                position: "bottom",
+                display: false
+            },
+            title: {
+                position: "top",
+                display: true,
+                text: title,
+                
+            },
+            aspectRatio: 1
+        }
         this.myChart = new Chart(this.chartRef.current, {
             type: 'doughnut',
+            options: option,
             data: {
                 labels: labels,
                 datasets: [{
-                    label: title,
                     data: data,
                     backgroundColor: backgroundColor ? backgroundColor :
                         [
@@ -53,17 +68,8 @@ export default class DoughnutChart extends React.Component {
     render() {
         return (
             <Fragment>
-                { (this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
-                <div className="relative">
-                    <div className={this.state.isLoading ? "hide" : ""}>
-                        <canvas ref={this.chartRef} >
-                            <div className="absolute-center text-center">
-                                <p>Some text</p>
-                                <p>Some text</p>
-                            </div>
-                       </canvas>
-                    </div>
-                </div>
+                {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
+                <canvas ref={this.chartRef} className={this.state.isLoading ? "hide" : ""} />
             </Fragment>
         );
     }
