@@ -1,24 +1,40 @@
-import { LogsFetchTable } from 'components/Tables/LogsFetchTable';
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
+import { GenericTable } from './GenericTable';
 
 export class OfflineTable extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {
+            headersMap: {
+                "isReachable": "Status",
+                "ip": "Site",
+                "description": "Description",
+                "lastonline": "Last Seen",
+                "id": "id"
+            },
+            hideColumns: {
+                "id": "id"
+            },
+            route: "Dashboard/Offline"
+        }
     }
+
     render() {
         const headersMap = {
-            "isReachable" : "Status",
-            "ip" : "Site",
-            "description" : "Description",
-            "lastonline" : "Last Seen",
-            "id" : "id"
+            "isReachable": "Status",
+            "ip": "Site",
+            "description": "Description",
+            "lastonline": "Last Seen",
+            "id": "id"
         }
         const hideColumns = {
-            "id" : "id"
+            "id": "id"
         }
-        return(
-        <Fragment>
-            <LogsFetchTable route="Dashboard/Offline" headersMap={headersMap} hideColumns={hideColumns}/>
-        </Fragment>);
+
+        return (
+            <Fragment>
+                <GenericTable route="Dashboard/Offline" headersMap={headersMap} hideColumns={hideColumns} />
+            </Fragment>
+        );
     }
 }

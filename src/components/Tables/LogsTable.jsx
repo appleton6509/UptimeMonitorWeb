@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import DropDownFilter from 'components/Design/DropDownFilter';
 import { Row, Col } from 'reactstrap';
 import uribuilder from '../Utilities/uribuilder';
-import { LogsFetchTable } from './LogsFetchTable';
+import { GenericTable } from './GenericTable';
 
 export class LogsTable extends PureComponent {
     constructor(props) {
@@ -102,7 +102,7 @@ export class LogsTable extends PureComponent {
                 </Row>
                 <Row><Col>&nbsp;</Col></Row>
                 <div className="text-center">
-                    <LogsFetchTable
+                    <GenericTable
                         interval={60000}
                         route={uri}
                         headersMap={headers}

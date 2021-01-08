@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { API_URI } from "../Settings/API.js";
 import jwt_decode from "jwt-decode";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext';
 import PropTypes from 'prop-types';
 
@@ -21,8 +21,8 @@ class AuthProvider extends Component {
                 id: "",
                 isAuthenticated: ""
             },
-            login: (username, password) => { },
-            createLogin: (username, password) => { },
+            login: async (username, password) => { },
+            createLogin: async (username, password) => { },
             logout: () => { },
             unauthorized: () => { },
             checkauthorization: () => { }
@@ -35,11 +35,11 @@ class AuthProvider extends Component {
     createState = () => {
         const user = this.getUserAuthentication();
         const logout = this.logout;
-        const create = this.createLogin;
+        const createLogin = this.createLogin;
         const login = this.login;
         const unauthorized = this.unauthorized;
         const checkauthorization = this.checkauthorization;
-        this.setState({ user, login, create, logout, unauthorized, checkauthorization });
+        this.setState({ user, login, createLogin, logout, unauthorized, checkauthorization });
     }
     checkauthorization = () => {
         if (!this.state.user.isAuthenticated)
@@ -58,14 +58,14 @@ class AuthProvider extends Component {
     * @param {string} password 
     */
     createLogin = async (username, password) => {
-        const jsonbody = JSON.stringify({ Username: username, Password: password });
         const uri = API_URI + 'Auth/SignUp';
-
-        var status = {
+        const jsonbody = JSON.stringify({ Username: username, Password: password });
+        const toastid = toast.info("Creating Account...");
+        let status = {
             error: "",
             success: false
         }
-        fetch(uri, {
+        return await fetch(uri, {
             method: 'POST',
             body: jsonbody,
             headers: {
@@ -78,11 +78,18 @@ class AuthProvider extends Component {
             return res.text()
         }).then(message => {
             if (!status.success)
+            {
                 status.error = message
+                toast.dismiss(toastid);
+                toast.error(message);
+            }
+            return status;
         }).catch(() => {
             status.error = "something went wrong"
+            toast.dismiss(toastid);
+            toast.warning(status.error);
+            return status
         });
-        return status
     }
     /**
      * 
@@ -98,7 +105,7 @@ class AuthProvider extends Component {
         }
         const uri = API_URI + "Auth/SignIn"
         const jsonbody = JSON.stringify({ Username: username, Password: password });
-        await fetch(uri, {
+        return await fetch(uri, {
             method: 'POST',
             body: jsonbody,
             headers: {
@@ -110,22 +117,19 @@ class AuthProvider extends Component {
                 status.success = true
             return res.text()
         }).then(reply => {
-            if (status.success) {
+            if (status.success) 
                 this.updateUserState(reply); //token
-                this.navigateDashboard();
-            }
             else {
                 toast.dismiss(loginToastId);
                 toast.error(reply);
                 status.error = reply;
             }
+            return status;
         }).catch(() => {
             status.error = "Something broke. please try again.";
             toast.dismiss(loginToastId);
             toast.warning(status.error);
-        });
-        return new Promise((resolve) => {
-            resolve(status);
+            return status;
         });
     }
     navigateHome = () => {
@@ -183,17 +187,6 @@ class AuthProvider extends Component {
     render() {
         return (
             <Provider value={this.state}>
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={5000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
                 {this.props.children}
             </Provider>
         );

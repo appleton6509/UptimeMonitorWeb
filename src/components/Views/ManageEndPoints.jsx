@@ -3,8 +3,8 @@ import { Container, Row, Col, Form, Button, Label, Input, FormGroup } from 'reac
 import { EndPoint } from '../Models/EndPoint';
 import { EndPointService } from '../Services/endpointservice';
 import { toast, ToastContainer } from 'react-toastify';
-import { FetchTable } from '../Tables/FetchTable';
 import { AuthContext } from '../Authorization/AuthContext';
+import { GenericTable } from 'components/Tables/GenericTable';
 
 export class ManageEndPoints extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -113,7 +113,7 @@ export class ManageEndPoints extends PureComponent {
                 <Row>
                     <Col lg="12" >
                         <div className="shadow mt-4 text-center">
-                            <FetchTable
+                            <GenericTable
                                 interval={60000}
                                 route="EndPoints"
                                 headersMap={headers}
