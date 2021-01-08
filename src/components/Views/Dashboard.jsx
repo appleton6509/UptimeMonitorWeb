@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
-import OnlineDoughnutChart from 'components/Charts/OnlineDoughnutChart';
-import OfflineDoughnutChart from 'components/Charts/OfflineDoughnutChart';
 import OnOffDoughnutChart from 'components/Charts/OnOffDoughnutChart';
 
 import "./Dashboard.css";
@@ -36,6 +34,11 @@ export class Dashboard extends Component {
                         <div className="mt-4 shadow">
                             <OfflineTable />
                         </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="text-center">
+                        <i >refreshes every 1 minute</i>
                     </Col>
                 </Row>
             </Container>

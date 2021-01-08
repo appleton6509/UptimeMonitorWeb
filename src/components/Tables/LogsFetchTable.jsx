@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { Container, Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
-import {FetchService} from '../Services/fetchservice';
+import { FetchService } from '../Services/fetchservice';
 import '../CSS/GlowingTextStyle.css';
-import './FetchTable.css';
+import './LogsFetchTable.css';
 
 /**
  * unqiue number used for keys/id's
@@ -14,7 +14,7 @@ let uniqueId = 0;
 /**
  * a table component that fetches & renders its own data at timed intervals
  */
-export class FetchTable extends PureComponent {
+export class LogsFetchTable extends PureComponent {
     static propTypes = {
         route: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
@@ -30,7 +30,7 @@ export class FetchTable extends PureComponent {
             uniqueId: 0
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.fetchTimer = setInterval(() => {
             this.fetchData();
         }, this.props.interval);
@@ -41,7 +41,7 @@ export class FetchTable extends PureComponent {
         clearInterval(this.fetchTimer);
     }
 
-    componentDidUpdate(prevProps,_prevState) {
+    componentDidUpdate(prevProps, _prevState) {
         if (prevProps.route !== this.props.route)
             this.fetchData();
     }
@@ -60,13 +60,13 @@ export class FetchTable extends PureComponent {
         let x = event.target
         if (!x.id)
             return;
-        let obj ={}
-        while(x != null) {
+        let obj = {}
+        while (x != null) {
             obj[x.headers] = x.outerText;
             x = document.getElementById(x.id).nextSibling
         }
         x = event.target
-        while(x != null) {
+        while (x != null) {
             obj[x.headers] = x.outerText;
             x = document.getElementById(x.id).previousSibling
         }
@@ -86,11 +86,11 @@ export class FetchTable extends PureComponent {
                 json.forEach(data => {
                     //  map data key/values to header columns to preserve display order
                     var obj = {}
-                        for (let [key] of Object.entries(headersMap)) {
-                            obj[key] = data[key];
+                    for (let [key] of Object.entries(headersMap)) {
+                        obj[key] = data[key];
                     }
                     if (Object.keys(obj).length > 0)
-                         tableData.data.push(obj);
+                        tableData.data.push(obj);
                 })
             })
             .then(() => this.setState({ data: tableData.data, isLoading: false }))
@@ -111,39 +111,58 @@ export class FetchTable extends PureComponent {
     renderHeaders() {
         const { headersMap, hideColumns } = this.props;
         return Object.values(headersMap)
-                .map((header, index) => {
-                return <th 
-                className={(Object.keys(headersMap)[index] === hideColumns[Object.keys(headersMap)[index]]) ? "hide " + Object.keys(headersMap)[index] : "" + Object.keys(headersMap)[index] }
-                key={"headers-"+index}>{header}</th>;
-        });
+            .map((header, index) => {
+                return <th
+                    className={(Object.keys(headersMap)[index] === hideColumns[Object.keys(headersMap)[index]]) ? "hide " + Object.keys(headersMap)[index] : "" + Object.keys(headersMap)[index]}
+                    key={"headers-" + index}>{header}</th>;
+            });
+    }
+    renderCells = (value, index, header) => {
+        const { hideColumns } = this.props;
+        const id = this.getId();
+        switch (header.toLowerCase()) {
+            case "latency":
+                if (value === 0)
+                    return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+                        id={id} key={"cell-" + index}>&nbsp;</td>;
+                else
+                    return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+                        id={id} key={"cell-" + index}>{value + " ms"}</td>;
+            case "isreachable":
+                if (value === true)
+                    return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+                        id={id} key={"cell-" + index}><div className="on-icon">
+                            <i className="fa fa-check-circle" aria-hidden="true"></i></div></td>;
+                else
+                    return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+                        id={id} key={"cell-" + index}><div className="off-icon">
+                            <i className="fa fa-times-circle" aria-hidden="true"></i></div></td>;
+            default:
+                return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+                    id={id} key={"cell-" + index}>{value}</td>;
+        }
     }
     /**
      * render the row data
      */
     renderRows() {
         const { data } = this.state;
-        const {headersMap, hideColumns} = this.props;
+        const { headersMap } = this.props;
         const headersArray = Object.keys(headersMap);
         return (
             data.map((values, index) => {
                 const rawData = Object.values(values);
                 return (
-                    <tr key={index + "row"} 
-                    onMouseDown={(e)=> document.getElementById(e.target.id).style="cursor:grabbing"} 
-                    onMouseUp={(e)=> document.getElementById(e.target.id).style="cursor:grab"} 
-                    style={{cursor : "grab"}}>
-                        {rawData.map((value, cellindex) => {
-                            let modifyValue = value;
-                            if (String(value) === "true") modifyValue = "Yes"
-                            else if (String(value) === "false") modifyValue = "No"
-
-                                return (
-                                <td headers={headersArray[cellindex]} 
-                                className={(headersArray[cellindex] === hideColumns[headersArray[cellindex]] ? "hide" : "")} 
-                                id={this.getId()} key={"cell-"+cellindex}>
-                                    { modifyValue}
-                                </td>);
-                        })}
+                    <tr key={index + "row"}
+                        onMouseDown={(e) => document.getElementById(e.target.id).style = "cursor:grabbing"}
+                        onMouseUp={(e) => document.getElementById(e.target.id).style = "cursor:grab"}
+                        style={{ cursor: "grab" }}>
+                        {
+                            rawData.map((value, index) => {
+                                const header = headersArray[index];
+                                return (this.renderCells(value, index, header));
+                            })
+                        }
                     </tr>
                 );
             })
@@ -151,7 +170,7 @@ export class FetchTable extends PureComponent {
     }
     render() {
         const { isLoading, data } = this.state;
-        if (isLoading && data.length === 0) 
+        if (isLoading && data.length === 0)
             return (<LoadingSpinner />);
         return (
             <Container>
@@ -165,10 +184,10 @@ export class FetchTable extends PureComponent {
                         {this.renderRows()}
                     </tbody>
                 </Table>
-                </Container>
+            </Container>
         );
     }
 }
-FetchTable.defaultProps = {
+LogsFetchTable.defaultProps = {
     interval: 60000
 }

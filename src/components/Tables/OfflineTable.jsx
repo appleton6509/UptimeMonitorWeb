@@ -1,4 +1,4 @@
-import { FetchTable } from 'components/Tables/FetchTable';
+import { LogsFetchTable } from 'components/Tables/LogsFetchTable';
 import React, {Component, Fragment} from 'react';
 
 export class OfflineTable extends Component {
@@ -7,9 +7,10 @@ export class OfflineTable extends Component {
     }
     render() {
         const headersMap = {
-            "IsReachable" : "IsReachable",
+            "isReachable" : "Status",
             "ip" : "Site",
-            "description" : "Name",
+            "description" : "Description",
+            "lastonline" : "Last Seen",
             "id" : "id"
         }
         const hideColumns = {
@@ -17,7 +18,7 @@ export class OfflineTable extends Component {
         }
         return(
         <Fragment>
-            <FetchTable route="Dashboard/Offline" headersMap={headersMap} hideColumns={hideColumns}/>
+            <LogsFetchTable route="Dashboard/Offline" headersMap={headersMap} hideColumns={hideColumns}/>
         </Fragment>);
     }
 }

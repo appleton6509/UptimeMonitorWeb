@@ -1,3 +1,6 @@
+.hide {
+    display: none
+}
 .highlight-box-red {
     border: 1px solid rgba(238, 51, 23, 1);
     font-size: large;

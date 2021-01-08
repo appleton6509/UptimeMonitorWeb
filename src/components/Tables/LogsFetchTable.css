@@ -1,0 +1,14 @@
+.hide {
+    display: none
+}
+.table-small {
+    font-size: 10px !important
+}
+.on-icon {
+font-size: 16px;
+color: green;
+}
+.off-icon {
+font-size: 16px;
+color: red;
+}

@@ -69,7 +69,9 @@ export default class DoughnutChart extends Component {
         return (
             <Fragment>
                 {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
-                <canvas ref={this.chartRef} className={this.state.isLoading ? "hide" : ""} />
+                <Fragment className={this.state.isLoading ? "hide" : ""} >
+                <canvas ref={this.chartRef} />
+                </Fragment>
             </Fragment>
         );
     }

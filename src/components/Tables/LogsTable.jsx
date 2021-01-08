@@ -1,8 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
 import DropDownFilter from 'components/Design/DropDownFilter';
-import { Row, Col, Table } from 'reactstrap';
-import { FetchTable } from './FetchTable';
+import { Row, Col } from 'reactstrap';
 import uribuilder from '../Utilities/uribuilder';
+import { LogsFetchTable } from './LogsFetchTable';
 
 export class LogsTable extends PureComponent {
     constructor(props) {
@@ -30,9 +30,9 @@ export class LogsTable extends PureComponent {
                 "timeStamp": "Timestamp",
                 "ip": "Site",
                 "description": "Description",
-                "IsReachable": "Online",
+                "isReachable": "Status",
                 "latency": "Latency",
-                "status": "Status"
+                "status": "Message"
             },
             hideColumns: {
                 "id": "id"
@@ -78,22 +78,21 @@ export class LogsTable extends PureComponent {
         return (
             <Fragment>
                 <Row>
-                    <Col lg="12">
-                        <DropDownFilter
+                    <Col lg="12" >
+                
+                        <DropDownFilter className="mr-2"
                             header={filter1Header}
                             values={filter1Values}
                             selectedValue={filter1SelectedValue}
                             onClick={this.onClickFilter1}
                         />
-                        {"   "}
-                        <DropDownFilter
+                        <DropDownFilter className="mr-2"
                             header={filter2Header}
                             values={filter2Values}
                             selectedValue={filter2SelectedValue}
                             onClick={this.onClickFilter2}
                         />
-                        {"   "}
-                        <DropDownFilter
+                        <DropDownFilter className="mr-2"
                             header={filter3Header}
                             values={filter3Values}
                             selectedValue={filter3SelectedValue}
@@ -103,12 +102,13 @@ export class LogsTable extends PureComponent {
                 </Row>
                 <Row><Col>&nbsp;</Col></Row>
                 <div className="text-center">
-                    <FetchTable
+                    <LogsFetchTable
                         interval={60000}
                         route={uri}
                         headersMap={headers}
                         hideColumns={hideColumns} />
                 </div>
+
             </Fragment>
         );
     }

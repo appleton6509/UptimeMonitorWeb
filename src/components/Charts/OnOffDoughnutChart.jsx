@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { DashboardService } from '../Services/dashboardservice';
 import DoughnutChart from "./DoughnutChart";
 import "./OnOffDoughnutChart.css";
 
-export default class OnOffDoughnutChart extends Component {
+export default class OnOffDoughnutChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             labels: ['Online', 'Offline'],
-            title: 'Connected Devices'
+            title: 'Connected Devices',
+            isLoading: 'true'
         }
     }
     async componentDidMount() {
@@ -29,7 +30,7 @@ export default class OnOffDoughnutChart extends Component {
                 });
             })
             .then(() => {
-                this.setState({ data: [on, off] })
+                this.setState({ data: [on, off], isLoading: false })
             })
             .catch(err => {
                 console.log(err);
@@ -43,12 +44,9 @@ export default class OnOffDoughnutChart extends Component {
                     <Col lg="8">
                         <DoughnutChart data={data} title={title} labels={labels} />
                     </Col>
-                    <Col lg="4">
-                    <div className="mt-4">
-                    <b className="highlight-box-green">{data[0]}</b> {labels[0]}
-                    </div>
-                    <br/>
-                    <b className="highlight-box-red">{data[1]}</b> {labels[1]}
+                    <Col lg="4" className={this.state.isLoading ? "hide" : ""}>
+                    <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
+                    <div className="mt-1"><b className="highlight-box-red">{data[1]}</b> {labels[1]}</div>
                     </Col>
                 </Row>
             </Container>
