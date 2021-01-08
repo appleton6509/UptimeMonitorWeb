@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Container, Row, Col, Form, Button, Label, Input, FormGroup } from 'reactstrap';
-import { EndPoint } from '../Models/EndPoint';
-import { EndPointService } from '../Services/endpointservice';
-import { toast, ToastContainer } from 'react-toastify';
+import { Container, Row, Col} from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { GenericTable } from 'components/Tables/GenericTable';
+import { ManageEndPointForm } from 'components/Forms/ManageEndPointForm';
 
 export class ManageEndPoints extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -13,52 +11,22 @@ export class ManageEndPoints extends PureComponent {
         super(props);
         this.state = {
             isFetching: false,
-            isModifying: false,
-            endpoints: []
+            endpoint: { ip:"",description:"",id:""}
         }
     }
 
-    getToken = () => {
-        let mycontext = this.context;
-        return mycontext.user.token;
-    }
-    onSubmitAddEndpoint = async (event) => {
-        let endpoint =
-            new EndPoint(
-                event.target.id.value,
-                event.target.ip.value,
-                event.target.description.value);
-        this.state.isModifying ?
-            await this.fetchPutEndPoint(endpoint) : await this.fetchPostEndPoint(endpoint);
-        this.setState({ isModifying: false });
-    }
     onClickGetSelected = (epobject) => {
-        document.getElementById("id").value = epobject["id"];
-        document.getElementById("description").value = epobject["description"];
-        document.getElementById("ip").value = epobject["ip"];
-        this.setState({ isModifying: true });
+        const ep = {
+            id: epobject["id"],
+            ip: epobject["ip"],
+            description: epobject["description"]
+        }
+        this.setState({endpoint: {ip: ep.ip, id: ep.id,description: ep.description} });
     }
-    onClickReset = () => {
-        this.setState({ isModifying: false });
+    onPostSuccess =() => {
+
     }
-    onClickDelete = () => {
-        EndPointService.delete(document.getElementById("id").value, this.getToken());
-        this.setState({ isModifying: false });
-    }
-    onChangeHandler = (e) => {
-        document.getElementById(e.target.id).value = e.target.value
-    }
-    fetchPutEndPoint = async (endPoint) => {
-        EndPointService.put(endPoint, this.getToken())
-            .catch(err => toast.error(err))
-            .finally(() => toast.success("Updated"));
-    }
-    fetchPostEndPoint = async (endPoint) => {
-        this.setState({ isFetching: true });
-        await EndPointService.post(endPoint, this.getToken())
-            .catch(err => toast.error(err));
-        this.setState({ isFetching: false });
-    }
+
     render() {
         const headers = {
             "id": "id",
@@ -68,45 +36,13 @@ export class ManageEndPoints extends PureComponent {
         const hideColumns = {
             "id": "id"
         }
+        const { endpoint } = this.state;
         return (
             <Container>
                 <Row>
                     <Col lg="12" >
-                        <ToastContainer
-                            position="bottom-center"
-                            autoClose={5000}
-                            hideProgressBar
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                        />
                         <div className="shadow p-3 mt-4">
-                            <Form onSubmit={this.onSubmitAddEndpoint}>
-                                <Row>
-                                    <Col>
-                                        <FormGroup>
-                                            <Label>Description</Label>
-                                            <Input onChange={this.onChangeHandler} id="description" name="description" placeholder="add a description for this endpoint" />
-                                        </FormGroup>
-                                        <Button type="submit" hidden={this.state.isModifying}>ADD</Button>
-                                        <Button type="submit" hidden={!this.state.isModifying}>UPDATE</Button>
-                                        <Button type="reset" onClick={this.onClickReset} hidden={!this.state.isModifying}>RESET</Button>
-                                        <Button type="reset" onClick={this.onClickDelete} hidden={!this.state.isModifying}>DELETE</Button>
-                                    </Col>
-                                    <Col>
-                                        <FormGroup>
-                                            <Label>Site</Label>
-                                            <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="ip address / DNS" />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Input onChange={this.onChangeHandler} id="id" name="id" hidden={true} />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                            </Form>
+                            <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.onPostSuccess} />
                         </div>
                     </Col>
                 </Row>

@@ -11,7 +11,7 @@ export class DataToRowConverter extends Component {
     static propTypes = {
         headersMap: PropTypes.object,
         hideColumns: PropTypes.object,
-        data: PropTypes.object
+        data: PropTypes.array
     }
      /**
      * gets a unique id for keys

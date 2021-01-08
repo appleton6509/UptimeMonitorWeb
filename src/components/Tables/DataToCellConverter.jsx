@@ -8,9 +8,9 @@ let uniqueId = 0;
 
 export class DataToCellConverter extends Component {
     static propTypes = {
-        hideColumns: PropTypes.arrayOf(PropTypes.string),
+        hideColumns: PropTypes.objectOf(PropTypes.string),
         header: PropTypes.string,
-        index: PropTypes.index,
+        index: PropTypes.any,
         value: PropTypes.any
     }
     constructor(props){
