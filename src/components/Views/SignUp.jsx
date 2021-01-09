@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card, Container, Row, Col, CardBody} from 'reactstrap';
 import { CreateLoginForm } from 'components/Forms/CreateLoginForm';
+import '../Settings/theme.css';
 
 export class SignUp extends PureComponent {
     static displayName = SignUp.name;
@@ -20,7 +21,7 @@ export class SignUp extends PureComponent {
                 </Row>
                 <Row className="justify-content-center" >
                     <Col md="6" >
-                        <Card className="shadow mt-4">
+                        <Card className="shadow mt-4 theme1-bg">
                             <CardBody>
                                 <CreateLoginForm/>
                             </CardBody>

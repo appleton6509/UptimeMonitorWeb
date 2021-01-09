@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Card, Container, Row, Col, CardBody } from 'reactstrap';
-import { toast, ToastContainer } from 'react-toastify';
+import {  Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { LogsTable } from 'components/Tables/LogsTable';
+import '../Settings/theme.css';
 
 export class ResultLogs extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -15,24 +15,14 @@ export class ResultLogs extends PureComponent {
             endpoints: []
         }
     }
+
     render() {
 
         return (
             <Container>
                 <Row>
                     <Col lg="12" >
-                        <ToastContainer
-                            position="bottom-center"
-                            autoClose={5000}
-                            hideProgressBar
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                        />
-                        <div className="shadow mt-3">
+                        <div className="shadow mt-3 theme1-bg theme1-border">
                             <LogsTable />
                         </div>
                     </Col>

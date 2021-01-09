@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavMenu } from './NavMenu';
-import { AuthProvider } from './Authorization/AuthProvider';
+import { AuthProvider } from '../Authorization/AuthProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

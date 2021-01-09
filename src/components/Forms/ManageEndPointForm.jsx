@@ -76,9 +76,9 @@ export class ManageEndPointForm extends Component {
                         placeholder="add a description for this endpoint"/>
                     </FormGroup>
                     <Button type="submit" hidden={this.state.isModifying}>ADD</Button>
-                    <Button type="submit" hidden={!this.state.isModifying}>UPDATE</Button>
-                    <Button type="reset" onClick={this.onClickReset} hidden={!this.state.isModifying}>RESET</Button>
-                    <Button type="reset" onClick={this.onClickDelete} hidden={!this.state.isModifying}>DELETE</Button>
+                    <Button type="submit" hidden={!this.state.isModifying} className="mr-3">UPDATE</Button>
+                    <Button type="reset" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">RESET</Button>
+                    <Button type="reset" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">DELETE</Button>
                 </Col>
                 <Col>
                     <FormGroup>

@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
 import OnOffDoughnutChart from 'components/Charts/OnOffDoughnutChart';
+import '../Settings/theme.css';
 
 import "./Dashboard.css";
 
@@ -31,7 +32,7 @@ export class Dashboard extends Component {
                 </Row>
                 <Row>
                     <Col lg="12" >
-                        <div className="mt-4 shadow">
+                        <div className="mt-4 shadow theme1-bg theme1-border">
                             <OfflineTable />
                         </div>
                     </Col>

@@ -3,6 +3,7 @@ import { Container, Row, Col} from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { GenericTable } from 'components/Tables/GenericTable';
 import { ManageEndPointForm } from 'components/Forms/ManageEndPointForm';
+import '../Settings/theme.css';
 
 export class ManageEndPoints extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -41,14 +42,14 @@ export class ManageEndPoints extends PureComponent {
             <Container>
                 <Row>
                     <Col lg="12" >
-                        <div className="shadow p-3 mt-4">
+                        <div className="shadow p-3 mt-4 theme1-bg theme1-border">
                             <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.onPostSuccess} />
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg="12" >
-                        <div className="shadow mt-4 text-center">
+                        <div className="shadow mt-4 text-center theme1-bg theme1-border">
                             <GenericTable
                                 interval={60000}
                                 route="EndPoints"

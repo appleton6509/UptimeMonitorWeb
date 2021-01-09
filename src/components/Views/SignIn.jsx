@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { LoginForm } from 'components/Forms/LoginForm';
+import '../Settings/theme.css';
 
 export class SignIn extends Component {
     static displayName = SignIn.name;
@@ -21,7 +22,7 @@ export class SignIn extends Component {
                 </Row>
                 <Row className="justify-content-center" >
                     <Col md="6" >
-                        <Card className="shadow mt-4">
+                        <Card className="shadow mt-4 theme1-bg">
                             <CardBody>
                                 <LoginForm />
                             </CardBody>

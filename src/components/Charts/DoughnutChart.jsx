@@ -21,6 +21,7 @@ export default class DoughnutChart extends Component {
     }
     componentDidMount() {
         const { labels, title, data, backgroundColor } = this.props;
+        let titleExists = title ? true : false;
         var option = {
             responsive: true,
             legend: {
@@ -29,7 +30,7 @@ export default class DoughnutChart extends Component {
             },
             title: {
                 position: "top",
-                display: true,
+                display: titleExists,
                 text: title,
                 
             },

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import { Layout } from './components/Layout/Layout'
 import { Dashboard} from './components/Views/Dashboard';
 import { SignUp} from './components/Views/SignUp';
 import { SignIn} from './components/Views/SignIn';
@@ -8,7 +8,6 @@ import { Home} from './components/Views/Home';
 import { ManageEndPoints } from './components/Views/ManageEndPoints';
 import { Deauthorize } from './components/Authorization/Deauthorize';
 import { ResultLogs } from './components/Views/ResultLogs';
-import './custom.css';
 
 export default class App extends Component {
   static displayName = App.name;

@@ -40,9 +40,14 @@ export default class OnOffDoughnutChart extends PureComponent {
         const { data, title, labels } = this.state
         return (
             <Container>
+            <Row>
+                <Col className="text-center">
+                <h5>Uptime</h5>
+                </Col>
+            </Row>
                 <Row>
-                    <Col lg="8">
-                        <DoughnutChart data={data} title={title} labels={labels} />
+                    <Col lg="8" className="pt-2 pb-2">
+                        <DoughnutChart data={data} labels={labels} />
                     </Col>
                     <Col lg="4" className={this.state.isLoading ? "hide" : ""}>
                     <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
