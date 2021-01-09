@@ -24,24 +24,18 @@ export class Dashboard extends Component {
         return (
             <Container>
                 <Row>
-                    <Col lg="4">
-                        <div className="doughnut">
-                            <OnOffDoughnutChart />
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg="12" >
-                        <div className="mt-4 shadow theme1-bg theme1-border">
+                <Col lg="8" >
+                        <div className="mt-4 shadow theme1-bg theme1-border"  style={{height: "80vh"}} >
                             <OfflineTable />
                         </div>
                     </Col>
-                </Row>
-                <Row>
-                    <Col className="text-center">
-                        <i >refreshes every 1 minute</i>
+                    <Col lg="4">
+                        <div className="doughnut shadow theme1-bg theme1-border">
+                            <OnOffDoughnutChart style={{height: "12rem"}}  />
+                        </div>
                     </Col>
                 </Row>
+
             </Container>
         );
     }

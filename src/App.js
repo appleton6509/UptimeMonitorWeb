@@ -8,6 +8,7 @@ import { Home} from './components/Views/Home';
 import { ManageEndPoints } from './components/Views/ManageEndPoints';
 import { Deauthorize } from './components/Authorization/Deauthorize';
 import { ResultLogs } from './components/Views/ResultLogs';
+import { Performance } from './components/Views/Performance';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -22,6 +23,7 @@ export default class App extends Component {
         <Route exact path='/Logs' component={ResultLogs} />
         <Route exact path='/' component={Home} />
         <Route exact path='/ManageEndPoints' component={ManageEndPoints} />
+        <Route exact path='/Performance' component={Performance} />
       </Layout>
     );
   }

@@ -23,7 +23,10 @@ export class NavMenu extends Component {
         <Fragment>
             <Nav className="mr-auto" navbar>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark pl-5 pr-5" to="/Dashboard">Dashboard</NavLink>
+                    <NavLink tag={Link} className="text-dark pr-5" to="/Dashboard">Dashboard</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} className="text-dark  pr-5" to="/Performance">Performance</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} className="text-dark  pr-5" to="/ManageEndPoints">Manage</NavLink>
@@ -57,7 +60,6 @@ export class NavMenu extends Component {
         return (
             <header className="bgcolor">
                 <Navbar light expand="sm" className="box-shadow">
-                    <NavbarBrand tag={Link} to="/"></NavbarBrand>
                     <NavbarToggler onClick={this.toggleOpen} />
                         <AuthConsumer>
                             {(auth) => {
