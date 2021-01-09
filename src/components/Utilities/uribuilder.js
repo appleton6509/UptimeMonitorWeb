@@ -8,7 +8,7 @@ export default class uribuilder {
      * @param {String} uri 
      */
     constructor(uri) {
-        this.uri = uri ? uri : ""; 
+        this.uri = uri ? uri : "";
         this.route = "";
         this.query = "";
     }
@@ -34,8 +34,16 @@ export default class uribuilder {
                 this.query += "&";
             this.query += key + "=" + query[key];
         }
-
         return this;
+    }
+    addExistingQuery(addQuery) {
+        if (this.query && addQuery.startsWith("?"))
+            addQuery = addQuery.replace("?","");
+        else if (!this.query && !addQuery.startsWith("?"))
+            this.query += "?"
+        if (!addQuery.startsWith("&") || !this.query.endsWith("&"))
+            this.query += "&"
+        this.query += addQuery;
     }
 
     build() {
