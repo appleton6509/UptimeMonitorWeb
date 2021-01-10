@@ -23,7 +23,7 @@ export class Performance extends PureComponent {
                 <Row>
                     <Col lg="12" >
                         <div className="shadow mt-3 theme1-bg theme1-border">
-                            <LogsTable />
+                  
                         </div>
                     </Col>
                 </Row>

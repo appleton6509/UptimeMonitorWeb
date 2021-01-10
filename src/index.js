@@ -10,8 +10,10 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
+  <BrowserRouter  basename={baseUrl}>
+  <div  className="mb-2">
+    <App/>
+    </div>
   </BrowserRouter>,
   rootElement);
 

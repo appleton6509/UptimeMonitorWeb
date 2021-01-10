@@ -8,7 +8,7 @@ export default class DoughnutChart extends Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string
     }
     constructor(props) {
         super(props);
@@ -31,7 +31,7 @@ export default class DoughnutChart extends Component {
                 position: "top",
                 display: titleExists,
                 text: title,
-                
+
             },
             aspectRatio: 1
         }
@@ -69,9 +69,9 @@ export default class DoughnutChart extends Component {
         return (
             <Fragment>
                 {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
-                <Fragment className={this.state.isLoading ? "hide" : ""} >
-                <canvas ref={this.chartRef} />
-                </Fragment>
+                <div className={this.state.isLoading ? "hide" : ""}>
+                    <canvas ref={this.chartRef} />
+                </div>
             </Fragment>
         );
     }

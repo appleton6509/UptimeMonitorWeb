@@ -6,7 +6,7 @@ import { FetchService } from '../Services/fetchservice';
 import './GenericTable.css';
 import { DataToHeaderConverter } from 'components/Tables/DataToHeaderConverter';
 import { DataToRowConverter } from 'components/Tables/DataToRowConverter';
-
+import moment from "moment";
 /**
  * a table component that fetches & renders its own data at timed intervals
  */
@@ -15,6 +15,7 @@ export class GenericTable extends PureComponent {
         route: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
+        dateColumns: PropTypes.array,
         onClick: PropTypes.func,
         onPaginationChange: PropTypes.func,
         interval: PropTypes.number.isRequired
@@ -43,7 +44,7 @@ export class GenericTable extends PureComponent {
     }
 
     onClick_GetSelected = (event) => {
-        const rowData = this.getRowData(event);
+        const rowData = this.getSelectedRowData(event);
         if (this.props.onClick !== undefined)
             this.props.onClick(rowData);
     }
@@ -52,7 +53,7 @@ export class GenericTable extends PureComponent {
      * @param {Object} event on click event of row
      * @returns {Object} row data
      */
-    getRowData(event) {
+    getSelectedRowData(event) {
         let x = event.target
         if (!x.id)
             return;
@@ -79,6 +80,15 @@ export class GenericTable extends PureComponent {
             this.props.onPaginationChange(pagination);
         }
     }
+    formatData = (utcDate,headerName) => {
+        const {dateColumns } = this.props;
+
+        if (dateColumns && dateColumns.includes(headerName)) {
+            var date = moment.utc(utcDate).toDate()
+            return moment(date).format("LLL")
+        }
+        return utcDate;
+    }
     /**
      * fetches the data from API
      */
@@ -97,9 +107,9 @@ export class GenericTable extends PureComponent {
                 json.forEach(data => {
                     //  map data key/values to header columns to preserve display order
                     var obj = {}
-                    for (let [key] of Object.entries(headersMap)) {
-                        obj[key] = data[key];
-                    }
+                    for (let [key] of Object.entries(headersMap)) 
+                        obj[key] = this.formatData(data[key],key);
+
                     if (Object.keys(obj).length > 0)
                         tableData.data.push(obj);
                 })

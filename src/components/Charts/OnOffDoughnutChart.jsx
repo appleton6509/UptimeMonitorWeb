@@ -1,4 +1,4 @@
-import React, {  PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { DashboardService } from '../Services/dashboardservice';
 import DoughnutChart from "./DoughnutChart";
@@ -22,6 +22,7 @@ export default class OnOffDoughnutChart extends PureComponent {
         let on = 0;
         let off = 0;
         return await DashboardService.getOnlineOffline()
+            .then(res => { return res.json() })
             .then(data => {
                 data.forEach(element => {
                     // eslint-disable-next-line no-unused-vars
@@ -39,19 +40,20 @@ export default class OnOffDoughnutChart extends PureComponent {
     render() {
         const { data, title, labels } = this.state
         return (
-            <Container>
-            <Row>
-                <Col className="text-center">
-                <h5>Uptime</h5>
-                </Col>
-            </Row>
+            <Container >
                 <Row>
+                    <Col className="text-center">
+                        <h5>Uptime</h5>
+                    </Col>
+                </Row>
+                <Row >
                     <Col lg="8" className="pt-2 pb-2">
                         <DoughnutChart data={data} labels={labels} />
                     </Col>
                     <Col lg="4" className={this.state.isLoading ? "hide" : ""}>
-                    <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
-                    <div className="mt-1"><b className="highlight-box-red">{data[1]}</b> {labels[1]}</div>
+                        <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
+                        <div className="mt-1"><b className="highlight-box-red">{data[1]}</b> {labels[1]}</div>
+                        <br/>
                     </Col>
                 </Row>
             </Container>

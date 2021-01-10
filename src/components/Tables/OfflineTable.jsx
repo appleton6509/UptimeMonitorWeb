@@ -15,25 +15,16 @@ export class OfflineTable extends Component {
             hideColumns: {
                 "id": "id"
             },
-            route: "Dashboard/Offline"
+            route: "Dashboard/Offline",
+            dateColumns: ["lastonline"]
         }
     }
 
     render() {
-        const headersMap = {
-            "isReachable": "Status",
-            "ip": "Site",
-            "description": "Description",
-            "lastonline": "Last Seen",
-            "id": "id"
-        }
-        const hideColumns = {
-            "id": "id"
-        }
-
+        const {route,hideColumns,headersMap,dateColumns} = this.state
         return (
             <Fragment>
-                <GenericTable route="Dashboard/Offline" headersMap={headersMap} hideColumns={hideColumns} />
+                <GenericTable route={route} headersMap={headersMap} hideColumns={hideColumns} dateColumns={dateColumns} />
             </Fragment>
         );
     }

@@ -4,6 +4,7 @@ import uribuilder from '../Utilities/uribuilder';
 import { GenericTable } from './GenericTable';
 import { ResultFilter } from 'components/Filters/ResultFilter';
 import { GenericPagination } from 'components/Design/GenericPagination';
+import moment from 'moment';
 
 export class LogsTable extends PureComponent {
     constructor(props) {
@@ -19,16 +20,17 @@ export class LogsTable extends PureComponent {
             },
             headers: {
                 "id": "id",
-                "timeStamp": "Timestamp",
+                "timeStamp": "",
                 "ip": "Site",
                 "description": "Description",
-                "isReachable": "Status",
+                "isReachable": "",
                 "latency": "Latency",
                 "status": "Message"
             },
             hideColumns: {
                 "id": "id"
-            }
+            },
+            dateColumns: ["timeStamp"]
         }
     }
     componentDidMount() {
@@ -61,7 +63,8 @@ export class LogsTable extends PureComponent {
     }
 
     render() {
-        const { headers, hideColumns, uri, pagination } = this.state;
+        const { headers, hideColumns, uri, pagination, dateColumns } = this.state;
+
         return (
             <Fragment>
                 <Row>
@@ -71,12 +74,13 @@ export class LogsTable extends PureComponent {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg="12" style={{ }}>
-  </Col>
+                    <Col lg="12" style={{}}>
+    
+                    </Col>
                 </Row>
                 <div className="text-center">
                     {uri ?
-                        <GenericTable interval={60000} route={uri} headersMap={headers}
+                        <GenericTable interval={60000} route={uri} headersMap={headers} dateColumns={dateColumns}
                             hideColumns={hideColumns} onPaginationChange={this.handlePagination} /> : ""}
                 </div>
             </Fragment>

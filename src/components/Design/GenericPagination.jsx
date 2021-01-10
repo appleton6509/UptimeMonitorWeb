@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import React, { Fragment, PureComponent } from 'react';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import '../Settings/theme.css';
 import PropTypes from 'prop-types';
@@ -23,11 +23,12 @@ export class GenericPagination extends PureComponent {
     }
     handleSpecialClick = (value) => {
         const label = value.currentTarget.ariaLabel;
-        let requestedPage;
-        (label === 'Previous') ? requestedPage = this.state.requestedPage - 1 :
-            (label === 'Next') ? requestedPage = this.state.requestedPage + 1 :
+        let requestedPage = Number(this.state.requestedPage);
+        const totalPages = Number(this.props.totalPages);
+        (label === 'Previous') ? requestedPage = requestedPage - 1 :
+            (label === 'Next') ? requestedPage = requestedPage + 1 :
                 (label === 'First') ? requestedPage = 1 :
-                    (label === 'Last') ? requestedPage = this.props.totalPages : 0;
+                    (label === 'Last') ? requestedPage = totalPages : 0;
         if (requestedPage === 0) throw Error("invalid page request for pagination")
         this.PaginationChange(requestedPage);
     }
@@ -49,6 +50,7 @@ export class GenericPagination extends PureComponent {
         let renderFirstPage = requestedPage - plusMinus;
         let renderLastPage = requestedPage + plusMinus;
         let html = [];
+
         //selected page is below the first 5 pages to display
         if (requestedPage < 5) {
             renderFirstPage = 1
@@ -71,23 +73,26 @@ export class GenericPagination extends PureComponent {
         const { totalPages } = this.props;
         const { requestedPage,float } = this.state;
         const disableNext = requestedPage === totalPages ? true : false;
-        const disablePrevious = requestedPage === 1 ? true : false;
-        return (
-                <Pagination style={{float:float}}>
-                    <PaginationItem>
-                        <PaginationLink first onClick={this.handleSpecialClick} />
-                    </PaginationItem>
-                    <PaginationItem disabled={disablePrevious}>
-                        <PaginationLink previous onClick={this.handleSpecialClick} />
-                    </PaginationItem>
-                    {this.renderNumbers(totalPages)}
-                    <PaginationItem disabled={disableNext}>
-                        <PaginationLink next onClick={this.handleSpecialClick} />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink last onClick={this.handleSpecialClick} />
-                    </PaginationItem>
-                </Pagination>
-        );
+        const disablePrevious = (requestedPage === 1) ? true : false;
+        if (!totalPages || totalPages <= 0)
+            return <Fragment></Fragment>;
+        else 
+            return (
+                    <Pagination style={{float:float}}>
+                        <PaginationItem>
+                            <PaginationLink first onClick={this.handleSpecialClick} />
+                        </PaginationItem>
+                        <PaginationItem disabled={disablePrevious}>
+                            <PaginationLink previous onClick={this.handleSpecialClick} />
+                        </PaginationItem>
+                        {this.renderNumbers(totalPages)}
+                        <PaginationItem disabled={disableNext}>
+                            <PaginationLink next onClick={this.handleSpecialClick} />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink last onClick={this.handleSpecialClick} />
+                        </PaginationItem>
+                    </Pagination>
+            );
     }
 }
