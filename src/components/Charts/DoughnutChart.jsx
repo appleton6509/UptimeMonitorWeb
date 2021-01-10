@@ -3,7 +3,6 @@ import Chart from 'chart.js';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
 import "./DoughnutChart.css";
-import { Container, Row, Col } from 'reactstrap';
 
 export default class DoughnutChart extends Component {
     static propTypes = {

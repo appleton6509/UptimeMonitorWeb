@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, {  PureComponent } from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 

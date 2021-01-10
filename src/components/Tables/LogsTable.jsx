@@ -3,14 +3,20 @@ import { Row, Col } from 'reactstrap';
 import uribuilder from '../Utilities/uribuilder';
 import { GenericTable } from './GenericTable';
 import { ResultFilter } from 'components/Filters/ResultFilter';
+import { GenericPagination } from 'components/Design/GenericPagination';
 
 export class LogsTable extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            uri: "Result/logs",
+            uri: "",
             route: "Result/logs",
             filter: "",
+            pagination: {
+                requestedPage: 1,
+                maxPageSize: 25,
+                totalPages: 0
+            },
             headers: {
                 "id": "id",
                 "timeStamp": "Timestamp",
@@ -25,43 +31,54 @@ export class LogsTable extends PureComponent {
             }
         }
     }
+    componentDidMount() {
+        this.setQuery();
+    }
     componentDidUpdate(prevProps, prevState) {
         if (prevState !== this.state)
-            this.buildQuery();
+            this.setQuery();
+    }
+    setQuery = () => {
+        this.setState({ uri: this.buildQuery() });
     }
     buildQuery = () => {
-        const { route, filter } = this.state;
-        const { maxPageSize, requestedPage } = this.props;
+        const { route, filter, } = this.state;
+        const { maxPageSize, requestedPage } = this.state.pagination;
         const query = new uribuilder();
         query.setRoute(route);
-        if (maxPageSize && requestedPage) 
+        if (maxPageSize && requestedPage)
             query.addQuery({ maxPageSize: maxPageSize, requestedPage: requestedPage });
-        if (filter) 
+        if (filter)
             query.addExistingQuery(filter);
-        this.setState({ uri: query.build() });
+        let buildQuery = query.build();
+        return buildQuery;
     }
     handleFilterChange = (filterQuery) => {
-        this.setState({filter: filterQuery});
+        this.setState({ filter: filterQuery });
     }
+    handlePagination = (page) => {
+        this.setState({ pagination: page });
+    }
+
     render() {
-        const { headers, hideColumns, uri } = this.state;
+        const { headers, hideColumns, uri, pagination } = this.state;
         return (
             <Fragment>
                 <Row>
                     <Col lg="12">
-                        <ResultFilter onSelection={this.handleFilterChange}/>
+                        <ResultFilter onSelection={this.handleFilterChange} />
+                        <GenericPagination onPaginationChange={this.handlePagination} totalPages={pagination.totalPages} />
                     </Col>
                 </Row>
-                <Row><Col>&nbsp;</Col></Row>
+                <Row>
+                    <Col lg="12" style={{ }}>
+  </Col>
+                </Row>
                 <div className="text-center">
-                    <GenericTable
-                        interval={60000}
-                        route={uri}
-                        headersMap={headers}
-                        hideColumns={hideColumns}
-                        />
+                    {uri ?
+                        <GenericTable interval={60000} route={uri} headersMap={headers}
+                            hideColumns={hideColumns} onPaginationChange={this.handlePagination} /> : ""}
                 </div>
-
             </Fragment>
         );
     }

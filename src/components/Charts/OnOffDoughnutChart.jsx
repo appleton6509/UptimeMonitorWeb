@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, {  PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { DashboardService } from '../Services/dashboardservice';
 import DoughnutChart from "./DoughnutChart";

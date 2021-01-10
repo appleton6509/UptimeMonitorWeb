@@ -16,6 +16,7 @@ export class GenericTable extends PureComponent {
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
         onClick: PropTypes.func,
+        onPaginationChange: PropTypes.func,
         interval: PropTypes.number.isRequired
     }
     constructor(props) {
@@ -37,7 +38,7 @@ export class GenericTable extends PureComponent {
     }
 
     componentDidUpdate(prevProps, _prevState) {
-        if (prevProps.route !== this.props.route)
+        if (prevProps !== this.props)
             this.fetchData();
     }
 
@@ -67,15 +68,31 @@ export class GenericTable extends PureComponent {
         }
         return obj;
     }
+    setPagination = (page) => {
+        if (page) {
+            const pageData = JSON.parse(page);
+            const pagination = {
+                requestedPage: Number(pageData.RequestedPage),
+                maxPageSize: Number(pageData.MaxPageSize),
+                totalPages: Number(pageData.TotalPages)
+            }
+            this.props.onPaginationChange(pagination);
+        }
+    }
     /**
      * fetches the data from API
      */
     fetchData = async () => {
         const { headersMap, route } = this.props;
-        let tableData = {
-            data: []
-        };
+        if (!route)
+            return;
+        let tableData = {data:[]}
+        let headers;
         await FetchService.fetchNow(route, "GET")
+            .then(res => {
+                headers = res.headers.get("X-Pagination");
+                return res.json();
+            })
             .then(json => { //data received
                 json.forEach(data => {
                     //  map data key/values to header columns to preserve display order
@@ -89,8 +106,9 @@ export class GenericTable extends PureComponent {
             })
             .then(() => this.setState({ data: tableData.data, isLoading: false }))
             .catch(err => {
-                console.log(err.code + " - " + err.message);
+                console.log("fetch error: " + err.message.code + " - " + err.message.message);
             });
+        this.setPagination(headers);
     }
     render() {
         const { isLoading, data} = this.state;

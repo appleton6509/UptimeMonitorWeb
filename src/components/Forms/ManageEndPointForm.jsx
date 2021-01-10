@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {  Row, Col, Form, Button, Label, Input, FormGroup } from 'reactstrap';
-import { EndPoint } from '../Models/EndPoint';
 import { EndPointService } from '../Services/endpointservice';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -46,13 +45,11 @@ export class ManageEndPointForm extends Component {
     }
 
     onSubmitAddEndpoint = async (event) => {
-        let endpoint =
-            new EndPoint(
-                event.target.id.value,
-                event.target.ip.value,
-                event.target.description.value);
-        let result;
-        result = this.state.isModifying ?
+        let endpoint = {
+                id: event.target.id.value,
+                ip: event.target.ip.value,
+                description: event.target.description.value};
+        let result = this.state.isModifying ?
             await this.fetchPutEndPoint(endpoint) : 
             await this.fetchPostEndPoint(endpoint);
 
@@ -66,7 +63,6 @@ export class ManageEndPointForm extends Component {
 
     render() {
         return(
-            
             <Form onSubmit={this.onSubmitAddEndpoint}>
             <Row>
                 <Col>

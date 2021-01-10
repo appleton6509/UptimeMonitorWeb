@@ -25,7 +25,7 @@ export class FetchService extends Component {
             headers: headers,
             body: (body != null ? JSON.stringify(body) : null)})
             .then(this.handleErrors)
-            .then(res=> {return res.json()})
+            .then(res=> {return res})
             .catch((err) => {throw {code: 0, message: err};})
         return data;
     }
