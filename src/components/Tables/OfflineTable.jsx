@@ -15,7 +15,7 @@ export class OfflineTable extends Component {
             hideColumns: {
                 "id": "id"
             },
-            route: "EndPoints/Offline",
+            uri: "EndPoints/Offline",
             dateColumns: ["lastonline"]
         }
     }

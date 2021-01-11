@@ -7,7 +7,12 @@ import { GenericPagination } from 'components/Design/GenericPagination';
 import PropTypes from "prop-types"
 export class ComplexTable extends PureComponent {
     static propTypes = {
-        route: PropTypes.string
+        route: PropTypes.string.isRequired,
+        headersMap: PropTypes.object.isRequired,
+        hideColumns: PropTypes.object,
+        dateColumns: PropTypes.array,
+        onClick: PropTypes.func,
+        onPaginationChange: PropTypes.func
     }
     constructor(props) {
         super(props);
@@ -15,10 +20,10 @@ export class ComplexTable extends PureComponent {
             uri: "",
             filter: "",
             pagination: {
-               requestedPage: 1,
-               maxPageSize: 25,
-               totalPages: 0
-           }
+                requestedPage: 1,
+                maxPageSize: 25,
+                totalPages: 0
+            }
         }
     }
     componentDidMount() {
@@ -53,26 +58,27 @@ export class ComplexTable extends PureComponent {
 
     render() {
         const { uri, pagination } = this.state;
-        const { headers, hideColumns,dateColumns} = this.props;
-       return (
-            <Fragment>
-                <Row>
-                    <Col lg="12">
-                        <ResultFilter onSelection={this.handleFilterChange} />
-                        <GenericPagination onPaginationChange={this.handlePagination} totalPages={pagination.totalPages} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg="12" style={{}}>
-    
-                    </Col>
-                </Row>
-                <div className="text-center">
-                    {uri ?
-                        <GenericTable interval={60000} route={uri} headersMap={headers} dateColumns={dateColumns}
-                            hideColumns={hideColumns} onPaginationChange={this.handlePagination} /> : ""}
-                </div>
-            </Fragment>
-        );
+        const { route } = this.props
+        if (!route)
+            return "";
+        else
+            return (
+                <Fragment>
+                    <Row>
+                        <Col lg="12">
+                            <ResultFilter onSelection={this.handleFilterChange} />
+                            <GenericPagination onPaginationChange={this.handlePagination} totalPages={pagination.totalPages} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="12" style={{}}>
+
+                        </Col>
+                    </Row>
+                    <div className="text-center">
+                            <GenericTable interval={60000} uri={uri} onPaginationChange={this.handlePagination} {...this.props}/>
+                    </div>
+                </Fragment>
+            );
     }
 }

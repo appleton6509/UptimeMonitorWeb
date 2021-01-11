@@ -10,7 +10,7 @@ export class ResultLogs extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-             headers: {
+             headersMap: {
                 "id": "id",
                 "timeStamp": "",
                 "ip": "Site",

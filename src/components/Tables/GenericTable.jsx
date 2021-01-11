@@ -6,13 +6,12 @@ import { FetchService } from '../Services/fetchservice';
 import './GenericTable.css';
 import { DataToHeaderConverter } from 'components/Tables/DataToHeaderConverter';
 import { DataToRowConverter } from 'components/Tables/DataToRowConverter';
-import moment from "moment";
 /**
  * a table component that fetches & renders its own data at timed intervals
  */
 export class GenericTable extends PureComponent {
     static propTypes = {
-        route: PropTypes.string.isRequired,
+        uri: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
         dateColumns: PropTypes.array,
@@ -80,25 +79,17 @@ export class GenericTable extends PureComponent {
             this.props.onPaginationChange(pagination);
         }
     }
-    formatData = (utcDate,headerName) => {
-        const {dateColumns } = this.props;
 
-        if (dateColumns && dateColumns.includes(headerName)) {
-            var date = moment.utc(utcDate).toDate()
-            return moment(date).format("LLL")
-        }
-        return utcDate;
-    }
     /**
      * fetches the data from API
      */
     fetchData = async () => {
-        const { headersMap, route } = this.props;
-        if (!route)
+        const { headersMap, uri } = this.props;
+        if (!uri)
             return;
         let tableData = {data:[]}
         let headers;
-        await FetchService.fetchNow(route, "GET")
+        await FetchService.fetchNow(uri, "GET")
             .then(res => {
                 headers = res.headers.get("X-Pagination");
                 return res.json();
@@ -108,7 +99,7 @@ export class GenericTable extends PureComponent {
                     //  map data key/values to header columns to preserve display order
                     var obj = {}
                     for (let [key] of Object.entries(headersMap)) 
-                        obj[key] = this.formatData(data[key],key);
+                        obj[key] = data[key];
 
                     if (Object.keys(obj).length > 0)
                         tableData.data.push(obj);
@@ -124,7 +115,7 @@ export class GenericTable extends PureComponent {
         const { isLoading, data} = this.state;
         if (isLoading && data.length === 0)
             return (<LoadingSpinner />);
-        const { headersMap, hideColumns } = this.props;
+        const { headersMap, hideColumns, dateColumns } = this.props;
         return (
             <Container>
                 <Table className="table-small" hover responsive >
@@ -134,7 +125,7 @@ export class GenericTable extends PureComponent {
                         </tr>
                     </thead>
                     <tbody onClick={this.onClick_GetSelected}>
-                        <DataToRowConverter  headersMap={headersMap} hideColumns={hideColumns} data={data}/>
+                        <DataToRowConverter headersMap={headersMap} hideColumns={hideColumns} dateColumns={dateColumns} data={data}/>
                     </tbody>
                 </Table>
             </Container>

@@ -29,7 +29,7 @@ export class ManageEndPoints extends PureComponent {
     }
 
     render() {
-        const headers = {
+        const headersMap = {
             "id": "id",
             "ip": "Site",
             "description": "Description"
@@ -37,6 +37,7 @@ export class ManageEndPoints extends PureComponent {
         const hideColumns = {
             "id": "id"
         }
+        const uri = "EndPoints";
         const { endpoint } = this.state;
         return (
             <Container>
@@ -52,8 +53,8 @@ export class ManageEndPoints extends PureComponent {
                         <div className="shadow mt-4 text-center theme1-bg theme1-border">
                             <GenericTable
                                 interval={60000}
-                                route="EndPoints"
-                                headersMap={headers}
+                                uri={uri}
+                                headersMap={headersMap}
                                 hideColumns={hideColumns}
                                 onClick={this.onClickGetSelected} />
                         </div>

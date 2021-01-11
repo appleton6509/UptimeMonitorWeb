@@ -11,7 +11,8 @@ export class DataToRowConverter extends Component {
     static propTypes = {
         headersMap: PropTypes.object,
         hideColumns: PropTypes.object,
-        data: PropTypes.array
+        data: PropTypes.array,
+        dateColumns: PropTypes.array,
     }
      /**
      * gets a unique id for keys
@@ -22,7 +23,7 @@ export class DataToRowConverter extends Component {
     }
 
     renderRows() {
-        const { hideColumns,headersMap, data } = this.props;
+        const { hideColumns,headersMap, data, dateColumns } = this.props;
         const headersArray = Object.keys(headersMap);
         return (
             data.map((values, index) => {
@@ -36,7 +37,7 @@ export class DataToRowConverter extends Component {
                             rawData.map((value, ind) => {
                                 const header = headersArray[ind];
                                 return <DataToCellConverter key={"cell" + this.getId()} header={header} 
-                                hideColumns={hideColumns} value={value} index={ind}/>;
+                                hideColumns={hideColumns} value={value} dateColumns={dateColumns} index={ind}/>;
                             })
                         }
                     </tr>
