@@ -1,6 +1,6 @@
+import { EndPointService } from 'components/Services/endpointservice';
 import React, { PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { DashboardService } from '../Services/dashboardservice';
 import DoughnutChart from "./DoughnutChart";
 import "./OnOffDoughnutChart.css";
 
@@ -21,7 +21,7 @@ export default class OnOffDoughnutChart extends PureComponent {
     fetchOnlineOfflineData = async () => {
         let on = 0;
         let off = 0;
-        return await DashboardService.getOnlineOffline()
+        return await EndPointService.getOnlineOffline()
             .then(res => { return res.json() })
             .then(data => {
                 data.forEach(element => {

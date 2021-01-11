@@ -4,33 +4,21 @@ import uribuilder from '../Utilities/uribuilder';
 import { GenericTable } from './GenericTable';
 import { ResultFilter } from 'components/Filters/ResultFilter';
 import { GenericPagination } from 'components/Design/GenericPagination';
-import moment from 'moment';
-
-export class LogsTable extends PureComponent {
+import PropTypes from "prop-types"
+export class ComplexTable extends PureComponent {
+    static propTypes = {
+        route: PropTypes.string
+    }
     constructor(props) {
         super(props);
         this.state = {
             uri: "",
-            route: "Result/logs",
             filter: "",
             pagination: {
-                requestedPage: 1,
-                maxPageSize: 25,
-                totalPages: 0
-            },
-            headers: {
-                "id": "id",
-                "timeStamp": "",
-                "ip": "Site",
-                "description": "Description",
-                "isReachable": "",
-                "latency": "Latency",
-                "status": "Message"
-            },
-            hideColumns: {
-                "id": "id"
-            },
-            dateColumns: ["timeStamp"]
+               requestedPage: 1,
+               maxPageSize: 25,
+               totalPages: 0
+           }
         }
     }
     componentDidMount() {
@@ -44,7 +32,8 @@ export class LogsTable extends PureComponent {
         this.setState({ uri: this.buildQuery() });
     }
     buildQuery = () => {
-        const { route, filter, } = this.state;
+        const { filter } = this.state;
+        const { route } = this.props;
         const { maxPageSize, requestedPage } = this.state.pagination;
         const query = new uribuilder();
         query.setRoute(route);
@@ -63,9 +52,9 @@ export class LogsTable extends PureComponent {
     }
 
     render() {
-        const { headers, hideColumns, uri, pagination, dateColumns } = this.state;
-
-        return (
+        const { uri, pagination } = this.state;
+        const { headers, hideColumns,dateColumns} = this.props;
+       return (
             <Fragment>
                 <Row>
                     <Col lg="12">

@@ -16,4 +16,7 @@ export class EndPointService {
     static async delete(id) {
         return await FetchService.fetchNow('EndPoints/'+id,"DELETE",null).catch(err=> {throw Error(err)});
     } 
+    static async getOnlineOffline() {
+        return FetchService.fetchNow('EndPoints/ConnectionStatus',"GET",null).catch(err=> {throw Error(err)});
+    }
 }

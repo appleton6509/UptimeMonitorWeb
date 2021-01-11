@@ -4,7 +4,6 @@ import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
 import OnOffDoughnutChart from 'components/Charts/OnOffDoughnutChart';
 import '../Settings/theme.css';
-
 import "./Dashboard.css";
 
 export class Dashboard extends Component {
