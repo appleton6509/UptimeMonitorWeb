@@ -3,6 +3,7 @@ import {  Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import '../Settings/theme.css';
 import { ComplexTable } from 'components/Tables/ComplexTable';
+import { ResultFilter } from 'components/Filters/ResultFilter';
 
 export class ResultLogs extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -12,10 +13,11 @@ export class ResultLogs extends PureComponent {
         this.state = {
              headersMap: {
                 "id": "id",
+                "isReachable": "",
                 "timeStamp": "",
                 "ip": "Site",
                 "description": "Description",
-                "isReachable": "",
+
                 "latency": "Latency",
                 "status": "Message"
             },
@@ -23,17 +25,22 @@ export class ResultLogs extends PureComponent {
                 "id": "id"
             },
              dateColumns: ["timeStamp"],
-             route:"Result/logs"
+             route:"Result/logs",
+             filter: ""
         }
     }
-
+    handleFilterSelection = (values) => {
+        this.setState({filter: values});
+    }
     render() {
         return (
             <Container>
                 <Row>
                     <Col lg="12" >
                         <div className="shadow mt-3 theme1-bg theme1-border">
-                                <ComplexTable {...this.state}></ComplexTable>
+                                <ComplexTable {...this.state}>
+                                    <ResultFilter onSelection={this.handleFilterSelection}/>
+                                </ComplexTable>
                         </div>
                     </Col>
                 </Row>

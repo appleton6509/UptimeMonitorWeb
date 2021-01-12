@@ -1,5 +1,8 @@
 .theme1-bg {
-    background-color: whitesmoke;
+    background-color: rgba(242, 240, 247, 0.945);
+}
+.theme1-secondarybg {
+    background-color: white;
 }
 .theme1-border {
     border-radius: 3px;

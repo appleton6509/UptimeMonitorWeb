@@ -15,7 +15,7 @@ export class GenericPagination extends PureComponent {
         this.state = {
             requestedPage: 1,
             maxPageSize: 25, 
-            float: this.props.float ? this.props.float : "right"
+            align: this.props.align ? this.props.align : "center"
         }
     }
     handleClick = (e) => {
@@ -71,14 +71,14 @@ export class GenericPagination extends PureComponent {
     }
     render() {
         const { totalPages } = this.props;
-        const { requestedPage,float } = this.state;
+        const { requestedPage,align } = this.state;
         const disableNext = requestedPage === totalPages ? true : false;
         const disablePrevious = (requestedPage === 1) ? true : false;
         if (!totalPages || totalPages <= 0)
             return <Fragment></Fragment>;
         else 
             return (
-                    <Pagination style={{float:float}}>
+                    <Pagination  style={{justifyContent:align}}>
                         <PaginationItem>
                             <PaginationLink first onClick={this.handleSpecialClick} />
                         </PaginationItem>

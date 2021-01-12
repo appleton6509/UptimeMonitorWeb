@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import { Container, Row, Col} from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { GenericTable } from 'components/Tables/GenericTable';
@@ -40,17 +40,17 @@ export class ManageEndPoints extends PureComponent {
         const uri = "EndPoints";
         const { endpoint } = this.state;
         return (
-            <Container>
+            <Fragment>
                 <Row>
-                    <Col lg="12" >
-                        <div className="shadow p-3 mt-4 theme1-bg theme1-border">
+                    <Col lg="6" >
+                        <div className="shadow p-2 theme1-bg theme1-border">
                             <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.onPostSuccess} />
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg="12" >
-                        <div className="shadow mt-4 text-center theme1-bg theme1-border">
+                        <div className="shadow mt-3 text-center theme1-bg theme1-border">
                             <GenericTable
                                 interval={60000}
                                 uri={uri}
@@ -60,7 +60,7 @@ export class ManageEndPoints extends PureComponent {
                         </div>
                     </Col>
                 </Row>
-            </Container>
+            </Fragment>
         );
     }
 }

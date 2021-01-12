@@ -40,7 +40,7 @@ export default class OnOffDoughnutChart extends PureComponent {
     render() {
         const { data, title, labels } = this.state
         return (
-            <Container >
+            <Container>
                 <Row>
                     <Col className="text-center">
                         <h5>Uptime</h5>

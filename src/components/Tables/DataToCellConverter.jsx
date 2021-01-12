@@ -26,17 +26,21 @@ export class DataToCellConverter extends Component {
     }
     formatDate = () => {
         const { hideColumns, header, index, value } = this.props;
-            const id = this.getId();
+        const id = this.getId();
+        let newValue;
+        if (!value) newValue = " "
+        else {
             var date = moment.utc(value).toDate()
-            let newValue = moment(date).format("LLL")           
-            return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+            newValue = moment(date).format("LLL")
+        }
+        return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
             id={id} key={"cell-" + index}>{newValue}</td>;
     }
     formatLatency() {
         const { hideColumns, header, index, value } = this.props;
         const id = this.getId();
         return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
-            id={id} key={"cell-" + index}>{value === 0 ? value + " ms" : " "}</td>;
+            id={id} key={"cell-" + index}>{value > 0 ? value + " ms" : " "}</td>;
     }
     formatDefault() {
         const { hideColumns, header, index, value } = this.props;
@@ -49,12 +53,10 @@ export class DataToCellConverter extends Component {
         const id = this.getId();
         if (value === true)
             return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
-                id={id} key={"cell-" + index}><div className="on-icon">
-                    <i className="fa fa-check-circle" aria-hidden="true"></i></div></td>;
+                id={id} key={"cell-" + index}><div className="badge badge-success">Online</div></td>;
         else
             return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
-                id={id} key={"cell-" + index}><div className="off-icon">
-                    <i className="fa fa-times-circle" aria-hidden="true"></i></div></td>;
+                id={id} key={"cell-" + index}><div className="badge badge-danger">Offline</div></td>;
     }
     getHeaderType() {
         const { header, dateColumns } = this.props;
@@ -63,17 +65,16 @@ export class DataToCellConverter extends Component {
         const dateCheck = dateColumns ? dateColumns.includes(header) : false;
         const head = header.toLowerCase();
         let returnValue;
-        if (dateCheck) 
+        if (dateCheck)
             returnValue = "date";
-        else if (head === "latency")
-            returnValue = "latency"
-        else if(head === "isreachable")
+        else if (head === "latency" || head === "averagelatency")
+            returnValue = "latency";
+        else if (head === "isreachable")
             returnValue = "isreachable"
         else returnValue = head;
         return returnValue;
     }
     render() {
-        const { hideColumns, header, index } = this.props;
         let htmlData;
         const headertype = this.getHeaderType();
         switch (headertype) {

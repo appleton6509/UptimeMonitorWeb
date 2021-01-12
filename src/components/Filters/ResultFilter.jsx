@@ -12,7 +12,7 @@ export class ResultFilter extends Component {
         this.state = {
             filter1SelectedValue: "",
             filter1QueryValue: "",
-            filter1Header: "Online/Offline",
+            filter1Header: "Status",
             filter1Values: ["Online", "Offline"],
             filter1Map: { Online: "true", Offline: "false" },
             filter2SelectedValue: "",
@@ -45,7 +45,6 @@ export class ResultFilter extends Component {
     }
     buildQuery = () => {
         const { filter1QueryValue, filter2QueryValue, filter3QueryValue, route } = this.state;
-        const { maxPageSize, requestedPage } = this.props;
         const query = new uribuilder()
         query.setRoute("")
         filter1QueryValue ? query.addQuery({ Reachable: filter1QueryValue }) : "";

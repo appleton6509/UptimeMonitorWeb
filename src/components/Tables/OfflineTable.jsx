@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Container } from 'reactstrap';
 import { GenericTable } from './GenericTable';
 
 export class OfflineTable extends Component {
@@ -22,9 +23,7 @@ export class OfflineTable extends Component {
 
     render() {
         return (
-            <Fragment>
                 <GenericTable {...this.state}/>
-            </Fragment>
         );
     }
 }

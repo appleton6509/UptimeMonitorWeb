@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
@@ -21,24 +21,23 @@ export class Dashboard extends Component {
     render() {
 
         return (
-            <Container>
+            <Fragment>
                 <Row>
-                    <Col lg="4">
+                    <Col lg="3">
                         <div className="doughnut shadow theme1-bg theme1-border">
-                            <OnOffDoughnutChart style={{height: "30vh"}} />
+                            <OnOffDoughnutChart />
                         </div>
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg="12" >
-                        <div className="mt-4 shadow theme1-bg theme1-border"  style={{height: "50vh"}} >
+                    <Col>
+                        <div className="mt-3 shadow theme1-bg theme1-border" style={{ height: "50vh" }} >
                             <h4 className="text-center"><p>Sites Offline</p></h4>
                             <OfflineTable />
                         </div>
                     </Col>
                 </Row>
-
-            </Container>
+            </Fragment>
         );
     }
 }

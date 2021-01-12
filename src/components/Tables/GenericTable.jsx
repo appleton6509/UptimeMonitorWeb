@@ -44,7 +44,7 @@ export class GenericTable extends PureComponent {
 
     onClick_GetSelected = (event) => {
         const rowData = this.getSelectedRowData(event);
-        if (this.props.onClick !== undefined)
+        if (this.props.onClick !== undefined && rowData)
             this.props.onClick(rowData);
     }
     /**
@@ -117,7 +117,6 @@ export class GenericTable extends PureComponent {
             return (<LoadingSpinner />);
         const { headersMap, hideColumns, dateColumns } = this.props;
         return (
-            <Container>
                 <Table className="table-small" hover responsive >
                     <thead>
                         <tr>
@@ -128,7 +127,6 @@ export class GenericTable extends PureComponent {
                         <DataToRowConverter headersMap={headersMap} hideColumns={hideColumns} dateColumns={dateColumns} data={data}/>
                     </tbody>
                 </Table>
-            </Container>
         );
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Collapse, Navbar, Button, NavbarBrand, NavbarToggler, NavItem, NavLink, Nav } from 'reactstrap';
+import { Collapse, Navbar, Button, NavbarToggler, NavItem, NavLink, Nav } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import '../Settings/theme.css';
@@ -46,7 +46,7 @@ export class NavMenu extends Component {
         </Fragment>
     );
     notAuthenticated = () => (
-        <Nav className="ml-auto" navbar>
+        <Nav  navbar>
             <NavItem className="pr-4">
                 <Button tag={Link} color="secondary" outline  className="pl-3 pr-3"to="/SignIn">Login</Button>
             </NavItem>
@@ -58,7 +58,7 @@ export class NavMenu extends Component {
     render() {
         const {isOpen} = this.state;
         return (
-            <header className="bgcolor">
+            <header>
                 <Navbar light expand="sm" className="box-shadow">
                     <NavbarToggler onClick={this.toggleOpen} />
                         <AuthConsumer>
