@@ -28,14 +28,15 @@ export class Dashboard extends Component {
                             <OnOffDoughnutChart />
                         </div>
                     </Col>
-                </Row>
-                <Row>
-                    <Col>
+                    <Col lg="4">
                         <div className="mt-3 shadow theme1-bg theme1-border" style={{ height: "50vh" }} >
                             <h4 className="text-center"><p>Sites Offline</p></h4>
                             <OfflineTable />
                         </div>
                     </Col>
+                </Row>
+                <Row>
+
                 </Row>
             </Fragment>
         );

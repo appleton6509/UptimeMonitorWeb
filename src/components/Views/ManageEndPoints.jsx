@@ -17,6 +17,7 @@ export class ManageEndPoints extends PureComponent {
     }
 
     onClickGetSelected = (epobject) => {
+        if (!epobject) return;
         const ep = {
             id: epobject["id"],
             ip: epobject["ip"],

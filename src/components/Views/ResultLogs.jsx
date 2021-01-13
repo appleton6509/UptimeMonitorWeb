@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import {  Container, Row, Col } from 'reactstrap';
+import React, { Fragment, PureComponent } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import '../Settings/theme.css';
 import { ComplexTable } from 'components/Tables/ComplexTable';
@@ -11,7 +11,7 @@ export class ResultLogs extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-             headersMap: {
+            headersMap: {
                 "id": "id",
                 "isReachable": "",
                 "timeStamp": "",
@@ -21,30 +21,30 @@ export class ResultLogs extends PureComponent {
                 "latency": "Latency",
                 "status": "Message"
             },
-             hideColumns: {
+            hideColumns: {
                 "id": "id"
             },
-             dateColumns: ["timeStamp"],
-             route:"Result/logs",
-             filter: ""
+            dateColumns: ["timeStamp"],
+            route: "Result/logs",
+            filter: ""
         }
     }
     handleFilterSelection = (values) => {
-        this.setState({filter: values});
+        this.setState({ filter: values });
     }
     render() {
         return (
-            <Container>
+            <Fragment>
                 <Row>
                     <Col lg="12" >
                         <div className="shadow mt-3 theme1-bg theme1-border">
-                                <ComplexTable {...this.state}>
-                                    <ResultFilter onSelection={this.handleFilterSelection}/>
-                                </ComplexTable>
+                            <ComplexTable {...this.state}>
+                                <ResultFilter onSelection={this.handleFilterSelection} />
+                            </ComplexTable>
                         </div>
                     </Col>
                 </Row>
-            </Container>
+            </Fragment>
         );
     }
 }

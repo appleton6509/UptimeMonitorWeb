@@ -30,8 +30,8 @@ export class DataToRowConverter extends Component {
                 const rawData = Object.values(values);
                 return (
                     <tr key={index + "row"}
-                        onMouseDown={(e) => document.getElementById(e.target.id).style = "cursor:grabbing"}
-                        onMouseUp={(e) => document.getElementById(e.target.id).style = "cursor:grab"}
+                        onMouseDown={(e) => e.target.id ? document.getElementById(e.target.id).style = "cursor:grabbing" : ""}
+                        onMouseUp={(e) => e.target.id ? document.getElementById(e.target.id).style = "cursor:grab" : ""}
                         style={{ cursor: "grab" }}>
                         {
                             rawData.map((value, ind) => {

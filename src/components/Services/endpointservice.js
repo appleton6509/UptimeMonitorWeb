@@ -19,4 +19,7 @@ export class EndPointService {
     static async getOnlineOffline() {
         return FetchService.fetchNow('EndPoints/ConnectionStatus',"GET",null).catch(err=> {throw Error(err)});
     }
+    static async getLatencyByTime(query) {
+        return FetchService.fetchNow(query,"GET",null).catch(err=> {throw Error(err)});
+    }
 }

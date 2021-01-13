@@ -46,7 +46,7 @@ export class NavMenu extends Component {
         </Fragment>
     );
     notAuthenticated = () => (
-        <Nav  navbar>
+        <Nav navbar className="ml-auto">
             <NavItem className="pr-4">
                 <Button tag={Link} color="secondary" outline  className="pl-3 pr-3"to="/SignIn">Login</Button>
             </NavItem>

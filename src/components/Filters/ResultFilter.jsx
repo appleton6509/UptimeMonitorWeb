@@ -17,14 +17,17 @@ export class ResultFilter extends Component {
             filter1Map: { Online: "true", Offline: "false" },
             filter2SelectedValue: "",
             filter2QueryValue: "",
-            filter2Header: "Order By",
-            filter2Values: ["Ascending", "Descending"],
-            filter2Map: { Ascending: "Ascending", Descending: "Descending" },
+            filter2Header: "Sort By",
+            filter2Values: ["Timestamp", "Latency", "Reachable", "Description", "Site"],
+            filter2Map: {
+                Timestamp: "Timestamp", Site: "Site", Description: "Description",
+                Latency: "Latency", Reachable: "Reachable"
+            },
             filter3SelectedValue: "",
             filter3QueryValue: "",
-            filter3Header: "Sort By",
-            filter3Values: ["Timestamp", "Latency", "Reachable", "Description", "Site"],
-            filter3Map: { Timestamp: "Timestamp", Site: "Site", Description: "Description", Latency: "Latency", Reachable: "Reachable" },
+            filter3Header: "Order By",
+            filter3Values: ["Ascending", "Descending"],
+            filter3Map: { Ascending: "Ascending", Descending: "Descending" }
         }
     }
     onClickFilter1 = (selectedValue) => {
@@ -54,7 +57,7 @@ export class ResultFilter extends Component {
     }
     render() {
         const {
-              filter1Header, filter1Values, filter1SelectedValue
+            filter1Header, filter1Values, filter1SelectedValue
             , filter2Header, filter2Values, filter2SelectedValue
             , filter3Header, filter3Values, filter3SelectedValue } = this.state;
         return (

@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
 import "./OnOffDoughnutChart.css";
 
-export default class OnOffDoughnutChart extends PureComponent {
+export default class LatencyLineChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
