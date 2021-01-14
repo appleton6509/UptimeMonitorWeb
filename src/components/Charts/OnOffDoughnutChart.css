@@ -26,3 +26,12 @@
     background-color: rgba(50, 200, 82, 1);
     border-radius: 5px;
 }
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chart-label {
+    font-size: medium;
+    margin: auto;
+}

@@ -41,11 +41,11 @@ export class Performance extends PureComponent {
     renderOnlineOffline = () => {
         const { isReachable } = this.state.endpointData;
         if (isReachable)
-            return <div className="badge badge-success"><h1 className="pl-3 pr-3">
-                <i className="fa fa-power-off" aria-hidden="true"></i> Online</h1></div>;
+            return <div className="badge badge-success ml-3">
+                <i className="fa fa-power-off" aria-hidden="true"></i>&nbsp;Online</div>;
         else if (isReachable === false)
-            return <div className="badge badge-danger"><h1 className="pl-3 pr-3">
-                <i className="fa fa-times-circle-o" aria-hidden="true"></i> Offline</h1></div>;
+            return <div className="badge badge-danger ml-3">
+                <i className="fa fa-times-circle-o" aria-hidden="true"></i>&nbsp;Offline</div>;
         return <div></div>;
     }
     render() {
@@ -66,22 +66,24 @@ export class Performance extends PureComponent {
             dateColumns: ["lastDownTime", "lastSeen"],
             route: "EndPoints/Statistics"
         }
+        const startDate = moment.utc().subtract(4,'hours').format();
+        const endDate = moment.utc().format();
         return (
             <Fragment>
                 <Row>
                     <Col>
-                        <h3>{ip ? ip : "  "}</h3>
+                        <h3>{ip ? ip : "  "}{this.renderOnlineOffline()}</h3>
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg="9" >
+                    <Col lg="9">
                         <div className="shadow theme1-bg theme1-border">
-                            <LatencyLineChart endpointId={id} startDate={moment.utc().subtract(1,'hours').format()} endDate={moment.utc().format()} />
+                            <LatencyLineChart endpointId={id} startDate={startDate} endDate={endDate} />
                         </div>
                     </Col>
                     <Col lg="3">
                             <div className="xcenter">
-                                {this.renderOnlineOffline()}
+                                
                             </div>
                     </Col>
                 </Row>

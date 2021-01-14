@@ -1,6 +1,5 @@
 import { EndPointService } from 'components/Services/endpointservice';
-import React, { Fragment, PureComponent } from 'react';
-import { Row, Col, Container } from 'reactstrap';
+import React, {  PureComponent } from 'react';
 import LineChart from "./LineChart";
 import "./LineChart.css";
 import PropTypes from "prop-types";
@@ -16,19 +15,20 @@ export default class LatencyLineChart extends PureComponent {
         super(props);
         this.state = {
             data: [],
+            offlinedata: [],
             isLoading: 'true',
-            labels: ["12pm", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm",
-                "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-        }
+            dataLabel: 'Latency',
+            offlineDataLabel: 'Offline'
+            }
     }
     async componentDidMount() {
-        // await this.fetchData();
-        this.generateTestData();
+        await this.fetchData();
+        // this.generateTestData();
     }
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevProps !== this.props)
-            this.generateTestData();
-            // await this.fetchData();
+            await this.fetchData();
+            // this.generateTestData();
     }
 
     buildQuery = () => {
@@ -37,35 +37,12 @@ export default class LatencyLineChart extends PureComponent {
         uri.addQuery({ start: startDate, end: endDate })
         return uri.build();
     }
-
-    generateTestData = () => {
-        var data = []
-         var hours = 0;
-         var minutes = 0;
-         var latency = 10;
-        while( hours < 24) {
-            while (minutes < 60)
-            {
-                var date = moment().startOf('day');
-                date.hour(hours)
-                date.minute(minutes)
-                data.push({x: date.toDate(), y:latency});
-                minutes++;
-                latency++;
-                latency++;
-                if (latency >70)
-                    latency = 5;
-            }
-            hours++;
-            minutes = 0;
-        } 
-        this.setState({ isLoading: false, data: data })
-    }
     fetchData = async () => {
         const { endpointId, startDate, endDate } = this.props;
         if (!endpointId || !startDate || !endDate) return;
 
         let timedata = []
+        let offlinedata = []
        
         return await EndPointService.getLatencyByTime(this.buildQuery())
             .then(res => { return res.json() })
@@ -75,22 +52,27 @@ export default class LatencyLineChart extends PureComponent {
                     const [timestamp, isReachable, latency, endpointid] = Object.entries(element)
                         const min = moment.utc(timestamp[1]).minute();
                         const time = moment.utc(timestamp[1]).toDate();
-                        timedata.push({x: time, y: latency[1]});
+                        if (!isReachable[1]) {
+                            offlinedata.push({x: time, y: 0});
+                            timedata.push({x: time, y: 0});
+                        }
+                        else if(isReachable && latency[1] < 1) 
+                        timedata.push({x: time, y: 1});
+                         else 
+                            timedata.push({x: time, y: latency[1]});
+
                 });
             })
             .then(() => {
-                this.setState({ isLoading: false, data: timedata })
+                this.setState({ isLoading: false, data: timedata, offlinedata: offlinedata })
             })
             .catch(err => {
                 console.log(err);
             });
     }
     render() {
-        const { data, labels } = this.state
-        return (
-
-                        <LineChart data={data} />   
-
+        const { data, offlinedata,dataLabel,offlineDataLabel, labels } = this.state
+        return (<LineChart data={data} data2={offlinedata} data1Label={dataLabel} data2Label={offlineDataLabel}/>   
         );
     }
 }

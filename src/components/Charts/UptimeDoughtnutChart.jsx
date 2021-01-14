@@ -4,13 +4,11 @@ import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
 import "./OnOffDoughnutChart.css";
 
-export default class OnOffDoughtnutChart extends PureComponent {
+export default class UptimeDoughtnutChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
-            centerData: "",
-            centerLabel: "Up",
             labels: ['Online', 'Offline'],
             title: 'Connected Devices',
             isLoading: 'true'
@@ -33,16 +31,14 @@ export default class OnOffDoughtnutChart extends PureComponent {
                 });
             })
             .then(() => {
-                const total = on + off;
-                const onPercentage = (on / total) * 100;
-                this.setState({ data: [on, off], centerData: onPercentage + "%", isLoading: false })
+                this.setState({ data: [on, off], isLoading: false })
             })
             .catch(err => {
                 console.log(err);
             });
     }
     render() {
-        const { data, title, centerData, labels } = this.state
+        const { data, title, labels } = this.state
         return (
             <Container>
                 <Row>
@@ -50,19 +46,14 @@ export default class OnOffDoughtnutChart extends PureComponent {
                         <h5>Uptime</h5>
                     </Col>
                 </Row>
-
                 <Row >
-                    <Col className="pt-2 pb-2">
-                        <DoughnutChart data={data} labels={labels} centerData={centerData} />
+                    <Col lg="8" className="pt-2 pb-2">
+                        <DoughnutChart data={data} labels={labels} />
                     </Col>
-                </Row>
-                <Row>
-                    <Col className={this.state.isLoading ? "hide" : ""}>
-                    <div className="box">
-                    <div className="badge badge-success chart-label m-auto">{data[0]} - {labels[0]}</div>
-                    <div className="badge badge-danger chart-label m-auto">{data[1]} - {labels[1]}</div>
-                    </div>
-                     <br />
+                    <Col lg="4" className={this.state.isLoading ? "hide" : ""}>
+                        <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
+                        <div className="mt-1"><b className="highlight-box-red">{data[1]}</b> {labels[1]}</div>
+                        <br/>
                     </Col>
                 </Row>
             </Container>

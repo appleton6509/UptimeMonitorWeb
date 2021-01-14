@@ -7,6 +7,7 @@ import "./LineChart.css";
 export default class LineChart extends Component {
     static propTypes = {
         data: PropTypes.any.isRequired,
+        data2: PropTypes.any,
         // labels: PropTypes.arrayOf(PropTypes.string).isRequired,
         title: PropTypes.string
     }
@@ -20,15 +21,14 @@ export default class LineChart extends Component {
 
     }
     componentDidMount() {
-        const { labels, title, data, backgroundColor } = this.props;
+        const { labels, title, data, data2,data1Label,data2Label, backgroundColor } = this.props;
         let titleExists = title ? true : false;
         var option = {
             responsive: true,
-            borderWidth: 1,
             aspectRatio: 5,
             legend: {
                 position: "bottom",
-                display: false
+                display: true
             },
             title: {
                 position: "top",
@@ -39,36 +39,50 @@ export default class LineChart extends Component {
                 xAxes: [{
                     type: "time",
                     distribution: "series",
-                    time: {
-                      unit: 'hour'
-                    }
-                  }],
-                  yAxes: [{
+                }],
+                yAxes: [{
                     ticks: {
-                      beginAtZero: true
+                        beginAtZero: false
                     }
-                  }]
-              },
+                }]
+            },
         }
         this.myChart = new Chart(this.chartRef.current, {
-            type: 'bar',
+            type: 'line',
             options: option,
             data: {
                 labels: labels,
-                datasets: [{
-                    data: data,
-                    borderColor:'red',
-                    backgroundColor: 'red'
-                }]
+                datasets: [
+                    {
+                        data: data,
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        time: {
+                            unit: 'hours'
+                        },
+                        order: 1,
+                        label: data1Label,
+                        pointRadius: 0
+                    }, 
+                    {
+                        data: data2,
+                        borderColor: 'red',
+                        label: data2Label,
+                        borderWidth: 2,
+                        type: 'line',
+                        order: 2,
+                        pointRadius: 1
+                    }
+                ]
             }
         });
 
     }
     componentDidUpdate(prevProps, prevState) {
-        const { data, labels, title, backgroundColor } = this.props;
+        const { data, data2, labels, title, backgroundColor } = this.props;
         if (prevProps.data !== data || prevState !== this.state)
             if (data !== null && data !== undefined) {
                 this.myChart.data.datasets[0].data = data;
+                this.myChart.data.datasets[1].data = data2;
                 //  this.myChart.data.labels = labels;
                 // this.myChart.data.label = title
                 // this.myChart.data.datasets[0].backgroundColor = backgroundColor ?
@@ -80,10 +94,7 @@ export default class LineChart extends Component {
     render() {
         return (
             <Fragment>
-                {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
-                <div className={this.state.isLoading ? "hide" : ""}>
                     <canvas ref={this.chartRef} />
-                </div>
             </Fragment>
         );
     }

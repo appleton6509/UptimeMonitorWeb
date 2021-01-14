@@ -7,21 +7,27 @@ import "./DoughnutChart.css";
 export default class DoughnutChart extends Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
+        centerData: PropTypes.string,
+        centerLabel: PropTypes.string,
         labels: PropTypes.arrayOf(PropTypes.string).isRequired,
         title: PropTypes.string
     }
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true
+            isLoading: true,
+            centerText: ''
         }
         this.chartRef = React.createRef();
 
     }
-    componentDidMount() {
-        const { labels, title, data, backgroundColor } = this.props;
+    componentWillUnmount() {
+
+    }
+    chartOptions = () => {
+        const { title } = this.props;
         let titleExists = title ? true : false;
-        var option = {
+        return {
             responsive: true,
             legend: {
                 position: "bottom",
@@ -31,13 +37,19 @@ export default class DoughnutChart extends Component {
                 position: "top",
                 display: titleExists,
                 text: title,
-
             },
-            aspectRatio: 1
+            aspectRatio: 1,
+            cutoutPercentage: 75
+            
         }
+    }
+ 
+    componentDidMount() {
+        const { labels, title, data, backgroundColor } = this.props;
+        let titleExists = title ? true : false;
         this.myChart = new Chart(this.chartRef.current, {
             type: 'doughnut',
-            options: option,
+            options: this.chartOptions(this.props.centerData),        
             data: {
                 labels: labels,
                 datasets: [{
@@ -50,6 +62,14 @@ export default class DoughnutChart extends Component {
                 }]
             }
         });
+        // const test = document.getElementById("canvas");
+        // const ctx = test.getContext("2d");
+        // ctx.font = "20px Georgia";
+        // ctx.fillText("test",100,100);
+        this.myChart.canvas.getContext("2d").restore();
+        this.myChart.canvas.getContext("2d").fillText("test",100,10)
+        this.myChart.canvas.getContext("2d").save();
+        this.myChart.update();
 
     }
     componentDidUpdate(prevProps, prevState) {
@@ -66,11 +86,13 @@ export default class DoughnutChart extends Component {
             }
     }
     render() {
+        const {centerData, centerLabel} = this.props;
         return (
             <Fragment>
                 {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
                 <div className={this.state.isLoading ? "hide" : ""}>
-                    <canvas ref={this.chartRef} />
+                     <canvas id="canvas" ref={this.chartRef}/>
+                     <div className="absolute-center text-center"><p>{centerData}<br/>{centerLabel}</p></div>
                 </div>
             </Fragment>
         );
