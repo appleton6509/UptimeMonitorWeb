@@ -2,9 +2,9 @@ import { EndPointService } from 'components/Services/endpointservice';
 import React, { PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
-import "./OnOffDoughnutChart.css";
+import "./OnlineDoughnutChart.css";
 
-export default class OnOffDoughtnutChart extends PureComponent {
+export default class OnlineDoughtnutChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,14 +28,14 @@ export default class OnOffDoughtnutChart extends PureComponent {
             .then(data => {
                 data.forEach(element => {
                     // eslint-disable-next-line no-unused-vars
-                    const [ip, timedate, reachable] = Object.entries(element);
+                    const [ip,reachable, timedate ] = Object.entries(element);
                     reachable[1] ? on++ : off++;
                 });
             })
             .then(() => {
                 const total = on + off;
                 const onPercentage = (on / total) * 100;
-                this.setState({ data: [on, off], centerData: onPercentage + "%", isLoading: false })
+                this.setState({ data: [on, off], centerData: Math.round(onPercentage) + "%", isLoading: false })
             })
             .catch(err => {
                 console.log(err);
@@ -47,7 +47,7 @@ export default class OnOffDoughtnutChart extends PureComponent {
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <h5>Uptime</h5>
+                        <h5>Online</h5>
                     </Col>
                 </Row>
 

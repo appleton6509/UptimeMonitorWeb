@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import {  Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
-import OnOffDoughnutChart from 'components/Charts/OnOffDoughnutChart';
+import OnlineDoughnutChart from '../Charts/OnlineDoughnutChart';
 import '../Settings/theme.css';
 import "./Dashboard.css";
 
@@ -25,7 +25,7 @@ export class Dashboard extends Component {
                 <Row>
                     <Col lg="3">
                         <div className="doughnut shadow theme1-bg theme1-border">
-                            <OnOffDoughnutChart />
+                            <OnlineDoughnutChart />
                         </div>
                     </Col>
                     <Col lg="4">
