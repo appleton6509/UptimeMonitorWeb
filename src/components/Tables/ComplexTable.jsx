@@ -6,10 +6,12 @@ import PropTypes from "prop-types"
 export class ComplexTable extends PureComponent {
     static propTypes = {
         route: PropTypes.string.isRequired,
+        filter: PropTypes.string,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
         dateColumns: PropTypes.array,
         onClick: PropTypes.func,
+        onDataLoad: PropTypes.func,
         onPaginationChange: PropTypes.func
     }
     constructor(props) {
@@ -27,7 +29,7 @@ export class ComplexTable extends PureComponent {
         this.setQuery();
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevState !== this.state)
+        if (prevState !== this.state || prevProps !== this.props)
             this.setQuery();
     }
     setQuery = () => {
@@ -41,7 +43,7 @@ export class ComplexTable extends PureComponent {
         if (maxPageSize && requestedPage)
             query.addQuery({ maxPageSize: maxPageSize, requestedPage: requestedPage });
         if (filter)
-            query.addExistingQuery(filter);
+        query.addExistingQuery(filter);
         let buildQuery = query.build();
         return buildQuery;
     }
@@ -52,6 +54,10 @@ export class ComplexTable extends PureComponent {
     handleOnClick = (rowData) => {
         if (this.props.onClick)
             this.props.onClick(rowData);
+    }
+    handleOnDataLoad = (firstDataRow) => {
+        if (this.props.onDataLoad)
+            this.props.onDataLoad(firstDataRow);
     }
 
     render() {
@@ -64,7 +70,7 @@ export class ComplexTable extends PureComponent {
                 <Fragment>
                     {this.props.children}
                     <div className="text-center">
-                            <GenericTable interval={60000} uri={uri} onClick={this.handleOnClick} onPaginationChange={this.handlePagination} {...this.props}/>
+                            <GenericTable interval={60000} uri={uri} onDataLoad={this.handleOnDataLoad} onClick={this.handleOnClick} onPaginationChange={this.handlePagination} {...this.props}/>
                             <GenericPagination onPaginationChange={this.handlePagination} totalPages={pagination.totalPages} />
                             <br/> 
                     </div>

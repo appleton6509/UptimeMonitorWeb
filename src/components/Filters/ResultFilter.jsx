@@ -51,8 +51,8 @@ export class ResultFilter extends Component {
         const query = new uribuilder()
         query.setRoute("")
         filter1QueryValue ? query.addQuery({ Reachable: filter1QueryValue }) : "";
-        filter2QueryValue ? query.addQuery({ OrderBy: filter2QueryValue }) : "";
-        filter3QueryValue ? query.addQuery({ SortBy: filter3QueryValue }) : "";
+        filter2QueryValue ? query.addQuery({ SortBy: filter2QueryValue }) : "";
+        filter3QueryValue ? query.addQuery({ OrderBy: filter3QueryValue }) : "";
         this.props.onSelection(query.getQuery());
     }
     render() {

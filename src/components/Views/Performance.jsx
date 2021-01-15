@@ -29,17 +29,26 @@ export class Performance extends PureComponent {
     handleOnClickTable = (rowData) => {
         if (!rowData)
             return;
-        const data = {
+        let data = {
             id: rowData["id"],
             ip: rowData["ip"].toUpperCase(),
             description: rowData["description"].toUpperCase(),
             averageLatency: rowData["averageLatency"],
             lastDownTime: rowData["lastDownTime"],
-            isReachable: rowData["isReachable"].toUpperCase() === "ONLINE" ? true : false,
+            isReachable: false,
             lastSeen: rowData["lastSeen"]
         }
+        if (typeof rowData["isReachable"] === 'string')
+            data.isReachable = rowData["isReachable"].toUpperCase() === "ONLINE" ? true : false;
+        else if(typeof rowData["isReachable"] === 'boolean')
+            data.isReachable = rowData["isReachable"];
+
         this.setState({ endpointData: { ...data } });
     }
+    handleOnDataLoad = (firstDataRow) => {
+        if (firstDataRow && this.state.endpointData.id.length == 0)
+            this.handleOnClickTable(firstDataRow);
+    }   
     renderOnlineOffline = () => {
         const { isReachable } = this.state.endpointData;
         if (isReachable)
@@ -97,7 +106,7 @@ export class Performance extends PureComponent {
                 <Row>
                     <Col>
                         <ShadowBox>
-                            <ComplexTable onClick={this.handleOnClickTable} {...tableOptions} />
+                            <ComplexTable onDataLoad={this.handleOnDataLoad} onClick={this.handleOnClickTable} {...tableOptions} />
                         </ShadowBox>
                     </Col>
                 </Row>

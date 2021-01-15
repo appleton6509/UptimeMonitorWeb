@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 export default class LineChart extends Component {
     static propTypes = {
-        data: PropTypes.object.isRequired,
-        data2: PropTypes.object,
+        data: PropTypes.array.isRequired,
+        data2: PropTypes.array,
         data1Label: PropTypes.string,
         data2Label: PropTypes.string,
         labels: PropTypes.arrayOf(PropTypes.string),
@@ -61,21 +61,7 @@ export default class LineChart extends Component {
                 datasets: [
                     {
                         data: data,
-                        backgroundColor: function(context) {
-                            var index = context.datasetIndex;
-                            var value = context.dataset.data[index];
-                            if (!value)
-                                return;
-                            return value.y <= 0 ? 'red' : 'rgb(54, 162, 235)';
-                        },
-                        borderColor: function(context) {
-                            var index = context.datasetIndex;
-                            var value = context.dataset.data[index];
-                            if (!value)
-                                return;
-                            return value.y <= 0 ? 'red' : 'rgb(54, 162, 235)';
-                        },
-                        // backgroundColor: ,
+                        backgroundColor: 'rgb(54, 162, 235)',
                         time: {
                             unit: 'hours'
                         },
@@ -86,19 +72,6 @@ export default class LineChart extends Component {
                         spanGaps: false,
                         pointStyle:'circle'
                     } 
-                    // {
-                    //     data: data2,
-                    //     borderColor: 'red',
-                    //     backgroundColor: 'red',
-                    //     label: data2Label,
-                    //     borderWidth: 2,
-                    //     type: 'line',
-                    //     order: 2,
-                    //     hitRadius: 2,
-                    //     spanGaps: false,
-                    //     pointStyle:'line',
-                    //     pointRadius: 0
-                    // }
                 ]
             }
         });

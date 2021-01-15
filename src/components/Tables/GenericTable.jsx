@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Container, Table } from 'reactstrap';
+import React, { Component } from 'react';
+import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
 import { FetchService } from '../Services/fetchservice';
@@ -9,13 +9,14 @@ import { DataToRowConverter } from 'components/Tables/DataToRowConverter';
 /**
  * a table component that fetches & renders its own data at timed intervals
  */
-export class GenericTable extends PureComponent {
+export class GenericTable extends Component {
     static propTypes = {
         uri: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
         dateColumns: PropTypes.array,
         onClick: PropTypes.func,
+        onDataLoad: PropTypes.func,
         onPaginationChange: PropTypes.func,
         interval: PropTypes.number.isRequired
     }
@@ -32,14 +33,23 @@ export class GenericTable extends PureComponent {
         }, this.props.interval);
         this.fetchData();
     }
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.uri !== this.props.uri ||
+            nextState.data !== this.state.data ||
+            nextState.isLoading !== this.state.isLoading ||
+            nextProps.onPaginationChange !== this.props.onPaginationChange)
+            return true;
+        return false;
+    }
     componentWillUnmount() {
         clearInterval(this.fetchTimer);
     }
 
     componentDidUpdate(prevProps, _prevState) {
-        if (prevProps !== this.props)
-            this.fetchData();
+        if (this.props.uri !== prevProps.uri) {
+                this.fetchData();
+            }
+
     }
 
     onClick_GetSelected = (event) => {
@@ -68,6 +78,7 @@ export class GenericTable extends PureComponent {
         }
         return obj;
     }
+  
     setPagination = (page) => {
         if (page) {
             const pageData = JSON.parse(page);
@@ -78,6 +89,10 @@ export class GenericTable extends PureComponent {
             }
             this.props.onPaginationChange(pagination);
         }
+    }
+    handleOnDataLoad = (firstDataRow) => {
+        if (this.props.onDataLoad)
+            this.props.onDataLoad(firstDataRow);
     }
 
     /**
@@ -105,19 +120,22 @@ export class GenericTable extends PureComponent {
                         tableData.data.push(obj);
                 })
             })
-            .then(() => this.setState({ data: tableData.data, isLoading: false }))
+            .then(() => {
+                this.setState({ data: tableData.data, isLoading: false })
+            })
             .catch(err => {
                 console.log("fetch error: " + err.message.code + " - " + err.message.message);
             });
         this.setPagination(headers);
+        this.handleOnDataLoad(tableData.data[0]);
     }
     render() {
-        const { isLoading, data} = this.state;
+        const { isLoading, data, uri} = this.state;
         if (isLoading && data.length === 0)
             return (<LoadingSpinner />);
         const { headersMap, hideColumns, dateColumns } = this.props;
         return (
-                <Table className="table-small" hover responsive >
+                <Table className="table-small" hover responsive id="table">
                     <thead>
                         <tr>
                             <DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns}/>
