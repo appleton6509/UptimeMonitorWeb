@@ -1,9 +1,10 @@
 import React, { Fragment, PureComponent } from 'react';
-import { Container, Row, Col} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { GenericTable } from 'components/Tables/GenericTable';
 import { ManageEndPointForm } from 'components/Forms/ManageEndPointForm';
 import '../Settings/theme.css';
+import { ShadowBox } from 'components/Design/ShadowBox';
 
 export class ManageEndPoints extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -12,7 +13,7 @@ export class ManageEndPoints extends PureComponent {
         super(props);
         this.state = {
             isFetching: false,
-            endpoint: { ip:"",description:"",id:""}
+            endpoint: { ip: "", description: "", id: "" }
         }
     }
 
@@ -23,9 +24,9 @@ export class ManageEndPoints extends PureComponent {
             ip: epobject["ip"],
             description: epobject["description"]
         }
-        this.setState({endpoint: {ip: ep.ip, id: ep.id,description: ep.description} });
+        this.setState({ endpoint: { ip: ep.ip, id: ep.id, description: ep.description } });
     }
-    onPostSuccess =() => {
+    onPostSuccess = () => {
 
     }
 
@@ -44,21 +45,21 @@ export class ManageEndPoints extends PureComponent {
             <Fragment>
                 <Row>
                     <Col lg="6" >
-                        <div className="shadow p-2 theme1-bg theme1-border">
+                        <ShadowBox className="p-2">
                             <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.onPostSuccess} />
-                        </div>
+                        </ShadowBox>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg="12" >
-                        <div className="shadow mt-3 text-center theme1-bg theme1-border">
+                    <ShadowBox className="p-2">
                             <GenericTable
                                 interval={60000}
                                 uri={uri}
                                 headersMap={headersMap}
                                 hideColumns={hideColumns}
                                 onClick={this.onClickGetSelected} />
-                        </div>
+                        </ShadowBox>
                     </Col>
                 </Row>
             </Fragment>

@@ -4,6 +4,7 @@ import { AuthContext } from '../Authorization/AuthContext';
 import '../Settings/theme.css';
 import { ComplexTable } from 'components/Tables/ComplexTable';
 import { ResultFilter } from 'components/Filters/ResultFilter';
+import { ShadowBox } from 'components/Design/ShadowBox';
 
 export class ResultLogs extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -37,11 +38,11 @@ export class ResultLogs extends PureComponent {
             <Fragment>
                 <Row>
                     <Col lg="12" >
-                        <div className="shadow mt-3 theme1-bg theme1-border">
+                        <ShadowBox>
                             <ComplexTable {...this.state}>
                                 <ResultFilter onSelection={this.handleFilterSelection} />
                             </ComplexTable>
-                        </div>
+                        </ShadowBox>
                     </Col>
                 </Row>
             </Fragment>

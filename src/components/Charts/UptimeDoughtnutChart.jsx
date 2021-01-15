@@ -2,61 +2,82 @@ import { EndPointService } from 'components/Services/endpointservice';
 import React, { PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
-import "./OnOffDoughnutChart.css";
-
+import PropTypes from 'prop-types'
+import uribuilder from '../Utilities/uribuilder';
+import moment from 'moment';
 export default class UptimeDoughtnutChart extends PureComponent {
+    static propTypes = {
+        endpointId: PropTypes.string,
+        startDate: PropTypes.string,
+        endDate: PropTypes.string
+    }
     constructor(props) {
         super(props);
         this.state = {
             data: [],
+            centerData: "",
+            centerLabel: "Uptime",
             labels: ['Online', 'Offline'],
-            title: 'Connected Devices',
             isLoading: 'true'
         }
     }
+
     async componentDidMount() {
-        await this.fetchOnlineOfflineData();
+        await this.fetchData();
+    }
+    componentDidUpdate = async (prevProps, prevState) => {
+        if (prevProps !== this.props)
+            await this.fetchData();
     }
 
-    fetchOnlineOfflineData = async () => {
-        let on = 0;
-        let off = 0;
-        return await EndPointService.getOnlineOffline()
+    buildQuery = () => {
+        const { endpointId, startDate, endDate } = this.props;
+        var uri = new uribuilder("Result/LogsByTime/" + endpointId);
+        uri.addQuery({ start: startDate, end: endDate })
+        return uri.build();
+    }
+
+    fetchData = async () => {
+        const { endpointId, startDate, endDate } = this.props;
+        if (!endpointId || !startDate || !endDate) 
+            return;
+
+        let online = []
+        let offline = []
+        return await EndPointService.getLatencyByTime(this.buildQuery())
             .then(res => { return res.json() })
             .then(data => {
                 data.forEach(element => {
-                    // eslint-disable-next-line no-unused-vars
-                    const [ip, timedate, reachable] = Object.entries(element);
-                    reachable[1] ? on++ : off++;
+                    const [timestamp, isReachable, latency, endpointid] = Object.entries(element)
+                    const time = moment.utc(timestamp[1]).toDate();
+
+                   (!isReachable[1]) ? 
+                        offline.push({time: time, isReachable: isReachable}) :
+                        online.push({x: time, y: latency[1]});
                 });
+
             })
             .then(() => {
-                this.setState({ data: [on, off], isLoading: false })
+
+                const total = offline.length + online.length;
+                let offlinePercent = 0;
+                let onlinePercent = 0;
+                if (online.length === 0)
+                    offlinePercent = 100;
+                else if (offline.length === 0)
+                    onlinePercent = 100;
+                else {
+                    onlinePercent = Math.round((online.length / total) * 100);
+                    offlinePercent = (100 - onlinePercent);
+                }
+                this.setState({ isLoading: false, data: [onlinePercent, offlinePercent], 
+                    centerData: onlinePercent + "%" })
             })
             .catch(err => {
                 console.log(err);
             });
     }
     render() {
-        const { data, title, labels } = this.state
-        return (
-            <Container>
-                <Row>
-                    <Col className="text-center">
-                        <h5>Uptime</h5>
-                    </Col>
-                </Row>
-                <Row >
-                    <Col lg="8" className="pt-2 pb-2">
-                        <DoughnutChart data={data} labels={labels} />
-                    </Col>
-                    <Col lg="4" className={this.state.isLoading ? "hide" : ""}>
-                        <div className="mt-3"><b className="highlight-box-green">{data[0]}</b> {labels[0]}</div>
-                        <div className="mt-1"><b className="highlight-box-red">{data[1]}</b> {labels[1]}</div>
-                        <br/>
-                    </Col>
-                </Row>
-            </Container>
-        );
+        return (<DoughnutChart {...this.state}/>);
     }
 }

@@ -11,3 +11,16 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
+.chart-box {
+  min-height: 35vh;
+  min-width: 60vw;
+  
+  padding: 20px;
+}
+.doughnut-box {
+  min-height: 35vh;
+   min-width: 15vw;
+   
+  padding: 20px;
+  
+  }

@@ -1,21 +1,23 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
-import LoadingSpinner from '../Design/LoadingSpinner';
-import "./LineChart.css";
 
 export default class LineChart extends Component {
     static propTypes = {
-        data: PropTypes.any.isRequired,
-        data2: PropTypes.any,
-        // labels: PropTypes.arrayOf(PropTypes.string).isRequired,
+        data: PropTypes.object.isRequired,
+        data2: PropTypes.object,
+        data1Label: PropTypes.string,
+        data2Label: PropTypes.string,
+        labels: PropTypes.arrayOf(PropTypes.string),
         title: PropTypes.string
     }
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
-            labels: {}
+            labels: {},
+            data: {x:"", y:""},
+            data2: {x:"", y:""},
         }
         this.chartRef = React.createRef();
 
@@ -25,7 +27,7 @@ export default class LineChart extends Component {
         let titleExists = title ? true : false;
         var option = {
             responsive: true,
-            aspectRatio: 5,
+            maintainAspectRatio: false,
             legend: {
                 position: "bottom",
                 display: true
@@ -39,6 +41,10 @@ export default class LineChart extends Component {
                 xAxes: [{
                     type: "time",
                     distribution: "series",
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 8
+                    }
                 }],
                 yAxes: [{
                     ticks: {
@@ -55,23 +61,44 @@ export default class LineChart extends Component {
                 datasets: [
                     {
                         data: data,
-                        backgroundColor: 'rgb(54, 162, 235)',
+                        backgroundColor: function(context) {
+                            var index = context.datasetIndex;
+                            var value = context.dataset.data[index];
+                            if (!value)
+                                return;
+                            return value.y <= 0 ? 'red' : 'rgb(54, 162, 235)';
+                        },
+                        borderColor: function(context) {
+                            var index = context.datasetIndex;
+                            var value = context.dataset.data[index];
+                            if (!value)
+                                return;
+                            return value.y <= 0 ? 'red' : 'rgb(54, 162, 235)';
+                        },
+                        // backgroundColor: ,
                         time: {
                             unit: 'hours'
                         },
                         order: 1,
                         label: data1Label,
-                        pointRadius: 0
-                    }, 
-                    {
-                        data: data2,
-                        borderColor: 'red',
-                        label: data2Label,
-                        borderWidth: 2,
-                        type: 'line',
-                        order: 2,
-                        pointRadius: 1
-                    }
+                        pointRadius: 0,
+                        hitRadius: 10,
+                        spanGaps: false,
+                        pointStyle:'circle'
+                    } 
+                    // {
+                    //     data: data2,
+                    //     borderColor: 'red',
+                    //     backgroundColor: 'red',
+                    //     label: data2Label,
+                    //     borderWidth: 2,
+                    //     type: 'line',
+                    //     order: 2,
+                    //     hitRadius: 2,
+                    //     spanGaps: false,
+                    //     pointStyle:'line',
+                    //     pointRadius: 0
+                    // }
                 ]
             }
         });
@@ -82,7 +109,7 @@ export default class LineChart extends Component {
         if (prevProps.data !== data || prevState !== this.state)
             if (data !== null && data !== undefined) {
                 this.myChart.data.datasets[0].data = data;
-                this.myChart.data.datasets[1].data = data2;
+                // this.myChart.data.datasets[1].data = data2;
                 //  this.myChart.data.labels = labels;
                 // this.myChart.data.label = title
                 // this.myChart.data.datasets[0].backgroundColor = backgroundColor ?
@@ -92,10 +119,6 @@ export default class LineChart extends Component {
             }
     }
     render() {
-        return (
-            <Fragment>
-                    <canvas ref={this.chartRef} />
-            </Fragment>
-        );
+        return (<canvas ref={this.chartRef} />);
     }
 }

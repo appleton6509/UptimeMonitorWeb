@@ -50,7 +50,8 @@ export class ComplexTable extends PureComponent {
         this.setState({ pagination: page });
     }
     handleOnClick = (rowData) => {
-        this.props.onClick(rowData);
+        if (this.props.onClick)
+            this.props.onClick(rowData);
     }
 
     render() {

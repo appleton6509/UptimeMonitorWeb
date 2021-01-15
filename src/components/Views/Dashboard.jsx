@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import {  Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { OfflineTable } from 'components/Tables/OfflineTable';
 import OnlineDoughnutChart from '../Charts/OnlineDoughnutChart';
 import '../Settings/theme.css';
 import "./Dashboard.css";
+import { ShadowBox } from 'components/Design/ShadowBox';
 
 export class Dashboard extends Component {
     static displayName = Dashboard.name;
@@ -19,24 +20,20 @@ export class Dashboard extends Component {
     }
 
     render() {
-
         return (
             <Fragment>
                 <Row>
                     <Col lg="3">
-                        <div className="doughnut shadow theme1-bg theme1-border">
+                        <ShadowBox isChart>
                             <OnlineDoughnutChart />
-                        </div>
+                        </ShadowBox>
                     </Col>
                     <Col lg="4">
-                        <div className="mt-3 shadow theme1-bg theme1-border" style={{ height: "50vh" }} >
+                        <ShadowBox style={{ height: "30vh" }} >
                             <h4 className="text-center"><p>Sites Offline</p></h4>
                             <OfflineTable />
-                        </div>
+                        </ShadowBox>
                     </Col>
-                </Row>
-                <Row>
-
                 </Row>
             </Fragment>
         );

@@ -2,3 +2,28 @@
     display: none
 }
 
+.highlight-box-red {
+    border: 1px solid rgba(238, 51, 23, 1);
+    font-size: large;
+    color: white    ;
+    margin:0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0;
+    padding-bottom: 1px;    
+    background-color: rgba(238, 51, 23, 1);
+    border-radius: 5px;
+    float:inline-end;
+}
+.highlight-box-green {
+    border: 1px solid rgba(50, 200, 82, 1);
+    font-size: large;
+    margin:0;
+    color: white;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0;
+    padding-bottom: 1px;
+    background-color: rgba(50, 200, 82, 1);
+    border-radius: 5px;
+}

@@ -6,6 +6,8 @@ import { AuthContext } from '../Authorization/AuthContext';
 import '../Settings/theme.css';
 import './Performance.css';
 import moment from 'moment';
+import UptimeDoughtnutChart from 'components/Charts/UptimeDoughtnutChart';
+import { ShadowBox } from 'components/Design/ShadowBox';
 
 export class Performance extends PureComponent {
     // static displayName = ManageEndPoints.name;
@@ -36,7 +38,7 @@ export class Performance extends PureComponent {
             isReachable: rowData["isReachable"].toUpperCase() === "ONLINE" ? true : false,
             lastSeen: rowData["lastSeen"]
         }
-        this.setState({endpointData: {...data}});
+        this.setState({ endpointData: { ...data } });
     }
     renderOnlineOffline = () => {
         const { isReachable } = this.state.endpointData;
@@ -66,32 +68,37 @@ export class Performance extends PureComponent {
             dateColumns: ["lastDownTime", "lastSeen"],
             route: "EndPoints/Statistics"
         }
-        const startDate = moment.utc().subtract(4,'hours').format();
+        const chartHoursTodisplay = 24;
+        const startDate = moment.utc().subtract(chartHoursTodisplay, 'hours').format();
         const endDate = moment.utc().format();
         return (
             <Fragment>
                 <Row>
                     <Col>
-                        <h3>{ip ? ip : "  "}{this.renderOnlineOffline()}</h3>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg="9">
-                        <div className="shadow theme1-bg theme1-border">
-                            <LatencyLineChart endpointId={id} startDate={startDate} endDate={endDate} />
-                        </div>
-                    </Col>
-                    <Col lg="3">
-                            <div className="xcenter">
-                                
-                            </div>
+                        <Row>
+                            <Col>
+                                <h3>{ip ? ip : "  "}{this.renderOnlineOffline()}</h3>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col lg='9'>
+                                <ShadowBox isChart className="chart-box">
+                                    <LatencyLineChart endpointId={id} startDate={startDate} endDate={endDate} />
+                                </ShadowBox>
+                            </Col>
+                            <Col lg='3'>
+                                <ShadowBox isChart className="doughnut-box">
+                                    <UptimeDoughtnutChart endpointId={id} startDate={startDate} endDate={endDate} />
+                                </ShadowBox>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <div className="shadow mt-3 theme1-bg theme1-border">
+                        <ShadowBox>
                             <ComplexTable onClick={this.handleOnClickTable} {...tableOptions} />
-                        </div>
+                        </ShadowBox>
                     </Col>
                 </Row>
             </Fragment>

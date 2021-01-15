@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
-import LoadingSpinner from '../Design/LoadingSpinner';
 import "./DoughnutChart.css";
 
 export default class DoughnutChart extends Component {
@@ -38,18 +37,19 @@ export default class DoughnutChart extends Component {
                 display: titleExists,
                 text: title,
             },
-            aspectRatio: 1,
+
+            maintainAspectRatio: false,
             cutoutPercentage: 75
-            
+
         }
     }
- 
+
     componentDidMount() {
         const { labels, title, data, backgroundColor } = this.props;
         let titleExists = title ? true : false;
         this.myChart = new Chart(this.chartRef.current, {
             type: 'doughnut',
-            options: this.chartOptions(this.props.centerData),        
+            options: this.chartOptions(this.props.centerData),
             data: {
                 labels: labels,
                 datasets: [{
@@ -62,14 +62,6 @@ export default class DoughnutChart extends Component {
                 }]
             }
         });
-        // const test = document.getElementById("canvas");
-        // const ctx = test.getContext("2d");
-        // ctx.font = "20px Georgia";
-        // ctx.fillText("test",100,100);
-        this.myChart.canvas.getContext("2d").restore();
-        this.myChart.canvas.getContext("2d").fillText("test",100,10)
-        this.myChart.canvas.getContext("2d").save();
-        this.myChart.update();
 
     }
     componentDidUpdate(prevProps, prevState) {
@@ -86,13 +78,13 @@ export default class DoughnutChart extends Component {
             }
     }
     render() {
-        const {centerData, centerLabel} = this.props;
+        const { centerData, centerLabel } = this.props;
         return (
             <Fragment>
-                {(this.state.isLoading) ? <LoadingSpinner></LoadingSpinner> : ""}
-                <div className={this.state.isLoading ? "hide" : ""}>
-                     <canvas id="canvas" ref={this.chartRef}/>
-                     <div className="absolute-center text-center"><p>{centerData}<br/>{centerLabel}</p></div>
+                <canvas id="canvas" ref={this.chartRef} />
+                <div className="absolute-center text-center">
+                    <div className="centerLabelValue">{centerData}</div>
+                    <div className="centerLabelText">{centerLabel}</div>
                 </div>
             </Fragment>
         );
