@@ -11,38 +11,42 @@ export class FetchService extends Component {
         return {
             'Accept': '*/*',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+ token
+            'Authorization': 'Bearer ' + token
         }
     };
-    static fetchNow = async(route, method, body = null) => {
+    static fetchNow = async (route, method, body = null) => {
         const token = this.getToken();
         if (!token)
             console.log("Token missing");
         const uri = API_URI + route;
         const headers = this.getHeaders(token);
-        let isError = false;
         return await fetch(uri, {
             method: method,
             headers: headers,
-            body: (body != null ? JSON.stringify(body) : null)})
-            .then(res => {
-                if (res.status === 401) 
-                    window.location.replace("/deauthorize")
-                if (!res.ok)
-                    isError = true;
-                return res;
-            }).then(res => {
-                return isError ? res.json() : res;
-            })
-            .then(data=> {
-                if(isError) 
-                    throw data["errors"] 
-                else 
-                    return data
-            })
-            .catch(err => {        
-                for (let value of Object.values(err)) throw value.pop()
+            body: (body != null ? JSON.stringify(body) : null)
         })
+            .then(res => {
+                if (res.status === 401)
+                    window.location.replace("/deauthorize")
+                if (res.ok) 
+                    return res;                
+                else {
+                    res.text().then(text => {
+                        let error = text
+                        try {
+                            let json = JSON.parse(text);
+                            if (json["errors"]) {
+                                for (let value of Object.values(json["errors"]))
+                                    error = value.pop();
+                            }
+                        } catch { console.log(""); }
+                        throw error
+                    })
+                }
+            })
+            .catch(err => {
+                throw err
+            })
     }
 
 }

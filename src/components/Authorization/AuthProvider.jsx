@@ -127,11 +127,13 @@ class AuthProvider extends Component {
                 toast.dismiss(toastid);
                 res.text().then(text => {
                     status.error = text
-                    let json = JSON.parse(text);
-                    if (json["errors"]) {
-                        for (let value of Object.values(json["errors"]))
-                            status.error = value.pop();
-                    }
+                    try {
+                        let json = JSON.parse(text);
+                        if (json["errors"]) {
+                            for (let value of Object.values(json["errors"]))
+                                status.error = value.pop(); 
+                        }
+                    } catch {console.log(""); }
                     toast.error(status.error);
                 })
             }
