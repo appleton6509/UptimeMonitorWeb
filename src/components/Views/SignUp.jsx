@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Card, Container, Row, Col, CardBody} from 'reactstrap';
+import { Card, Container, Row, Col, CardBody } from 'reactstrap';
 import { CreateLoginForm } from 'components/Forms/CreateLoginForm';
 import '../Settings/theme.css';
+import { ShadowBox } from 'components/Design/ShadowBox';
 
 export class SignUp extends PureComponent {
     static displayName = SignUp.name;
@@ -15,17 +16,15 @@ export class SignUp extends PureComponent {
                 <Row>
                     <Col>
                         <h1 className="mt-3 mb-3 text-center">
-                        Create a FREE Account.
+                            Create a FREE Account.
                         </h1>
                     </Col>
                 </Row>
                 <Row className="justify-content-center" >
                     <Col md="6" >
-                        <Card className="shadow mt-4 theme1-bg">
-                            <CardBody>
-                                <CreateLoginForm/>
-                            </CardBody>
-                        </Card>
+                        <ShadowBox>
+                            <CreateLoginForm />
+                        </ShadowBox>
                     </Col>
                 </Row>
             </Container>

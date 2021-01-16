@@ -20,23 +20,30 @@ export class FetchService extends Component {
             console.log("Token missing");
         const uri = API_URI + route;
         const headers = this.getHeaders(token);
-        let data = await fetch(uri, {
+        let isError = false;
+        return await fetch(uri, {
             method: method,
             headers: headers,
             body: (body != null ? JSON.stringify(body) : null)})
-            .then(this.handleErrors)
-            .then(res=> {return res})
-            .catch((err) => {throw {code: 0, message: err};})
-        return data;
+            .then(res => {
+                if (res.status === 401) 
+                    window.location.replace("/deauthorize")
+                if (!res.ok)
+                    isError = true;
+                return res;
+            }).then(res => {
+                return isError ? res.json() : res;
+            })
+            .then(data=> {
+                if(isError) 
+                    throw data["errors"] 
+                else 
+                    return data
+            })
+            .catch(err => {        
+                for (let value of Object.values(err)) throw value.pop()
+        })
     }
-    static handleErrors = (res) => {
-       if (res.status === 401) {
-        window.location.replace("/deauthorize");
-       }
 
-       if (!res.ok)
-            throw {code: res.status, message: res.statusText};
-        return res;
-    }
 }
 

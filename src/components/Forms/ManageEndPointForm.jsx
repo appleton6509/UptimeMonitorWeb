@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, Label, Input, FormGroup } from 'reactstrap';
+import { Row, Col, Form, Button, Label, Input, FormGroup, InputGroupText, InputGroup, InputGroupAddon } from 'reactstrap';
 import { EndPointService } from '../Services/endpointservice';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -27,13 +27,12 @@ export class ManageEndPointForm extends Component {
         return false;
     }
     fetchPutEndPoint = async (endPoint) => {
-        EndPointService.put(endPoint)
+        return EndPointService.put(endPoint)
             .catch(err => toast.error(err))
-            .finally(() => toast.success("Updated"));
     }
     fetchPostEndPoint = async (endPoint) => {
-        await EndPointService.post(endPoint)
-            .catch(err => toast.error(err));
+        return EndPointService.post(endPoint)
+             .catch(err => { toast.error(err)})
     }
 
     onClickReset = () => {
@@ -45,18 +44,26 @@ export class ManageEndPointForm extends Component {
     }
 
     onSubmitAddEndpoint = async (event) => {
-        let endpoint = {
-            id: event.target.id.value,
-            ip: event.target.ip.value,
-            description: event.target.description.value
+        event.preventDefault();
+        let endPointPost = {
+            Ip: event.target.ip.value,
+            Description: event.target.description.value
         };
-        let result = this.state.isModifying ?
-            await this.fetchPutEndPoint(endpoint) :
-            await this.fetchPostEndPoint(endpoint);
+        let endPointPut = {
+            Id: event.target.id.value,
+            Ip: event.target.ip.value,
+            Description: event.target.description.value
+        };
+        let isSuccess = this.state.isModifying ?
+            await this.fetchPutEndPoint(endPointPut) :
+            await this.fetchPostEndPoint(endPointPost)
 
-        if (result.success)
+        if (isSuccess) {
+            this.setState({ isModifying: false });
+            event.target.reset();
+            console.log("im running");
             this.props.onPostSuccess();
-        this.setState({ isModifying: false });
+        } 
     }
     onChangeHandler = (e) => {
         document.getElementById(e.target.id).value = e.target.value
@@ -69,18 +76,27 @@ export class ManageEndPointForm extends Component {
                     <Col>
                         <FormGroup>
                             <Label>Site</Label>
-                            <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="website / ip address" />
-                        </FormGroup>
-                        <Button type="submit" hidden={this.state.isModifying}>ADD</Button>
-                        <Button type="submit" hidden={!this.state.isModifying} className="mr-3">UPDATE</Button>
-                        <Button type="reset" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">RESET</Button>
-                        <Button type="reset" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">DELETE</Button>
+                            <InputGroup>
+                                <InputGroupAddon addonType="prepend">
+                                    <InputGroupText><i className="fa fa-globe"></i></InputGroupText>
+                                </InputGroupAddon>
+                                <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="www.uptime.com" />
+                         </InputGroup>
+                      </FormGroup>
+                        <Button type="submit" color="info" hidden={this.state.isModifying}>
+                        <i className="fa fa-plus"></i>&nbsp;ADD</Button>
+                        <Button type="submit" color="info" hidden={!this.state.isModifying} className="mr-3">
+                        <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
+                        <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
+                        <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
+                        <Button type="reset" color="danger" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">
+                        <i className="fa fa-trash"></i>&nbsp;DELETE</Button>
                     </Col>
                     <Col>
                         <FormGroup>
                             <Label>Description</Label>
                             <Input onChange={this.onChangeHandler} id="description" name="description"
-                                placeholder="a description" />
+                                placeholder="Site Description" />
                         </FormGroup>
                         <FormGroup>
                             <Input onChange={this.onChangeHandler} id="id" name="id" hidden={true} />

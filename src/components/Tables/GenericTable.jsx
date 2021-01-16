@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
@@ -14,7 +14,9 @@ export class GenericTable extends Component {
         uri: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
+        toggleRefresh: PropTypes.bool,
         dateColumns: PropTypes.array,
+        showHeaders: PropTypes.bool,
         onClick: PropTypes.func,
         onDataLoad: PropTypes.func,
         onPaginationChange: PropTypes.func,
@@ -49,7 +51,6 @@ export class GenericTable extends Component {
         if (this.props.uri !== prevProps.uri) {
                 this.fetchData();
             }
-
     }
 
     onClick_GetSelected = (event) => {
@@ -90,6 +91,7 @@ export class GenericTable extends Component {
             this.props.onPaginationChange(pagination);
         }
     }
+
     handleOnDataLoad = (firstDataRow) => {
         if (this.props.onDataLoad)
             this.props.onDataLoad(firstDataRow);
@@ -131,16 +133,15 @@ export class GenericTable extends Component {
     }
     render() {
         const { isLoading, data, uri} = this.state;
+        const { headersMap, hideColumns, dateColumns, showHeaders } = this.props;
         if (isLoading && data.length === 0)
             return (<LoadingSpinner />);
-        const { headersMap, hideColumns, dateColumns } = this.props;
         return (
                 <Table className="table-small" hover responsive id="table">
+                    {showHeaders ? 
                     <thead>
-                        <tr>
-                            <DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns}/>
-                        </tr>
-                    </thead>
+                        <tr><DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns}/></tr>
+                    </thead> : <Fragment/>}
                     <tbody onClick={this.onClick_GetSelected}>
                         <DataToRowConverter headersMap={headersMap} hideColumns={hideColumns} dateColumns={dateColumns} data={data}/>
                     </tbody>
@@ -149,5 +150,6 @@ export class GenericTable extends Component {
     }
 }
 GenericTable.defaultProps = {
-    interval: 60000
+    interval: 60000,
+    showHeaders: true
 }

@@ -1,6 +1,5 @@
 import { EndPointService } from 'components/Services/endpointservice';
 import React, { PureComponent } from 'react';
-import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
 import PropTypes from 'prop-types'
 import uribuilder from '../Utilities/uribuilder';

@@ -73,22 +73,28 @@ class AuthProvider extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.ok)
-                status.success = true
-            return res.text()
-        }).then(message => {
-            if (!status.success)
-            {
-                status.error = message
+            if (res.ok) 
+                status.success = true;
+            else {
                 toast.dismiss(toastid);
-                toast.error(message);
+                res.text().then(text => {
+                    status.error = text
+                    try {
+                        let json = JSON.parse(text);
+                        if (json["errors"]) {
+                            for (let value of Object.values(json["errors"]))
+                                status.error = value.pop(); 
+                        }
+                    } catch {console.log(""); }
+      
+                    toast.error(status.error);
+                })
             }
             return status;
         }).catch(() => {
-            status.error = "something went wrong"
+            status.error = "Something broke. Try again?"
             toast.dismiss(toastid);
             toast.warning(status.error);
-            return status
         });
     }
     /**
@@ -98,7 +104,7 @@ class AuthProvider extends Component {
      * @returns {Object} a object containing "error" message and boolean "success"
      */
     login = async (username, password) => {
-        const loginToastId = toast.info("Logging in.");
+        const toastid = toast.info("Logging in.");
         var status = {
             error: "",
             success: false
@@ -113,21 +119,26 @@ class AuthProvider extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.ok)
-                status.success = true
-            return res.text()
-        }).then(reply => {
-            if (status.success) 
-                this.updateUserState(reply); //token
+            if (res.ok) {
+                status.success = true;
+                res.text().then(token => {this.updateUserState(token)}) 
+            }
             else {
-                toast.dismiss(loginToastId);
-                toast.error(reply);
-                status.error = reply;
+                toast.dismiss(toastid);
+                res.text().then(text => {
+                    status.error = text
+                    let json = JSON.parse(text);
+                    if (json["errors"]) {
+                        for (let value of Object.values(json["errors"]))
+                            status.error = value.pop();
+                    }
+                    toast.error(status.error);
+                })
             }
             return status;
         }).catch(() => {
-            status.error = "Something broke. please try again.";
-            toast.dismiss(loginToastId);
+            status.error = "Something broke. Try again?";
+            toast.dismiss(toastid);
             toast.warning(status.error);
             return status;
         });

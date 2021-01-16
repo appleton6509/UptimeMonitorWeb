@@ -48,7 +48,7 @@ export default class LineChart extends Component {
                 }],
                 yAxes: [{
                     ticks: {
-                        beginAtZero: false
+                        beginAtZero: true
                     }
                 }]
             },

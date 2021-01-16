@@ -21,6 +21,7 @@
     "react-toastify": "^6.2.0",
     "reactstrap": "^8.7.1",
     "timezone": "^1.0.23",
+    "toastr": "^2.1.4",
     "utc": "^0.1.0",
     "web-vitals": "^0.2.4"
   },

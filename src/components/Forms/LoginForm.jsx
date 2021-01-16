@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Input, Label, Spinner } from 'reactstrap';
+import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Spinner } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 
 export class LoginForm extends Component {
@@ -27,14 +27,24 @@ export class LoginForm extends Component {
             <Form onSubmit={this.onSubmit}>
                 <FormGroup>
                     <Label>Email / UserName</Label>
-                    <Input type="text" id="username" name="username" formNoValidate required={false} placeholder="email address" />
-                </FormGroup>
+                    <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText><i className="fa fa-envelope"></i></InputGroupText>
+                        </InputGroupAddon>
+                        <Input type="text" id="username" name="username" formNoValidate required={false} placeholder="email address" />
+                 </InputGroup>
+               </FormGroup>
                 <FormGroup>
                     <Label>Password</Label>
-                    <Input type="password" id="password" name="password" formNoValidate required={false} placeholder="strong password goes here" />
-                </FormGroup>
+                    <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText><i className="fa fa-key"></i></InputGroupText>
+                        </InputGroupAddon>
+                        <Input type="password" id="password" name="password" formNoValidate required={false} placeholder="strong password goes here" />
+                </InputGroup>
+             </FormGroup>
                 <FormGroup className="text-center">
-                    <Button type="submit" id="btnSubmit" className="mb-4">
+                    <Button type="submit" color="info" id="btnSubmit" className="mb-4">
                         <div hidden={this.state.isLoading}> OK </div>
                         <Spinner hidden={!this.state.isLoading} as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
                     </Button>

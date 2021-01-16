@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Container } from 'reactstrap';
 import { GenericTable } from './GenericTable';
-
+import PropTypes from 'prop-types';
 export class OfflineTable extends Component {
+static propTypes = {
+    showHeaders: PropTypes.bool
+}
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +16,9 @@ export class OfflineTable extends Component {
                 "id": "id"
             },
             hideColumns: {
-                "id": "id"
+                "id": "id",
+                "lastonline": "lastonline",
+                "ip":"ip"
             },
             uri: "EndPoints/Offline",
             dateColumns: ["lastonline"]
@@ -23,7 +27,10 @@ export class OfflineTable extends Component {
 
     render() {
         return (
-                <GenericTable {...this.state}/>
+                <GenericTable {...this.props} {...this.state}>{this.props.children}</GenericTable>
         );
     }
+}
+OfflineTable.defaultProps = {
+    showHeaders: true
 }

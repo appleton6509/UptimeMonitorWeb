@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import DoughnutChart from "./DoughnutChart";
 import "./OnlineDoughnutChart.css";
-
+import "../Settings/theme.css";
 export default class OnlineDoughtnutChart extends PureComponent {
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ export default class OnlineDoughtnutChart extends PureComponent {
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <h5>Online</h5>
+                        <p className="title-style">Online</p>
                     </Col>
                 </Row>
 

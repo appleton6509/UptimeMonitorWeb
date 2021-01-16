@@ -13,7 +13,8 @@ export class ManageEndPoints extends PureComponent {
         super(props);
         this.state = {
             isFetching: false,
-            endpoint: { ip: "", description: "", id: "" }
+            endpoint: { ip: "", description: "", id: "" },
+            toggleRefresh: false
         }
     }
 
@@ -27,7 +28,7 @@ export class ManageEndPoints extends PureComponent {
         this.setState({ endpoint: { ip: ep.ip, id: ep.id, description: ep.description } });
     }
     onPostSuccess = () => {
-
+        this.setState({toggleRefresh: !this.state.toggleRefresh})
     }
 
     render() {
@@ -40,7 +41,7 @@ export class ManageEndPoints extends PureComponent {
             "id": "id"
         }
         const uri = "EndPoints";
-        const { endpoint } = this.state;
+        const { endpoint, toggleRefresh } = this.state;
         return (
             <Fragment>
                 <Row>
@@ -56,6 +57,7 @@ export class ManageEndPoints extends PureComponent {
                             <GenericTable
                                 interval={60000}
                                 uri={uri}
+                                toggleRefresh={toggleRefresh}
                                 headersMap={headersMap}
                                 hideColumns={hideColumns}
                                 onClick={this.onClickGetSelected} />

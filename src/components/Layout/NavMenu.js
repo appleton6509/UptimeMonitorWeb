@@ -23,16 +23,20 @@ export class NavMenu extends Component {
         <Fragment>
             <Nav className="mr-auto" navbar>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark pr-5" to="/Dashboard">Dashboard</NavLink>
+                    <NavLink tag={Link} className="text-dark pr-5" to="/Dashboard">
+                    <i className="fa fa-dashboard"></i>&nbsp;Dashboard</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark  pr-5" to="/Performance">Performance</NavLink>
+                    <NavLink tag={Link} className="text-dark  pr-5" to="/Performance">
+                    <i className="fa fa-bar-chart"></i>&nbsp;Performance</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark  pr-5" to="/ManageEndPoints">Manage</NavLink>
+                    <NavLink tag={Link} className="text-dark  pr-5" to="/ManageEndPoints">
+                    <i className="fa fa-cog"></i>&nbsp;Manage</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark pr-5" to="/Logs">Logs</NavLink>
+                    <NavLink tag={Link} className="text-dark pr-5" to="/Logs">
+                    <i className="fa fa-dashboard"></i>&nbsp;Logs</NavLink>
                 </NavItem>
             </Nav>
             <Nav className="ml-auto" navbar>
@@ -51,7 +55,7 @@ export class NavMenu extends Component {
                 <Button tag={Link} color="secondary" outline  className="pl-3 pr-3"to="/SignIn">Login</Button>
             </NavItem>
             <NavItem >
-                <Button tag={Link} color="primary" to="/SignUp">Get Started</Button>
+                <Button tag={Link} color="success" to="/SignUp">Get Started</Button>
             </NavItem>
         </Nav>
     );
