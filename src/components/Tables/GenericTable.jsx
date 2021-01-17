@@ -126,7 +126,7 @@ export class GenericTable extends Component {
                 this.setState({ data: tableData.data, isLoading: false })
             })
             .catch(err => {
-                console.log("fetch error: " + err.message.code + " - " + err.message.message);
+                console.log(err);
             });
         this.setPagination(headers);
         this.handleOnDataLoad(tableData.data[0]);

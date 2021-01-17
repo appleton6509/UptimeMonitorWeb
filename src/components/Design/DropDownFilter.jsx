@@ -1,4 +1,4 @@
-import React, {  PureComponent } from 'react';
+import React, {  Fragment, PureComponent } from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -13,8 +13,8 @@ export default class DropDownFilter extends PureComponent {
     render() {
         const { header, values, selectedValue } = this.props;
         return (
-            <UncontrolledDropdown className="float-left m-1">
-                <DropdownToggle style={{backgroundColor: 'transparent', color: 'black', border: 'none'}} caret>
+            <UncontrolledDropdown className="float-left btn-outline-info p-0 m-1">
+                <DropdownToggle className="btn-outline-info bg-transparent">
                     {selectedValue ? "" : header} {selectedValue}
                 </DropdownToggle>
                 <DropdownMenu >
