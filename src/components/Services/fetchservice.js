@@ -34,11 +34,13 @@ export class FetchService extends Component {
                     let error = "Something went wrong. Try Again?";
                     return res.text().then(text => {
                         error = text;
-                        let json = JSON.parse(text);
-                        if (json["errors"]) {
-                            for (let value of Object.values(json["errors"]))
-                                error = value.pop();
-                        } 
+                        try {
+                            let json = JSON.parse(text);
+                            if (json["errors"]) {
+                                for (let value of Object.values(json["errors"]))
+                                    error = value.pop();
+                            } 
+                        } catch {throw error}
                         throw error
                     }).catch(err => { throw err})
                 }

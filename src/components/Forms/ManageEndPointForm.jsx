@@ -92,14 +92,6 @@ export class ManageEndPointForm extends Component {
                                 <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="www.uptime.com" />
                             </InputGroup>
                         </FormGroup>
-                        <Button type="submit" color="info" hidden={this.state.isModifying}>
-                            <i className="fa fa-plus"></i>&nbsp;ADD</Button>
-                        <Button type="submit" color="info" hidden={!this.state.isModifying} className="mr-3">
-                            <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
-                        <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
-                            <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
-                        <Button type="reset" color="danger" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">
-                            <i className="fa fa-trash"></i>&nbsp;DELETE</Button>
                     </Col>
                     <Col>
                         <FormGroup>
@@ -110,6 +102,18 @@ export class ManageEndPointForm extends Component {
                         <FormGroup>
                             <Input onChange={this.onChangeHandler} id="id" name="id" hidden={true} />
                         </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                    <Button type="submit" color="info" hidden={this.state.isModifying}>
+                            <i className="fa fa-plus"></i>&nbsp;ADD</Button>
+                        <Button type="submit" color="info" hidden={!this.state.isModifying} className="mr-3">
+                            <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
+                        <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
+                            <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
+                        <Button type="reset" color="danger" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">
+                            <i className="fa fa-trash"></i>&nbsp;DELETE</Button>
                     </Col>
                 </Row>
             </Form>
