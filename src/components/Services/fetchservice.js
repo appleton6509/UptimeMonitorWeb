@@ -28,20 +28,19 @@ export class FetchService extends Component {
             .then(res => {
                 if (res.status === 401)
                     window.location.replace("/deauthorize")
-                if (res.ok) 
-                    return res;                
+                if (res.ok)
+                    return res;
                 else {
-                    res.text().then(text => {
-                        let error = text
-                        try {
-                            let json = JSON.parse(text);
-                            if (json["errors"]) {
-                                for (let value of Object.values(json["errors"]))
-                                    error = value.pop();
-                            }
-                        } catch { console.log(""); }
+                    let error = "Something went wrong. Try Again?";
+                    return res.text().then(text => {
+                        error = text;
+                        let json = JSON.parse(text);
+                        if (json["errors"]) {
+                            for (let value of Object.values(json["errors"]))
+                                error = value.pop();
+                        } 
                         throw error
-                    })
+                    }).catch(err => { throw err})
                 }
             })
             .catch(err => {

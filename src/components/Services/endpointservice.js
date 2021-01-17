@@ -2,24 +2,24 @@ import {FetchService} from './fetchservice';
 
 export class EndPointService {
     static async getAll() {
-        return FetchService.fetchNow('EndPoints',"GET",null).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow('EndPoints',"GET",null)
     }
     static async get(id) {
-        return FetchService.fetchNow('EndPoints/'+id,"GET",null).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow('EndPoints/'+id,"GET",null)
     }
     static async post(endpoint) {
-        return FetchService.fetchNow('EndPoints',"POST",endpoint).catch(err=> {throw err});
+        return await FetchService.fetchNow('EndPoints',"POST",endpoint);
     }
     static async put(endpoint) {
-        return FetchService.fetchNow('EndPoints/'+endpoint.id,"PUT",endpoint).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow('EndPoints/'+endpoint.id,"PUT",endpoint)
     } 
     static async delete(id) {
-        return FetchService.fetchNow('EndPoints/'+id,"DELETE",null).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow('EndPoints/'+id,"DELETE",null)
     } 
     static async getOnlineOffline() {
-        return FetchService.fetchNow('EndPoints/ConnectionStatus',"GET",null).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow('EndPoints/ConnectionStatus',"GET",null)
     }
     static async getLatencyByTime(query) {
-        return FetchService.fetchNow(query,"GET",null).catch(err=> {throw Error(err)});
+        return FetchService.fetchNow(query,"GET",null)
     }
 }
