@@ -19,13 +19,12 @@ export class DataToRowConverter extends Component {
         dateColumns: PropTypes.array,
     }
     onClick_DeleteIcon= (e) => {
-        let x = document.getElementById(e.target.id).closest('td');
-        const row = this.getSelectedRow(x);
+        const row = this.getSelectedRow(e);
         this.props.onDeleteRow(row);
     }
 
-    onClick_Row = (event) => {
-        let rowData = this.getSelectedRow(event);
+    onClick_Row = (e) => {
+        let rowData = this.getSelectedRow(e);
         this.props.onClickGetRow(rowData);
     }
     /**
@@ -35,11 +34,11 @@ export class DataToRowConverter extends Component {
     uniqueId++
     return uniqueId;
 }
-    getSelectedRow = (event) => {
-        let x = event
+    getSelectedRow = (e) => {
+        let x = document.getElementById(e.target.id).closest('td');
         let rowData = {}
         while (x != null) {
-            if (x.headers != '')
+            if (x.headers !== '')
                 rowData[x.headers] = x.outerText;
             try {
                 x = document.getElementById(x.id).nextSibling
@@ -47,16 +46,15 @@ export class DataToRowConverter extends Component {
                 x = null
             }
         }
-        x = event
+        x = document.getElementById(e.target.id).closest('td');
         while (x != null) {
-            if (x.headers != '')
+            if (x.headers !== '')
                 rowData[x.headers] = x.outerText;
             try {
                 x = document.getElementById(x.id).previousSibling
             } catch {
                 x = null
             }
-
         }
         return rowData;
     }
