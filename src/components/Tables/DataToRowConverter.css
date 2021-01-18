@@ -1,0 +1,11 @@
+.trashcan {
+    cursor: pointer;
+    font-size: 2em;
+}
+
+tr:hover {
+    cursor: grab;
+}
+tr:active {
+    cursor: grabbing;
+}

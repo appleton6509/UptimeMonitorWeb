@@ -23,10 +23,6 @@ export class NavMenu extends Component {
         <Fragment>
             <Nav className="mr-auto" navbar>
                 <NavItem>
-                    <NavLink tag={Link} className="text-dark pr-5" to="/Dashboard">
-                    <i className="fa fa-dashboard"></i>&nbsp;Dashboard</NavLink>
-                </NavItem>
-                <NavItem>
                     <NavLink tag={Link} className="text-dark  pr-5" to="/Performance">
                     <i className="fa fa-bar-chart"></i>&nbsp;Performance</NavLink>
                 </NavItem>

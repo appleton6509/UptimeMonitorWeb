@@ -57,6 +57,7 @@ export class ManageEndPoints extends PureComponent {
                             <GenericTable
                                 interval={60000}
                                 uri={uri}
+                                showDeleteIcon
                                 toggleRefresh={toggleRefresh}
                                 headersMap={headersMap}
                                 hideColumns={hideColumns}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout/Layout'
-import { Dashboard} from './components/Views/Dashboard';
 import { SignUp} from './components/Views/SignUp';
 import { SignIn} from './components/Views/SignIn';
 import { Home} from './components/Views/Home';
@@ -16,7 +15,6 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route exact path='/Dashboard' component={Dashboard} />
         <Route exact path='/SignUp' component={SignUp} />
         <Route exact path='/SignIn' component={SignIn} />
         <Route exact path='/Deauthorize' component={Deauthorize} />

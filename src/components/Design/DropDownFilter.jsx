@@ -15,7 +15,8 @@ export default class DropDownFilter extends PureComponent {
         return (
             <UncontrolledDropdown className="float-left btn-outline-info p-0 m-1">
                 <DropdownToggle className="btn-outline-info bg-transparent">
-                    {selectedValue ? "" : header} {selectedValue}
+                {selectedValue ? "" : header} {selectedValue}&nbsp;<i style={{fontSize: '.7em'}} className="fa fa-arrow-down fa-xs"></i>
+
                 </DropdownToggle>
                 <DropdownMenu >
                     {values.map((value) => {

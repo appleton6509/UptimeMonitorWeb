@@ -62,7 +62,6 @@ export class ResultFilter extends Component {
             , filter3Header, filter3Values, filter3SelectedValue } = this.state;
         return (
             <Fragment>
-                  <i className="fa fa-filter"></i>
                 <DropDownFilter className="mr-2"
                     header={filter1Header}
                     values={filter1Values}

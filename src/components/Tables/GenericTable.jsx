@@ -14,7 +14,7 @@ export class GenericTable extends Component {
         uri: PropTypes.string.isRequired,
         headersMap: PropTypes.object.isRequired,
         hideColumns: PropTypes.object,
-        toggleRefresh: PropTypes.bool,
+        showDeleteIcon: PropTypes.bool,
         dateColumns: PropTypes.array,
         showHeaders: PropTypes.bool,
         onClick: PropTypes.func,
@@ -49,37 +49,19 @@ export class GenericTable extends Component {
 
     componentDidUpdate(prevProps, _prevState) {
         if (this.props.uri !== prevProps.uri) {
-                this.fetchData();
-            }
+            this.fetchData();
+        }
     }
 
-    onClick_GetSelected = (event) => {
-        const rowData = this.getSelectedRowData(event);
+    onClick_GetSelected = (rowData) => {
         if (this.props.onClick !== undefined && rowData)
             this.props.onClick(rowData);
     }
-    /**
-     * gets the row data from a table by using the headers tag and on click event
-     * @param {Object} event on click event of row
-     * @returns {Object} row data
-     */
-    getSelectedRowData(event) {
-        let x = event.target
-        if (!x.id)
-            return;
-        let obj = {}
-        while (x != null) {
-            obj[x.headers] = x.outerText;
-            x = document.getElementById(x.id).nextSibling
-        }
-        x = event.target
-        while (x != null) {
-            obj[x.headers] = x.outerText;
-            x = document.getElementById(x.id).previousSibling
-        }
-        return obj;
+    onDeleteRow = (rowData) => {
+        if (this.props.onDeleteRow !== undefined && rowData)
+            this.props.onDeleteRow(rowData);
     }
-  
+
     setPagination = (page) => {
         if (page) {
             const pageData = JSON.parse(page);
@@ -104,7 +86,7 @@ export class GenericTable extends Component {
         const { headersMap, uri } = this.props;
         if (!uri)
             return;
-        let tableData = {data:[]}
+        let tableData = { data: [] }
         let headers;
         await FetchService.fetchNow(uri, "GET")
             .then(res => {
@@ -115,7 +97,7 @@ export class GenericTable extends Component {
                 json.forEach(data => {
                     //  map data key/values to header columns to preserve display order
                     var obj = {}
-                    for (let [key] of Object.entries(headersMap)) 
+                    for (let [key] of Object.entries(headersMap))
                         obj[key] = data[key];
 
                     if (Object.keys(obj).length > 0)
@@ -132,24 +114,30 @@ export class GenericTable extends Component {
         this.handleOnDataLoad(tableData.data[0]);
     }
     render() {
-        const { isLoading, data, uri} = this.state;
-        const { headersMap, hideColumns, dateColumns, showHeaders } = this.props;
+        const { isLoading, data, uri } = this.state;
+        const { headersMap, hideColumns, dateColumns, showHeaders, showDeleteIcon } = this.props;
         if (isLoading && data.length === 0)
             return (<LoadingSpinner />);
         return (
-                <Table className="table-small" hover responsive id="table">
-                    {showHeaders ? 
+            <Table className="table-small" hover responsive id="table">
+                {showHeaders ?
                     <thead>
-                        <tr><DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns}/></tr>
-                    </thead> : <Fragment/>}
-                    <tbody onClick={this.onClick_GetSelected}>
-                        <DataToRowConverter headersMap={headersMap} hideColumns={hideColumns} dateColumns={dateColumns} data={data}/>
-                    </tbody>
-                </Table>
+                        <tr><DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns} /></tr>
+                    </thead> : <Fragment />}
+                <tbody >
+                    <DataToRowConverter
+                        onClickGetRow={this.onClick_GetSelected} headersMap={headersMap}
+                        hideColumns={hideColumns} dateColumns={dateColumns} data={data}
+                        showDeleteIcon={showDeleteIcon}
+                        onDeleteRow={this.onDeleteRow}
+                    />
+                </tbody>
+            </Table>
         );
     }
 }
 GenericTable.defaultProps = {
     interval: 60000,
-    showHeaders: true
+    showHeaders: true,
+    showDeleteIcon: false
 }

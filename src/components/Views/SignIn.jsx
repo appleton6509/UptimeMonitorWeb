@@ -8,9 +8,7 @@ export class SignIn extends Component {
     static displayName = SignIn.name;
     constructor(props) {
         super(props);
-
     }
-
     render() {
         return (
             <Container>

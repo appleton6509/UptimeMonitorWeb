@@ -1,45 +1,92 @@
 import React, { Component } from 'react';
 import { DataToCellConverter } from './DataToCellConverter';
 import PropTypes from 'prop-types';
+import './DataToRowConverter.css';
 
 /**
  * unqiue number used for keys/id's
  */
 let uniqueId = 0;
-
+let inCell = null;
 export class DataToRowConverter extends Component {
     static propTypes = {
         headersMap: PropTypes.object,
         hideColumns: PropTypes.object,
+        onClickGetRow: PropTypes.func,
+        showDeleteIcon: PropTypes.bool,
+        onDeleteRow: PropTypes.func,
         data: PropTypes.array,
         dateColumns: PropTypes.array,
     }
-     /**
-     * gets a unique id for keys
-     */
-    getId() {
-        uniqueId++
-        return uniqueId;
+    onClick_DeleteIcon= (e) => {
+        let x = document.getElementById(e.target.id).closest('td');
+        const row = this.getSelectedRow(x);
+        this.props.onDeleteRow(row);
+    }
+
+    onClick_Row = (event) => {
+        let rowData = this.getSelectedRow(event);
+        this.props.onClickGetRow(rowData);
+    }
+    /**
+    * gets a unique id for keys
+    */
+   getId() {
+    uniqueId++
+    return uniqueId;
+}
+    getSelectedRow = (event) => {
+        let x = event
+        let rowData = {}
+        while (x != null) {
+            if (x.headers != '')
+                rowData[x.headers] = x.outerText;
+            try {
+                x = document.getElementById(x.id).nextSibling
+            } catch {
+                x = null
+            }
+        }
+        x = event
+        while (x != null) {
+            if (x.headers != '')
+                rowData[x.headers] = x.outerText;
+            try {
+                x = document.getElementById(x.id).previousSibling
+            } catch {
+                x = null
+            }
+
+        }
+        return rowData;
     }
 
     renderRows() {
-        const { hideColumns,headersMap, data, dateColumns } = this.props;
+        const { hideColumns, headersMap, data, dateColumns, showDeleteIcon } = this.props;
         const headersArray = Object.keys(headersMap);
         return (
             data.map((values, index) => {
                 const rawData = Object.values(values);
+                const generatedId = this.getId();
+                const rowId = "row" + "-" + generatedId + "-" + index;
                 return (
-                    <tr key={index + "row"}
-                        onMouseDown={(e) => e.target.id ? document.getElementById(e.target.id).style = "cursor:grabbing" : ""}
-                        onMouseUp={(e) => e.target.id ? document.getElementById(e.target.id).style = "cursor:grab" : ""}
-                        style={{ cursor: "grab" }}>
-                        {
-                            rawData.map((value, ind) => {
+                    <tr key={rowId}
+                        id={rowId}
+                        onClick={this.onClick_Row}>
+                        {rawData.map((value, ind) => {
                                 const header = headersArray[ind];
-                                return <DataToCellConverter key={"cell" + this.getId()} header={header} 
-                                hideColumns={hideColumns} value={value} dateColumns={dateColumns} index={ind}/>;
-                            })
-                        }
+                                const id = "cell-" + this.getId()
+                                return (
+                                        <DataToCellConverter
+                                            key={id} id={id} header={header}
+                                            hideColumns={hideColumns} value={value}
+                                            dateColumns={dateColumns} index={ind} />
+                                );
+                            })} 
+                            {showDeleteIcon ? 
+                            <td id={"trashcancell-"+ generatedId}>
+                            <i onClick={this.onClick_DeleteIcon} id={"trashicon-"+generatedId} className="fa text-danger fa-trash-o trashcan"></i>
+                            </td> : null}
                     </tr>
                 );
             })
@@ -49,4 +96,7 @@ export class DataToRowConverter extends Component {
     render() {
         return this.renderRows();
     }
+}
+DataToRowConverter.defaultProps = {
+    showDeleteIcon: false
 }
