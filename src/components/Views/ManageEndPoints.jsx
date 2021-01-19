@@ -1,12 +1,13 @@
-import React, { Fragment, PureComponent } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React, { Component, Fragment } from 'react';
+import { Row, Col } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 import { GenericTable } from 'components/Tables/GenericTable';
 import { ManageEndPointForm } from 'components/Forms/ManageEndPointForm';
 import '../Settings/theme.css';
 import { ShadowBox } from 'components/Design/ShadowBox';
 
-export class ManageEndPoints extends PureComponent {
+
+export class ManageEndPoints extends Component {
     // static displayName = ManageEndPoints.name;
     static contextType = AuthContext;
     constructor(props) {
@@ -14,10 +15,16 @@ export class ManageEndPoints extends PureComponent {
         this.state = {
             isFetching: false,
             endpoint: { ip: "", description: "", id: "" },
-            toggleRefresh: false
+            refreshChild: false
         }
     }
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps !== this.props || nextState !== this.state) {
+            if (nextState.toggleRefresh === this.state.toggleRefresh)
+                return true;
+        }
+        return false;
+    }
     onClickGetSelected = (epobject) => {
         if (!epobject) return;
         const ep = {
@@ -27,10 +34,10 @@ export class ManageEndPoints extends PureComponent {
         }
         this.setState({ endpoint: { ip: ep.ip, id: ep.id, description: ep.description } });
     }
-    onPostSuccess = () => {
-        this.setState({toggleRefresh: !this.state.toggleRefresh})
+    toggleRefresh = () => {
+        const refreshChild = !this.state.refreshChild;
+        this.setState({ refreshChild: refreshChild})
     }
-
     render() {
         const headersMap = {
             "id": "id",
@@ -41,26 +48,26 @@ export class ManageEndPoints extends PureComponent {
             "id": "id"
         }
         const uri = "EndPoints";
-        const { endpoint, toggleRefresh } = this.state;
+        const { endpoint, refreshChild } = this.state;
         return (
             <Fragment>
                 <Row>
                     <Col lg="6" >
                         <ShadowBox className="p-2">
-                            <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.onPostSuccess} />
+                            <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.toggleRefresh} />
                         </ShadowBox>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg="12" >
-                    <ShadowBox className="p-2">
+                        <ShadowBox className="p-2">
                             <GenericTable
-                                interval={60000}
+                                interval={160000}
                                 uri={uri}
                                 showDeleteIcon
-                                toggleRefresh={toggleRefresh}
                                 headersMap={headersMap}
                                 hideColumns={hideColumns}
+                                toggleRefresh={refreshChild}
                                 onClick={this.onClickGetSelected} />
                         </ShadowBox>
                     </Col>

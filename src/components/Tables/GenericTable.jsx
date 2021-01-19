@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../Design/LoadingSpinner';
 import { FetchService } from '../Services/fetchservice';
 import './GenericTable.css';
+import { EndPointService } from '../Services/endpointservice';
 import { DataToHeaderConverter } from 'components/Tables/DataToHeaderConverter';
 import { DataToRowConverter } from 'components/Tables/DataToRowConverter';
 /**
@@ -17,6 +18,7 @@ export class GenericTable extends Component {
         showDeleteIcon: PropTypes.bool,
         dateColumns: PropTypes.array,
         showHeaders: PropTypes.bool,
+        toggleRefresh: PropTypes.bool,
         onClick: PropTypes.func,
         onDataLoad: PropTypes.func,
         onPaginationChange: PropTypes.func,
@@ -25,7 +27,7 @@ export class GenericTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            data: [{id:"",description:""}],
             isLoading: true
         }
     }
@@ -39,29 +41,40 @@ export class GenericTable extends Component {
         if (nextProps.uri !== this.props.uri ||
             nextState.data !== this.state.data ||
             nextState.isLoading !== this.state.isLoading ||
-            nextProps.onPaginationChange !== this.props.onPaginationChange)
+            nextProps.onPaginationChange !== this.props.onPaginationChange ||
+            nextProps.toggleRefresh !== this.props.toggleRefresh)
             return true;
-        return false;
+         return false;
     }
     componentWillUnmount() {
         clearInterval(this.fetchTimer);
     }
 
     componentDidUpdate(prevProps, _prevState) {
-        if (this.props.uri !== prevProps.uri) {
+        if (this.props.uri !== prevProps.uri || 
+            this.props.toggleRefresh !== prevProps.toggleRefresh) {
             this.fetchData();
         }
     }
 
     onClick_GetSelected = (rowData) => {
-        if (this.props.onClick !== undefined && rowData)
+        if (this.props.onClick !== undefined && rowData) {
             this.props.onClick(rowData);
+        }
     }
-    onDeleteRow = (rowData) => {
-        if (this.props.onDeleteRow !== undefined && rowData)
-            this.props.onDeleteRow(rowData);
+    onDeleteClick = (rowData) => {
+        if (!rowData)
+            return;
+        this.deleteRow(rowData);
     }
 
+    deleteRow = (rowData) => {
+        let newData = this.state.data.map(x => x);
+        let index = this.state.data.indexOf(element => {element.id === rowData["id"]});
+        newData.splice(index);
+        EndPointService.delete(rowData["id"]);
+        this.setState({data: newData});
+    }
     setPagination = (page) => {
         if (page) {
             const pageData = JSON.parse(page);
@@ -86,7 +99,7 @@ export class GenericTable extends Component {
         const { headersMap, uri } = this.props;
         if (!uri)
             return;
-        let tableData = { data: [] }
+        let formatteddata = [] 
         let headers;
         await FetchService.fetchNow(uri, "GET")
             .then(res => {
@@ -101,35 +114,35 @@ export class GenericTable extends Component {
                         obj[key] = data[key];
 
                     if (Object.keys(obj).length > 0)
-                        tableData.data.push(obj);
+                        formatteddata.push(obj);
                 })
             })
             .then(() => {
-                this.setState({ data: tableData.data, isLoading: false })
+                this.setState({ data: formatteddata, isLoading: false })
             })
             .catch(err => {
                 console.log(err);
             });
         this.setPagination(headers);
-        this.handleOnDataLoad(tableData.data[0]);
+        this.handleOnDataLoad(formatteddata[0]);
     }
     render() {
         const { isLoading, data, uri } = this.state;
-        const { headersMap, hideColumns, dateColumns, showHeaders, showDeleteIcon } = this.props;
-        if (isLoading && data.length === 0)
+        const { headersMap, hideColumns, dateColumns, showHeaders, showDeleteIcon, toggleRefresh } = this.props;
+        if (isLoading && data.length === 0 && toggleRefresh)
             return (<LoadingSpinner />);
         return (
             <Table className="table-small" hover responsive id="table">
                 {showHeaders ?
                     <thead>
                         <tr><DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns} /></tr>
-                    </thead> : <Fragment />}
+                    </thead> : <div></div>}
                 <tbody >
                     <DataToRowConverter
                         onClickGetRow={this.onClick_GetSelected} headersMap={headersMap}
                         hideColumns={hideColumns} dateColumns={dateColumns} data={data}
                         showDeleteIcon={showDeleteIcon}
-                        onDeleteRow={this.onDeleteRow}
+                        onDeleteClick={this.onDeleteClick}
                     />
                 </tbody>
             </Table>

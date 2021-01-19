@@ -11,7 +11,7 @@ export class EndPointService {
         return await FetchService.fetchNow('EndPoints',"POST",endpoint);
     }
     static async put(endpoint) {
-        return FetchService.fetchNow('EndPoints/'+endpoint.id,"PUT",endpoint)
+        return FetchService.fetchNow('EndPoints/'+endpoint.Id,"PUT",endpoint)
     } 
     static async delete(id) {
         return FetchService.fetchNow('EndPoints/'+id,"DELETE",null)

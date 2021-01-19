@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 
 export class ManageEndPointForm extends Component {
     static propTypes = {
-        endpoint: PropTypes.object.isRequired
+        endpoint: PropTypes.object.isRequired,
+        onPostSuccess: PropTypes.func,
     }
     constructor(props) {
         super(props);
@@ -15,7 +16,7 @@ export class ManageEndPointForm extends Component {
         }
     }
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps !== this.props) {
+        if (nextProps.endpoint !== this.props.endpoint) {
             document.getElementById("id").value = nextProps.endpoint.id;
             document.getElementById("description").value = nextProps.endpoint.description;
             document.getElementById("ip").value = nextProps.endpoint.ip;
@@ -34,14 +35,10 @@ export class ManageEndPointForm extends Component {
     fetchPostEndPoint = async (endPoint) => {
         let value = await EndPointService.post(endPoint)
             .catch(err => { toast.error(err) })
-            return value
+        return value
     }
 
     onClickReset = () => {
-        this.setState({ isModifying: false });
-    }
-    onClickDelete = () => {
-        EndPointService.delete(document.getElementById("id").value);
         this.setState({ isModifying: false });
     }
 
@@ -112,8 +109,6 @@ export class ManageEndPointForm extends Component {
                             <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
                         <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
                             <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
-                        <Button type="reset" color="danger" onClick={this.onClickDelete} hidden={!this.state.isModifying} className="mr-3">
-                            <i className="fa fa-trash"></i>&nbsp;DELETE</Button>
                     </Col>
                 </Row>
             </Form>

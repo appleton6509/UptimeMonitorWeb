@@ -7,25 +7,30 @@ import './DataToRowConverter.css';
  * unqiue number used for keys/id's
  */
 let uniqueId = 0;
-let inCell = null;
+
 export class DataToRowConverter extends Component {
     static propTypes = {
         headersMap: PropTypes.object,
         hideColumns: PropTypes.object,
         onClickGetRow: PropTypes.func,
         showDeleteIcon: PropTypes.bool,
-        onDeleteRow: PropTypes.func,
+        onDeleteClick: PropTypes.func,
         data: PropTypes.array,
         dateColumns: PropTypes.array,
     }
     onClick_DeleteIcon= (e) => {
-        const row = this.getSelectedRow(e);
-        this.props.onDeleteRow(row);
+        this.getSelectedRow(e).then((data) => {
+            this.props.onDeleteClick(data);
+        })
     }
 
     onClick_Row = (e) => {
-        let rowData = this.getSelectedRow(e);
-        this.props.onClickGetRow(rowData);
+        if (e.target.localName === "i")
+            return;    
+        this.getSelectedRow(e).then((data)=> {
+            if (Object.values(data).length > 0)
+            this.props.onClickGetRow(data);
+        })
     }
     /**
     * gets a unique id for keys
@@ -34,7 +39,7 @@ export class DataToRowConverter extends Component {
     uniqueId++
     return uniqueId;
 }
-    getSelectedRow = (e) => {
+    getSelectedRow = async (e) => {
         let x = document.getElementById(e.target.id).closest('td');
         let rowData = {}
         while (x != null) {
@@ -83,7 +88,7 @@ export class DataToRowConverter extends Component {
                             })} 
                             {showDeleteIcon ? 
                             <td id={"trashcancell-"+ generatedId}>
-                            <i onClick={this.onClick_DeleteIcon} id={"trashicon-"+generatedId} className="fa text-danger fa-trash-o trashcan"></i>
+                            <i onClick={this.onClick_DeleteIcon} id={"trashicon-"+generatedId} className="fa fa-trash-o trashcan"></i>
                             </td> : null}
                     </tr>
                 );
