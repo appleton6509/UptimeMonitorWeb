@@ -124,7 +124,6 @@ export class GenericTable extends Component {
                 console.log(err);
             });
         this.setPagination(headers);
-        this.handleOnDataLoad(formatteddata[0]);
     }
     render() {
         const { isLoading, data, uri } = this.state;

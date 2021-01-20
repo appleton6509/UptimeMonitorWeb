@@ -52,10 +52,10 @@ export class DataToCellConverter extends Component {
         const { hideColumns, header, index, value } = this.props;
         const id = this.getId();
         if (value === true)
-            return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+            return <td headers={header} data-fetch={true} className={(header === hideColumns[header] ? "hide" : "")}
                 id={id} key={"cell-" + index}><i className="fa fa-desktop fa-2x text-success" aria-hidden="true"></i></td>;
         else
-            return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+            return <td headers={header} data-fetch={false} className={(header === hideColumns[header] ? "hide" : "")}
                 id={id} key={"cell-" + index}><i className="fa fa-desktop fa-2x text-danger" aria-hidden="true"></i></td>;
     }
     getHeaderType() {

@@ -18,7 +18,7 @@ export class DataToRowConverter extends Component {
         data: PropTypes.array,
         dateColumns: PropTypes.array,
     }
-    onClick_DeleteIcon= (e) => {
+    onClick_DeleteIcon = (e) => {
         this.getSelectedRow(e).then((data) => {
             this.props.onDeleteClick(data);
         })
@@ -26,25 +26,27 @@ export class DataToRowConverter extends Component {
 
     onClick_Row = (e) => {
         if (e.target.localName === "i")
-            return;    
-        this.getSelectedRow(e).then((data)=> {
+            return;
+        this.getSelectedRow(e).then((data) => {
             if (Object.values(data).length > 0)
-            this.props.onClickGetRow(data);
+                this.props.onClickGetRow(data);
         })
     }
     /**
     * gets a unique id for keys
     */
-   getId() {
-    uniqueId++
-    return uniqueId;
-}
+    getId() {
+        uniqueId++
+        return uniqueId;
+    }
     getSelectedRow = async (e) => {
         let x = document.getElementById(e.target.id).closest('td');
         let rowData = {}
+        let fetchdata;
         while (x != null) {
             if (x.headers !== '')
-                rowData[x.headers] = x.outerText;
+                fetchdata = x.getAttribute('data-fetch');
+                rowData[x.headers] = x.outerText !== "" ? x.outerText : fetchdata;
             try {
                 x = document.getElementById(x.id).nextSibling
             } catch {
@@ -53,8 +55,12 @@ export class DataToRowConverter extends Component {
         }
         x = document.getElementById(e.target.id).closest('td');
         while (x != null) {
-            if (x.headers !== '')
-                rowData[x.headers] = x.outerText;
+            if (x.headers !== '') {
+                try {
+                    fetchdata = x.getAttribute('data-fetch');
+                } catch { /** this attribute may not always be present */}
+                rowData[x.headers] = x.outerText !== "" ? x.outerText : fetchdata;
+            }
             try {
                 x = document.getElementById(x.id).previousSibling
             } catch {
@@ -77,18 +83,18 @@ export class DataToRowConverter extends Component {
                         id={rowId}
                         onClick={this.onClick_Row}>
                         {rawData.map((value, ind) => {
-                                const header = headersArray[ind];
-                                const id = "cell-" + this.getId()
-                                return (
-                                        <DataToCellConverter
-                                            key={id} id={id} header={header}
-                                            hideColumns={hideColumns} value={value}
-                                            dateColumns={dateColumns} index={ind} />
-                                );
-                            })} 
-                            {showDeleteIcon ? 
-                            <td id={"trashcancell-"+ generatedId}>
-                            <i onClick={this.onClick_DeleteIcon} id={"trashicon-"+generatedId} className="fa fa-trash-o trashcan"></i>
+                            const header = headersArray[ind];
+                            const id = "cell-" + this.getId()
+                            return (
+                                <DataToCellConverter
+                                    key={id} id={id} header={header}
+                                    hideColumns={hideColumns} value={value}
+                                    dateColumns={dateColumns} index={ind} />
+                            );
+                        })}
+                        {showDeleteIcon ?
+                            <td id={"trashcancell-" + generatedId}>
+                                <i onClick={this.onClick_DeleteIcon} id={"trashicon-" + generatedId} className="fa fa-trash-o trashcan"></i>
                             </td> : null}
                     </tr>
                 );

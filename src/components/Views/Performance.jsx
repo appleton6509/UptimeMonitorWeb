@@ -31,15 +31,17 @@ export class Performance extends PureComponent {
             return;
         let data = {
             id: rowData["id"],
-            ip: rowData["ip"].toUpperCase(),
-            description: rowData["description"].toUpperCase(),
+            ip: rowData["ip"] ? rowData["ip"].toUpperCase() : "",
+            description: rowData["description"] ? rowData["description"].toUpperCase() : "",
             averageLatency: rowData["averageLatency"],
             lastDownTime: rowData["lastDownTime"],
             isReachable: false,
             lastSeen: rowData["lastSeen"]
         }
-        if (typeof rowData["isReachable"] === 'string')
-            data.isReachable = rowData["isReachable"].toUpperCase() === "ONLINE" ? true : false;
+        if (typeof rowData["isReachable"] === 'string') {
+            let reach = rowData["isReachable"].toUpperCase();
+            data.isReachable = reach === "ONLINE" ? true : reach === 'TRUE' ? true : false
+        }
         else if(typeof rowData["isReachable"] === 'boolean')
             data.isReachable = rowData["isReachable"];
 

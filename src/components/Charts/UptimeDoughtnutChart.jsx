@@ -36,9 +36,15 @@ export default class UptimeDoughtnutChart extends PureComponent {
         return uri.build();
     }
 
+    isEmpty = (value) => {
+        if (!value || value === "" || value.length === 0)
+            return true;
+        return false;
+    }
+
     fetchData = async () => {
         const { endpointId, startDate, endDate } = this.props;
-        if (!endpointId || !startDate || !endDate) 
+        if (!this.isEmpty(endpointId) || !this.isEmpty(startDate) || !this.isEmpty(endDate)) 
             return;
 
         let online = []

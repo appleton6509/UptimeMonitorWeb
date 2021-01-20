@@ -62,7 +62,7 @@ export class GenericPagination extends PureComponent {
             renderLastPage = totalPages;
         }
         let count = renderFirstPage;
-        while ((count <= renderLastPage) && (renderLastPage <= totalPages)) {
+        while ((count <= renderLastPage) && (renderLastPage <= totalPages) && count > 0) {
             let isDisabled = (requestedPage === count) ? true : false;
             html.push(<PaginationItem key={"pageitem-" + count} disabled={isDisabled}><PaginationLink onClick={this.handleClick} key={"pagelink-" + count}>{count}</PaginationLink></PaginationItem>);
             count++;
