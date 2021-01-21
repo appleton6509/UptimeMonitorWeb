@@ -14,21 +14,21 @@ export default class LoadingSpinner extends Component {
     }
 
     renderSpinner() {
-        const { type, size } = this.state;
-        const height = { height: this.state.height }
-        
-        return (
-            <div className="d-flex justify-content-center" style={height}>
-                <div className="align-self-center">
-                    <Spinner type={type} size={size} color="warning" />
-                    <Spinner type={type} size={size} />
-                    <Spinner type={type} size={size} color="danger" />
-                </div>
-            </div>
-        );
+
     }
     render() {
-        return this.renderSpinner();
+       const { type, size } = this.state;
+            const height = { height: this.state.height }
+            return (
+                <div className="d-flex justify-content-center" style={height}>
+                    <div className="align-self-center text-center">
+                        {this.props.children}
+                        <Spinner type={type} size={size} color="warning" />
+                        <Spinner type={type} size={size} />
+                        <Spinner type={type} size={size} color="danger" />
+                    </div>
+                </div>
+            );
     }
 }
 LoadingSpinner.propTypes = {

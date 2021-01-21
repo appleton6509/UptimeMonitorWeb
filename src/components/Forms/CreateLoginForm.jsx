@@ -24,7 +24,7 @@ export class CreateLoginForm extends Component {
                  authContext.login(username,password).then(result2 => {
                     if (result2.success)  
                         window.location.replace("/Dashboard");
-                });
+                }).catch()
         });
          setTimeout(()=> {this.setState({isLoading: false});},250);
     }

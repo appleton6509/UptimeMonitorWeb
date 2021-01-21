@@ -12,11 +12,13 @@ export class SignIn extends Component {
     render() {
         return (
             <Container>
-                <Row>
-                    <Col>
-                        <h1 className="mt-3 mb-3 text-center">
+                <Row  className="justify-content-center">
+                    <Col md="6">
+                    <ShadowBox className="bg-white">
+                    <h1 className="mt-3 mb-3 text-center">
                             Lets get you LOGGED IN.
                         </h1>
+                    </ShadowBox>
                     </Col>
                 </Row>
                 <Row className="justify-content-center" >

@@ -22,14 +22,14 @@ export class Home extends Component {
     }
 
     render() {
-        const { cssTransitionClass,url } = this.state;
+        const { cssTransitionClass, url } = this.state;
         return (
             <Container>
                 <div className={cssTransitionClass}>
-                <h1 className="text-center">Is your site running right now?</h1>
                     <ShadowBox>
-                        <CheckSiteForm onClick={this.onClick} />
-                        {url !== "" ? <CheckWebResultForm url={url}/> : <div></div>}
+                        <h1 className="text-center mb-5">Is your site running right now?</h1>
+                        <CheckSiteForm className="mb-3" onClick={this.onClick} />
+                        {url !== "" ? <div className="contain"><CheckWebResultForm url={url} /></div> : <div></div>}
                     </ShadowBox>
                 </div>
             </Container>

@@ -86,7 +86,6 @@ class AuthProvider extends Component {
                                 status.error = value.pop(); 
                         }
                     } catch {console.log(""); }
-      
                     toast.error(status.error);
                 })
             }
@@ -95,6 +94,7 @@ class AuthProvider extends Component {
             status.error = "Something broke. Try again?"
             toast.dismiss(toastid);
             toast.warning(status.error);
+            return status;
         });
     }
     /**
