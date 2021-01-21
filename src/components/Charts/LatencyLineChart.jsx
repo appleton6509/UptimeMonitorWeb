@@ -42,7 +42,7 @@ export default class LatencyLineChart extends PureComponent {
     }
     fetchData = async () => {
         const { endpointId, startDate, endDate } = this.props;
-        if (!this.isEmpty(endpointId) || !this.isEmpty(startDate) || !this.isEmpty(endDate)) 
+        if (this.isEmpty(endpointId) || this.isEmpty(startDate) || this.isEmpty(endDate)) 
             return;
 
         let timedata = []
@@ -54,14 +54,16 @@ export default class LatencyLineChart extends PureComponent {
                     const [timestamp, isReachable, latency, endpointid] = Object.entries(element)
                     const min = moment.utc(timestamp[1]).minute();
                     const time = moment.utc(timestamp[1]).toDate();
-                    if (!this.isEmpty(isReachable[1])) {
+                    if (!isReachable[1]) { //is offline
                         offlinedata.push({x: time, y: 0});
                         timedata.push({x: time, y: 0});
                     }
-                    else if(!this.isEmpty(isReachable) && latency[1] < 1) 
-                        timedata.push({x: time, y: 1});
                      else 
+                     {
+                        if(isReachable && latency[1] < 1) //is online
+                            timedata.push({x: time, y: 1});
                         timedata.push({x: time, y: latency[1]});
+                     }
                 });
 
             })
