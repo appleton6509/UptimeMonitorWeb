@@ -14,13 +14,12 @@
 .chart-box {
   min-height: 35vh;
   min-width: 60vw;
-  
+  margin-top: 3;
   padding: 20px;
 }
 .doughnut-box {
   min-height: 35vh;
    min-width: 15vw;
-   
-  padding: 20px;
-  
+   margin-top: 3;
+  padding: 20px; 
   }

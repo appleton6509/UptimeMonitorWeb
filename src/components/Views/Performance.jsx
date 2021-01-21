@@ -107,7 +107,7 @@ export class Performance extends PureComponent {
                 </Row>
                 <Row>
                     <Col>
-                        <ShadowBox>
+                        <ShadowBox className="mt-3" >
                             <ComplexTable onDataLoad={this.handleOnDataLoad} onClick={this.handleOnClickTable} {...tableOptions} />
                         </ShadowBox>
                     </Col>

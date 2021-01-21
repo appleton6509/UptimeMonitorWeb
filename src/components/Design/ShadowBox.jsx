@@ -11,7 +11,7 @@ export class ShadowBox extends Component {
     }
     render() {
         const {isChart, style, className} = this.props;
-        let classes =  "mt-3 p-3 shadow theme1-bg theme1-border";
+        let classes =  "p-3 shadow theme1-bg theme1-border";
         isChart ? classes += " chart" : "";
         className ? classes += " " + className : "";
      return(

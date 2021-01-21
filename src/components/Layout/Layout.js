@@ -34,7 +34,7 @@ export class Layout extends Component {
     const { isLoaded } = this.state;
     return (
       <AuthProvider isLoaded={this.handleLoadChange}> 
-          {isLoaded ? <div className="shadow" ><NavMenu /></div> : ""}
+          {isLoaded ? <div><NavMenu /></div> : ""}
           {isLoaded ? <Container className="mb-2 mt-2 pl-5 pr-5" fluid={true}>{this.props.children}</Container> : ""}
       </AuthProvider>
     );
