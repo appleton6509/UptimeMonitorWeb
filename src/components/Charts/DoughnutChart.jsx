@@ -78,13 +78,16 @@ export default class DoughnutChart extends Component {
             }
     }
     render() {
-        const { centerData, centerLabel } = this.props;
+        const { centerData, centerLabel, data } = this.props;
+        let centerLabelLocal = centerLabel
+        if (data.length === 0)
+            centerLabelLocal = "";
         return (
             <Fragment>
                 <canvas id="canvas" ref={this.chartRef} />
                 <div className="absolute-center text-center">
                     <div className="centerLabelValue">{centerData}</div>
-                    <div className="centerLabelText">{centerLabel}</div>
+                    <div className="centerLabelText">{centerLabelLocal}</div>
                 </div>
             </Fragment>
         );
