@@ -51,7 +51,7 @@ export class NavMenu extends Component {
                 <Button tag={Link} color="secondary" outline  className="pl-3 pr-3"to="/SignIn">Login</Button>
             </NavItem>
             <NavItem >
-                <Button tag={Link} color="success" to="/SignUp">Get Started</Button>
+                <Button tag={Link} color="secondary" to="/SignUp">Get Started</Button>
             </NavItem>
         </Nav>
     );

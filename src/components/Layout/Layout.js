@@ -4,7 +4,6 @@ import { AuthProvider } from '../Authorization/AuthProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Container } from 'reactstrap';
-import { ShadowBox } from 'components/Design/ShadowBox';
 
 toast.configure({
    position:"bottom-center",

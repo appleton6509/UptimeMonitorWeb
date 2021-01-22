@@ -19,14 +19,10 @@ export class CheckSiteForm extends Component {
         return (
             <Form className={className}>
                 <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                        <InputGroupText>http://</InputGroupText>
-                    </InputGroupAddon>
                     <Input type="url" placeholder="www.mysite.com" id="urlInput"/>
-                    <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={this.onClick}>Check Site</Button>
-                    </InputGroupAddon>
+                    <Button color="primary" onClick={this.onClick}>Check!</Button>
                 </InputGroup>
+
             </Form>
         );
     }

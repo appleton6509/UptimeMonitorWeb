@@ -70,7 +70,7 @@ export class ComplexTable extends PureComponent {
                 <Fragment>
                     {this.props.children}
                     <div className="text-center">
-                            <GenericTable interval={60000} uri={uri} onDataLoad={this.handleOnDataLoad} onClick={this.handleOnClick} onPaginationChange={this.handlePagination} {...this.props}/>
+                            <GenericTable uri={uri} onDataLoad={this.handleOnDataLoad} onClick={this.handleOnClick} onPaginationChange={this.handlePagination} {...this.props}/>
                             <GenericPagination onPaginationChange={this.handlePagination} totalPages={pagination.totalPages} />
                             <br/> 
                     </div>

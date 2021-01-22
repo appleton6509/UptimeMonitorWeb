@@ -5,7 +5,9 @@ import LoadingSpinner from 'components/Design/LoadingSpinner';
 import './CheckWebResultForm.css'
 export class CheckWebResultForm extends Component {
     static propTypes = {
-        url: PropTypes.string
+        url: PropTypes.string,
+        className: PropTypes.string,
+        onClick: PropTypes.func
     }
     constructor(props) {
         super(props);
@@ -43,39 +45,41 @@ export class CheckWebResultForm extends Component {
 
 
     render() {
-        const { isReachable, isVisible, isLoading } = this.state;
+        const { isReachable, isVisible, isLoading, className } = this.state;
         const { url } = this.props;
+        const cardClass = "style-card " + {className}
         if (isVisible && !isLoading) {
             if (isReachable) {
                 return (
                     <div>
-                    <h1>Great! you&apos;re online!</h1>
-                        <Card className="style-card">
+                        <Card className={cardClass} >
                             <CardTitle className="style-title style-online">
-                                <i>UP</i>
+                                <h1>Online</h1>
+                                <h4>{url}</h4>
                             </CardTitle>
                             <CardBody className="style-body">
-                                <p>{url}</p>
-                                <br /><Button color="success">Start Monitoring</Button>
+                            <h3>Great!</h3>
+                                <p>
+                                     your website is online. start monitoring today to keep it that way!
+                                </p><Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button>
                             </CardBody>
                         </Card>
-                    </div>
+                        </div>
                 );
             }
             if (!isReachable) {
                 return (
-                    <div>
-                    <h1>Uh-Oh.</h1>
                         <Card className="style-card">
                             <CardTitle className="style-title style-offline">
-                                <i>DOWN</i>
+                                <h1>Offline</h1>
                             </CardTitle>
                             <CardBody className="style-body">
-                                <p>{url}</p>
-                                <br /><Button color="danger">Start Monitoring</Button>
+                            <h3>Uh-oh!</h3>
+                                <p>
+                                     your website is offline. start monitoring today to keep it that way!
+                                </p><Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button>
                             </CardBody>
                         </Card>
-                    </div>
                 );
             }
         } else {

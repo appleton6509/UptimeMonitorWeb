@@ -1,29 +1,30 @@
 .box {
+    border:solid;
+    border-color: rgba(0, 89, 255, 0.397);
+    border-width: 4px;
+    border-radius: 7px;
     margin-top: 30vh;
     width: 60vw;
     font-size: xx-large;
-display: block;
-margin-left: auto;
-margin-right:auto;
-
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
     transition: linear 500ms;
 }
-
 .box-transition {
-    margin-top: 5vh;
-    width: 60vw;
-display:block;
-margin-left:auto;
-margin-right:auto;
-
+    margin-top: 0vh;
+    width: fit-content;
+    font-size: xx-large;
+    display: none;
+    margin-right: auto;
+    margin-left: auto;
+    opacity: 0;
     transition: linear 500ms;
 }
-
-.contain {
-    display: flex;
-    justify-content: center;
+.resultBox {
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
-h3 {
-    text-align: center;
-}
+

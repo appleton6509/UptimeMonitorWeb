@@ -1,8 +1,7 @@
 .style-card {
-    max-width: 20vw;
-    min-width: 20vw;
+    max-width: 15vw;
+    min-width: 15em;
     border-radius: 20px;
-    margin-top: 2em;
     text-align: center;
     box-shadow: inset 5 5 5
 }

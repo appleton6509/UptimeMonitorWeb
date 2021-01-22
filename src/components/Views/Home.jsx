@@ -11,7 +11,8 @@ export class Home extends Component {
         super(props);
         this.state = {
             url: "",
-            cssTransitionClass: "box"
+            cssTransitionClass: "box",
+            hideClass: ""
         }
 
     }
@@ -22,16 +23,17 @@ export class Home extends Component {
     }
 
     render() {
-        const { cssTransitionClass, url } = this.state;
+        const { cssTransitionClass, url, hideClass } = this.state;
         return (
             <Container>
                 <div className={cssTransitionClass}>
-                    <ShadowBox>
-                        <h1 className="text-center mb-5">Is your site running right now?</h1>
-                        <CheckSiteForm className="mb-3" onClick={this.onClick} />
-                        {url !== "" ? <div className="contain"><CheckWebResultForm url={url} /></div> : <div></div>}
-                    </ShadowBox>
+                        <CheckSiteForm onClick={this.onClick} />
                 </div>
+                {url !== "" ?
+                    <div className="resultBox">
+                        <CheckWebResultForm onClick="" url={url} />
+                    </div>
+                    : <div></div>}
             </Container>
         );
     }
