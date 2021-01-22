@@ -1,6 +1,7 @@
 .style-card {
     max-width: 15vw;
     min-width: 15em;
+    max-height: 50vh;
     border-radius: 20px;
     text-align: center;
     box-shadow: inset 5 5 5
@@ -16,6 +17,9 @@
 }
 .style-offline {
     background-color: rgb(220, 53, 69);
+}
+.style-loading {
+    background-color: rgb(163, 163, 163);
 }
 
 .style-body {

@@ -47,44 +47,44 @@ export class CheckWebResultForm extends Component {
     render() {
         const { isReachable, isVisible, isLoading, className } = this.state;
         const { url } = this.props;
-        const cardClass = "style-card " + {className}
-        if (isVisible && !isLoading) {
-            if (isReachable) {
-                return (
-                    <div>
-                        <Card className={cardClass} >
-                            <CardTitle className="style-title style-online">
-                                <h1>Online</h1>
-                                <h4>{url}</h4>
-                            </CardTitle>
-                            <CardBody className="style-body">
-                            <h3>Great!</h3>
-                                <p>
-                                     your website is online. start monitoring today to keep it that way!
-                                </p><Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button>
-                            </CardBody>
-                        </Card>
-                        </div>
-                );
-            }
-            if (!isReachable) {
-                return (
-                        <Card className="style-card">
-                            <CardTitle className="style-title style-offline">
-                                <h1>Offline</h1>
-                            </CardTitle>
-                            <CardBody className="style-body">
-                            <h3>Uh-oh!</h3>
-                                <p>
-                                     your website is offline. start monitoring today to keep it that way!
-                                </p><Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button>
-                            </CardBody>
-                        </Card>
-                );
-            }
-        } else {
-            return (<LoadingSpinner></LoadingSpinner>);
+        const cardClass = "style-card " + { className }
+        let title, messageTitle, message;
+        let cardTitleClasses = "style-title ";
+        if (isLoading) {
+            title = "Checking";
+            messageTitle = "";
+            message = ""
+            cardTitleClasses += "style-loading"
         }
-
+        else if (isReachable) {
+            title = "Online";
+            messageTitle = "Great!";
+            message = "your website is online. start monitoring today to keep it that way!";
+            cardTitleClasses += "style-online"
+        }
+        else if (!isReachable) {
+            title = "Offline";
+            messageTitle = "Uh-oh!";
+            message = "your website is offline. start monitoring today to keep it that way!";
+            cardTitleClasses += "style-offline"
+        }
+        return (
+            <div>
+                <Card className={cardClass} >
+                    <CardTitle className={cardTitleClasses}>
+                        <h1>{title}</h1>
+                        <h4>{url}</h4>
+                    </CardTitle>
+                    <CardBody className="style-body">
+                        <h3>{messageTitle}</h3>
+                        <p>
+                        {isLoading ? <LoadingSpinner height="5rem"></LoadingSpinner> : ""}
+                            {message}
+                        </p>
+                        {isLoading ? "" : <Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button> }
+                    </CardBody>
+                </Card>
+            </div>
+        );
     }
 }
