@@ -19,6 +19,9 @@ export class Home extends Component {
     onClick = (url) => {
         this.setState({ url: url, cssTransitionClass: "box-transition" })
     }
+    onClick_StartMonitoring = () => {
+        window.location.replace("/SignUp")
+    }
 
     render() {
         const { cssTransitionClass, url, hideClass } = this.state;
@@ -29,7 +32,7 @@ export class Home extends Component {
                 </div>
                 {url !== "" ?
                     <div className="resultBox">
-                        <WebTestResult onClick="" url={url} />
+                        <WebTestResult onClick={this.onClick_StartMonitoring} url={url} />
                     </div>
                     : <div></div>}
             </Container>
