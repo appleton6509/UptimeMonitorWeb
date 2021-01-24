@@ -27,14 +27,15 @@ export class Home extends Component {
         const { cssTransitionClass, url, hideClass } = this.state;
         return (
             <Container>
-                <div className={cssTransitionClass}>
-                        <CheckSiteForm onClick={this.onClick} />
-                </div>
                 {url !== "" ?
                     <div className="resultBox">
                         <WebTestResult onClick={this.onClick_StartMonitoring} url={url} />
                     </div>
                     : <div></div>}
+                <div className={cssTransitionClass}>
+                    <CheckSiteForm onClick={this.onClick} />
+                </div>
+
             </Container>
         );
     }

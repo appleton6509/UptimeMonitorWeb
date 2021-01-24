@@ -31,9 +31,9 @@ export class WebTestResult extends Component {
         const { url } = this.props;
         if (url === "")
             return;
-        let reachable = await fetch("http://" + url, {
+        let reachable = await fetch("https://" + url, {
             mode: 'no-cors',
-            method: 'GET'
+            method: 'GET' 
         })
             .then(res => {
                 return true
@@ -42,7 +42,6 @@ export class WebTestResult extends Component {
             })
         this.setState({ isReachable: reachable, isVisible: true, isLoading: false })
     }
-
 
     render() {
         const { isReachable, isVisible, isLoading, className } = this.state;
@@ -65,7 +64,7 @@ export class WebTestResult extends Component {
         else if (!isReachable) {
             title = "Offline";
             messageTitle = "Uh-oh!";
-            message = "your website is offline. start monitoring today to keep it that way!";
+            message = "your website is offline. start monitoring today to keep it always up!";
             cardTitleClasses += "style-offline"
         }
         return (

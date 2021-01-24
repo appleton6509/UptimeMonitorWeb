@@ -18,7 +18,7 @@ export class LoginForm extends Component {
         let authContext = this.context;
         await authContext.login(event.target.username.value, event.target.password.value)
             .then(result => {
-                result.success ? window.location.replace("/Dashboard") : this.setState({ isLoading: false });
+                result.success ? window.location.replace("/Performance") : this.setState({ isLoading: false });
             });
     }
 
