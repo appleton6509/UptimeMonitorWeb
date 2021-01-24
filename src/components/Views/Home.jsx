@@ -1,7 +1,5 @@
-
-import { ShadowBox } from 'components/Design/ShadowBox';
-import { CheckSiteForm } from 'components/Forms/CheckSiteForm';
-import { CheckWebResultForm } from 'components/Forms/CheckWebResultForm';
+import { CheckSiteForm } from '../Forms/CheckSiteForm';
+import { WebTestResult } from '../Design/WebTestResult';
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import './Home.css'
@@ -31,7 +29,7 @@ export class Home extends Component {
                 </div>
                 {url !== "" ?
                     <div className="resultBox">
-                        <CheckWebResultForm onClick="" url={url} />
+                        <WebTestResult onClick="" url={url} />
                     </div>
                     : <div></div>}
             </Container>

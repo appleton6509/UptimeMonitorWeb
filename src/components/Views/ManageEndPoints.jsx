@@ -53,7 +53,7 @@ export class ManageEndPoints extends Component {
             <Fragment>
                 <Row>
                     <Col lg="6" >
-                        <ShadowBox className="p-2">
+                        <ShadowBox className="p-2 mb-2">
                             <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.toggleRefresh} />
                         </ShadowBox>
                     </Col>

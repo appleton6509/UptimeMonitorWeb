@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Button, CardBody, CardTitle } from 'reactstrap';
 import LoadingSpinner from 'components/Design/LoadingSpinner';
-import './CheckWebResultForm.css'
-export class CheckWebResultForm extends Component {
+import './WebTestResult.css'
+export class WebTestResult extends Component {
     static propTypes = {
         url: PropTypes.string,
         className: PropTypes.string,
