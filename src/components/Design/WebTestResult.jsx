@@ -31,7 +31,7 @@ export class WebTestResult extends Component {
         const { url } = this.props;
         if (url === "")
             return;
-        let reachable = await fetch("https://" + url, {
+        let reachable = await fetch(url, {
             mode: 'no-cors',
             method: 'GET' 
         })
