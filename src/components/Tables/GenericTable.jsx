@@ -69,11 +69,11 @@ export class GenericTable extends Component {
     }
 
     deleteRow = (rowData) => {
-        let newData = this.state.data.map(x => x);
-        let index = this.state.data.indexOf(element => {element.id === rowData["id"]});
-        newData.splice(index);
+        let workingData = this.state.data.map(x => x);
+        let itemToDeleteIndex = this.state.data.findIndex(x=>x.id === rowData["id"])
+        let deletedRow = workingData.splice(itemToDeleteIndex,1);
         EndPointService.delete(rowData["id"]);
-        this.setState({data: newData});
+        this.setState({data: workingData});
     }
     setPagination = (page) => {
         if (page) {
