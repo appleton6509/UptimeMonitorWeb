@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import { toast } from 'react-toastify';
 import { Button,Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Spinner } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 
@@ -15,18 +16,30 @@ export class CreateLoginForm extends Component {
     onSubmit = async (event) => {
         event.preventDefault();
         const authContext = this.context;
-        const username = event.target.username.value;
         const password = event.target.password.value;
-        this.setState({isLoading: true});
+        const validUser = this.validateUserName(event.target.username.value);
+        if (!validUser)
+            return; 
 
-         await authContext.createLogin(username,password).then(result => {
+        this.setState({isLoading: true});
+         await authContext.createLogin(validUser,password).then(result => {
             if (result.success) 
-                 authContext.login(username,password).then(result2 => {
+                 authContext.login(validUser,password).then(result2 => {
                     if (result2.success)  
                         window.location.replace("/Dashboard");
                 }).catch()
         });
          setTimeout(()=> {this.setState({isLoading: false});},250);
+    }
+    validateUserName = (username) => {
+        let user = username.toLowerCase();
+        const validUser = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
+        if (validUser.test(user))
+            return user;
+        else {
+            toast.error("Please enter a valid email address");
+            return false;
+        }
     }
     render() {
         return(

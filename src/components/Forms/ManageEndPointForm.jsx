@@ -46,7 +46,7 @@ export class ManageEndPointForm extends Component {
         if (validUrlRegEx.test(newUrl))
             return newUrl;
         else
-            throw new Error("Invalid web address - " + newUrl);
+            throw new Error("Site must be a valid web address");
     }
 
     onClickReset = () => {
@@ -59,9 +59,9 @@ export class ManageEndPointForm extends Component {
         let ip;
         let id = event.target.id.value
         let description = event.target.description.value
-
+        
         try {
-            ip = this.validateUrl(event.target.ip.value,urlPrepend )
+            ip = this.validateUrl(event.target.ip.value,urlPrepend)
         } catch (e) {
             toast.error(e.message);
             return;
