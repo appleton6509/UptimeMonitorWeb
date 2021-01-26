@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Row, Col, Form, Button, Label, Input, FormGroup, InputGroupText, InputGroup, InputGroupAddon, InputGroupButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import { EndPointService } from '../Services/endpointservice';
 import PropTypes from 'prop-types';
@@ -14,21 +14,34 @@ export class ManageEndPointForm extends Component {
         this.state = {
             isModifying: false,
             dropdownOpen: false,
-            urlPrepend: 'https://'
+            urlPrepend: 'https://',
+            endpoint: {
+                ip: "",
+                description: "",
+                id: ""
+            }
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.endpoint !== this.props.endpoint) {
-            document.getElementById("id").value = nextProps.endpoint.id;
-            document.getElementById("description").value = nextProps.endpoint.description;
-            document.getElementById("ip").value = nextProps.endpoint.ip;
-            if (nextProps.endpoint.id)
-                this.setState({ isModifying: true });
+    processEndPointProps = () => {
+        const ip = this.props.endpoint.ip
+        const description = this.props.endpoint.description 
+        const id = this.props.endpoint.id 
+        let urlPrepend = this.state.urlPrepend;
+        let newIp = ip;
+        if (ip.startsWith("https://")) {
+            newIp = ip.substr(8);
+            urlPrepend = "https://"
         }
-        else if (nextState !== this.state) {
-            return true;
+        else if (ip.startsWith("http://")) {
+            newIp = ip.substr(7);
+            urlPrepend = "http://"
         }
-        return false;
+        this.setState({ isModifying: true, urlPrepend: urlPrepend, endpoint: { ip: newIp, description: description, id: id } });
+    }
+    componentDidUpdate(prevProps,prevState) {
+        if (JSON.stringify(prevProps.endpoint) != JSON.stringify(this.props.endpoint)) {
+            this.processEndPointProps()
+        }
     }
     fetchPutEndPoint = async (endPoint) => {
         return await EndPointService.put(endPoint)
@@ -56,31 +69,29 @@ export class ManageEndPointForm extends Component {
     onSubmitAddEndpoint = async (event) => {
         event.preventDefault();
         const {urlPrepend} = this.state;
-        let ip;
-        let id = event.target.id.value
-        let description = event.target.description.value
-        
+        const {ip, description, id} = event.target;
         try {
-            ip = this.validateUrl(event.target.ip.value,urlPrepend)
+            this.validateUrl(ip.value,urlPrepend)
         } catch (e) {
             toast.error(e.message);
             return;
         }
 
         let endPointPost = {
-            Ip: ip,
-            Description: description
+            Ip: ip.value,
+            Description: description.value
         };
         let endPointPut = {
-            Id: id,
-            Ip: ip,
-            Description: description
+            Id: id.value,
+            Ip: ip.value,
+            Description: description.value
         };
 
         if (this.state.isModifying) {
             this.fetchPutEndPoint(endPointPut).then(res => {
                 if (res !== undefined && res.ok) {
                     this.setState({ isModifying: false });
+                    this.setState({endpoint: {ip: "", description: "", id: ""}});
                     event.target.reset();
                     this.props.onPostSuccess();
                 }
@@ -88,14 +99,12 @@ export class ManageEndPointForm extends Component {
         } else {
             this.fetchPostEndPoint(endPointPost).then(res => {
                 if (res !== undefined && res.ok) {
+                    this.setState({endpoint: {ip: "", description: "", id: ""}});
                     event.target.reset();
                     this.props.onPostSuccess();
                 }
             })
         }
-    }
-    onChangeHandler = (e) => {
-        document.getElementById(e.target.id).value = e.target.value
     }
     toggleDropDown = () => {
         const { dropdownOpen } = this.state;
@@ -104,12 +113,14 @@ export class ManageEndPointForm extends Component {
     onClick_DropDown = (e) => {
         if (e.target.innerText === '')
             return;
-
         this.setState({ urlPrepend: e.target.innerText });
     }
 
     render() {
-        const {urlPrepend, dropdownOpen} = this.state;
+        const {urlPrepend, dropdownOpen } = this.state;
+        const ip = this.state.endpoint.ip ? this.state.endpoint.ip : this.props.endpoint.ip
+        const description = this.state.endpoint.description ? this.state.endpoint.description : this.props.endpoint.description
+        const id = this.state.endpoint.id ? this.state.endpoint.id : this.props.endpoint.id
         return (
             <Form onSubmit={this.onSubmitAddEndpoint}>
                 <Row>
@@ -118,24 +129,24 @@ export class ManageEndPointForm extends Component {
                             <Label>Site</Label>
                             <InputGroup>
                                 <InputGroupButtonDropdown addonType="prepend" id="protocol" name="protocol" onClick={this.onClick_DropDown} isOpen={dropdownOpen} toggle={this.toggleDropDown}>
-                                    <DropdownToggle caret>{urlPrepend}</DropdownToggle>
+                                    <DropdownToggle caret id="urlPrepend" name="urlPrepend">{urlPrepend}</DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>https://</DropdownItem>
                                         <DropdownItem>http://</DropdownItem>
                                     </DropdownMenu>
                                 </InputGroupButtonDropdown>
-                                <Input onChange={this.onChangeHandler} id="ip" name="ip" placeholder="www.uptime.com" />
+                                <Input onChange={e => this.setState({ endpoint: {ip: e.target.value }})} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />
                             </InputGroup>
                         </FormGroup>
                     </Col>
                     <Col>
                         <FormGroup>
                             <Label>Description</Label>
-                            <Input onChange={this.onChangeHandler} id="description" name="description"
+                            <Input onChange={e => this.setState({ endpoint: {description: e.target.value }})} id="description" name="description" value={description}
                                 placeholder="Site Description" />
                         </FormGroup>
                         <FormGroup>
-                            <Input onChange={this.onChangeHandler} id="id" name="id" hidden={true} />
+                            <Input onChange={e => this.setState({ endpoint: {id: e.target.value }})} id="id" name="id" value={id} hidden={true} />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -147,6 +158,7 @@ export class ManageEndPointForm extends Component {
                             <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
                         <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
                             <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
+                          
                     </Col>
                 </Row>
             </Form>
