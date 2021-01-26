@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Card, Button, CardBody, CardTitle } from 'reactstrap';
 import LoadingSpinner from 'components/Design/LoadingSpinner';
 import './WebTestResult.css'
+import { FetchService } from 'components/Services/fetchservice';
+import { toast } from 'react-toastify';
 export class WebTestResult extends Component {
     static propTypes = {
         url: PropTypes.string,
@@ -26,21 +28,21 @@ export class WebTestResult extends Component {
             this.fetchStatus();
         }
     }
-
     fetchStatus = async () => {
-        const { url } = this.props;
-        if (url === "")
-            return;
-        let reachable = await fetch(url, {
-            mode: 'no-cors',
-            method: 'GET' 
+        const rawUrl = this.props.url.toLowerCase();
+        const url = 'EndPoints/OnlineStatus/' + encodeURIComponent(rawUrl);
+        let isSuccess = true;
+        await FetchService.fetchNow(url,"GET").then(res => {
+            if (res.ok)
+                return res.text();
+        }).then(body => {
+             isSuccess = (body === 'true') ? true : false
         })
-            .then(res => {
-                return true
-            }).catch(error => {
-                return false
-            })
-        this.setState({ isReachable: reachable, isVisible: true, isLoading: false })
+        .catch(err => {
+                isSuccess = false;
+                toast.error(err);
+        })
+        this.setState({ isReachable: isSuccess, isVisible: true, isLoading: false })
     }
 
     render() {
@@ -76,10 +78,10 @@ export class WebTestResult extends Component {
                     </CardTitle>
                     <CardBody className="style-body">
                         <h3>{messageTitle}</h3>
-                        <p>
+                        <br/>
                         {isLoading ? <LoadingSpinner height="5rem"></LoadingSpinner> : ""}
                             {message}
-                        </p>
+                        <br/>
                         {isLoading ? "" : <Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button> }
                     </CardBody>
                 </Card>
