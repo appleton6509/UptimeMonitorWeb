@@ -63,7 +63,7 @@ export class ManageEndPointForm extends Component {
     }
 
     onClickReset = () => {
-        this.setState({ isModifying: false });
+        this.setState({ isModifying: false ,endpoint: {ip: "", description: "", id: ""}});
     }
 
     onSubmitAddEndpoint = async (event) => {
@@ -78,21 +78,19 @@ export class ManageEndPointForm extends Component {
         }
 
         let endPointPost = {
-            Ip: ip.value,
+            Ip: urlPrepend + ip.value,
             Description: description.value
         };
         let endPointPut = {
             Id: id.value,
-            Ip: ip.value,
+            Ip: urlPrepend + ip.value,
             Description: description.value
         };
 
         if (this.state.isModifying) {
             this.fetchPutEndPoint(endPointPut).then(res => {
                 if (res !== undefined && res.ok) {
-                    this.setState({ isModifying: false });
-                    this.setState({endpoint: {ip: "", description: "", id: ""}});
-                    event.target.reset();
+                    this.setState({ isModifying: false ,endpoint: {ip: "", description: "", id: ""}});
                     this.props.onPostSuccess();
                 }
             })
@@ -100,7 +98,6 @@ export class ManageEndPointForm extends Component {
             this.fetchPostEndPoint(endPointPost).then(res => {
                 if (res !== undefined && res.ok) {
                     this.setState({endpoint: {ip: "", description: "", id: ""}});
-                    event.target.reset();
                     this.props.onPostSuccess();
                 }
             })
@@ -118,11 +115,11 @@ export class ManageEndPointForm extends Component {
 
     render() {
         const {urlPrepend, dropdownOpen } = this.state;
-        const ip = this.state.endpoint.ip ? this.state.endpoint.ip : this.props.endpoint.ip
-        const description = this.state.endpoint.description ? this.state.endpoint.description : this.props.endpoint.description
-        const id = this.state.endpoint.id ? this.state.endpoint.id : this.props.endpoint.id
+        const ip = this.state.endpoint.ip
+        const description = this.state.endpoint.description 
+        const id = this.state.endpoint.id 
         return (
-            <Form onSubmit={this.onSubmitAddEndpoint}>
+            <Form onSubmit={this.onSubmitAddEndpoint} autoComplete="new-password">
                 <Row>
                     <Col>
                         <FormGroup>
@@ -135,14 +132,14 @@ export class ManageEndPointForm extends Component {
                                         <DropdownItem>http://</DropdownItem>
                                     </DropdownMenu>
                                 </InputGroupButtonDropdown>
-                                <Input onChange={e => this.setState({ endpoint: {ip: e.target.value }})} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />
+                                <Input autoComplete="new-password" onChange={e => this.setState({ endpoint: {ip: e.target.value }})} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />
                             </InputGroup>
                         </FormGroup>
                     </Col>
                     <Col>
                         <FormGroup>
                             <Label>Description</Label>
-                            <Input onChange={e => this.setState({ endpoint: {description: e.target.value }})} id="description" name="description" value={description}
+                            <Input autoComplete="new-password" onChange={e => this.setState({ endpoint: {description: e.target.value }})} id="description" name="description" value={description}
                                 placeholder="Site Description" />
                         </FormGroup>
                         <FormGroup>
