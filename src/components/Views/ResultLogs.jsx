@@ -16,9 +16,9 @@ export class ResultLogs extends PureComponent {
                 "id": "id",
                 "isReachable": "",
                 "timeStamp": "",
+                "protocol": "Protocol",
                 "ip": "Site",
                 "description": "Description",
-
                 "latency": "Latency",
                 "status": "Message"
             },

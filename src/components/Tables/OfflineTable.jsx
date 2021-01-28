@@ -13,7 +13,8 @@ static propTypes = {
                 "ip": "Site",
                 "description": "Description",
                 "lastonline": "Last Seen",
-                "id": "id"
+                "id": "id",
+                "protocol": "Protocol"
             },
             hideColumns: {
                 "id": "id",

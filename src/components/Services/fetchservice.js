@@ -26,8 +26,10 @@ export class FetchService extends Component {
             body: (body != null ? JSON.stringify(body) : null)
         })
             .then(res => {
-                if (res.status === 401)
+                if (res.status === 401) {
+                    console.log("user not authorized");
                     window.location.replace("/deauthorize")
+                }
                 if (res.ok)
                     return res;
                 else {

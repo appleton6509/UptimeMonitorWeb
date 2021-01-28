@@ -74,7 +74,7 @@ export class WebTestResult extends Component {
                 <Card className={cardClass} >
                     <CardTitle className={cardTitleClasses}>
                         <h1>{title}</h1>
-                        <h4>{url}</h4>
+                        <h6>{url}</h6>
                     </CardTitle>
                     <CardBody className="style-body">
                         <h3>{messageTitle}</h3>

@@ -149,7 +149,7 @@ class AuthProvider extends Component {
         window.location.replace("/");
     }
     navigateDashboard = () => {
-        window.location.replace("/Dashboard");
+        window.location.replace("/Performance");
     }
     unauthorized = () => {
         this.setToken("");

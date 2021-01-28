@@ -14,7 +14,7 @@ export class ManageEndPoints extends Component {
         super(props);
         this.state = {
             isFetching: false,
-            endpoint: { ip: "", description: "", id: "" },
+            endpoint: { ip: "", description: "", id: "", protocol: "", notifyonfailure: "", userid: "" },
             refreshChild: false
         }
     }
@@ -27,12 +27,17 @@ export class ManageEndPoints extends Component {
     }
     onClickGetSelected = (epobject) => {
         if (!epobject) return;
+        //values in EP are case sensitive
         const ep = {
             id: epobject["id"],
             ip: epobject["ip"],
-            description: epobject["description"]
+            description: epobject["description"],
+            protocol: epobject["protocol"],
+            userid: epobject["userId"],
+            notifyonfailure: epobject["notifyOnFailure"]
         }
-        this.setState({ endpoint: { ip: ep.ip, id: ep.id, description: ep.description } });
+        this.setState({ endpoint: { ip: ep.ip, id: ep.id, notifyonfailure: ep.notifyonfailure,
+            description: ep.description, protocol: ep.protocol, userid: ep.userid } });
     }
     toggleRefresh = () => {
         const refreshChild = !this.state.refreshChild;
@@ -42,10 +47,15 @@ export class ManageEndPoints extends Component {
         const headersMap = {
             "id": "id",
             "ip": "Site",
-            "description": "Description"
+            "description": "Description",
+            "protocol" : "Protocol",
+            "userId" : "userId",
+            "notifyOnFailure": "notifyOnFailure"
         }
         const hideColumns = {
-            "id": "id"
+            "id": "id",
+            "userId": "userId",
+            "notifyOnFailure": "notifyOnFailure"
         }
         const uri = "EndPoints";
         const { endpoint, refreshChild } = this.state;

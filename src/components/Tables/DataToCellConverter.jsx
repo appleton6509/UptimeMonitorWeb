@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import '../Utilities/protocolmapper';
+import protocolmapper from '../Utilities/protocolmapper';
 /**
  * unqiue number used for keys/id's
  */
@@ -42,11 +44,23 @@ export class DataToCellConverter extends Component {
         return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
             id={id} key={"cell-" + index}>{value > 0 ? value + " ms" : " "}</td>;
     }
-    formatDefault() {
+    formatProtocol() {
         const { hideColumns, header, index, value } = this.props;
         const id = this.getId();
         return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
             id={id} key={"cell-" + index}>{value}</td>;
+    }
+    formatDefault() {
+        const { hideColumns, header, index, value } = this.props;
+        const id = this.getId();
+        let newValue;
+        if (value === true) 
+            newValue = "true";
+        else if (value === false)
+            newValue = "false";
+        else newValue = value;
+        return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}          
+            id={id} key={"cell-" + index}>{newValue}</td>;
     }
     formatIsReachable() {
         const { hideColumns, header, index, value } = this.props;
@@ -86,6 +100,9 @@ export class DataToCellConverter extends Component {
                 break;
             case "date":
                 htmlData = this.formatDate();
+                break;
+            case "protocol":
+                htmlData = this.formatProtocol();
                 break;
             default:
                 htmlData = this.formatDefault();

@@ -20,6 +20,7 @@ export class Performance extends PureComponent {
                 ip: "",
                 description: "",
                 isReachable: "",
+                protocol: "",
                 averageLatency: "",
                 lastDownTime: "",
                 lastSeen: "",
@@ -31,6 +32,7 @@ export class Performance extends PureComponent {
             return;
         let data = {
             id: rowData["id"],
+            protocol: rowData["protocol"],
             ip: rowData["ip"] ? rowData["ip"].toUpperCase() : "",
             description: rowData["description"] ? rowData["description"].toUpperCase() : "",
             averageLatency: rowData["averageLatency"],
@@ -67,6 +69,7 @@ export class Performance extends PureComponent {
             headersMap: {
                 "id": "id",
                 "isReachable": "",
+                "protocol": "Protocol",
                 "ip": "Site",
                 "description": "Description",
                 "averageLatency": "Average Latency",
