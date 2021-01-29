@@ -1,14 +1,15 @@
-import React, { Component, PureComponent } from 'react';
-import { Row, Col, Form, Button, Label, Input, FormGroup, InputGroupText, InputGroup, InputGroupAddon, InputGroupButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, Dropdown } from 'reactstrap';
+import React, { Component } from 'react';
+import { Row, Col, Form, Button, Label, Input, FormGroup, InputGroup, DropdownMenu, DropdownItem, DropdownToggle, Dropdown } from 'reactstrap';
 import { EndPointService } from '../Services/endpointservice';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import protocolmapper from 'components/Utilities/protocolmapper';
-
+import ipRegex from 'ip-regex';
+import urlRegex from 'url-regex-safe'
 export class ManageEndPointForm extends Component {
     static propTypes = {
         endpoint: PropTypes.object.isRequired,
         onPostSuccess: PropTypes.func,
+        protocols: PropTypes.array
     }
     constructor(props) {
         super(props);
@@ -44,14 +45,13 @@ export class ManageEndPointForm extends Component {
             .catch(err => { toast.error(err) })
         return value
     }
-    validateUrl = (url, protocol) => {
-        let urlcopy = url;
-        let newUrl = protocol + "://" + urlcopy;
-        const validUrlRegEx = new RegExp('^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$');
-        if (validUrlRegEx.test(newUrl.toLowerCase()))
-            return newUrl;
+    isValidUrl = (url) => {
+        let isValidIp = ipRegex().test(url);
+        let isValidUrl = urlRegex({localhost: false}).test(url);
+         if (isValidIp || isValidUrl)
+            return true
         else
-            throw new Error("Site must be a valid web address");
+            return false;
     }
 
     onClickReset = () => {
@@ -62,12 +62,11 @@ export class ManageEndPointForm extends Component {
         event.preventDefault();
         const { ip, description, id, protocol, userid, notifyonfailure } = event.target;
 
-        try {
-            this.validateUrl(ip.value, protocol.innerText)
-        } catch (e) {
-            toast.error(e.message);
+        if (!this.isValidUrl(ip.value)) {
+            toast.error("Site must be a valid web/ip address");
             return;
         }
+
 
         let endPointPost = {
             Ip: ip.value,
@@ -140,8 +139,10 @@ export class ManageEndPointForm extends Component {
                                 <Dropdown addonType="prepend" isOpen={dropdownOpen} toggle={this.toggleDropDown}>
                                     <DropdownToggle caret id="protocol" name="protocol">{protocol}</DropdownToggle>
                                     <DropdownMenu onClick={this.onDropDownSelect}>
-                                        <DropdownItem>Https</DropdownItem>
-                                        <DropdownItem>Http</DropdownItem>
+                                    {this.props.protocols.map((value, index) => {
+                                        const keyval = "dropdown-"+index;
+                                        return (<DropdownItem key={keyval}>{value}</DropdownItem>);
+                                    })}
                                     </DropdownMenu>
                                 </Dropdown>
                                 <Input autoComplete="new-password" onChange={e => this.setState({ endpoint: { ip: e.target.value, id: id, description: description, protocol: protocol,userid: userid, notifyonfailure: notifyonfailure} })} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />

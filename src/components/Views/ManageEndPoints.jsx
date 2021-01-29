@@ -44,6 +44,7 @@ export class ManageEndPoints extends Component {
         this.setState({ refreshChild: refreshChild})
     }
     render() {
+        const protocols = ["http","https", "ftp", "ftps", "sftp"];
         const headersMap = {
             "id": "id",
             "ip": "Site",
@@ -64,7 +65,7 @@ export class ManageEndPoints extends Component {
                 <Row>
                     <Col lg="6" >
                         <ShadowBox className="p-2 mb-2">
-                            <ManageEndPointForm endpoint={endpoint} onPostSuccess={this.toggleRefresh} />
+                            <ManageEndPointForm endpoint={endpoint} protocols={protocols} onPostSuccess={this.toggleRefresh} />
                         </ShadowBox>
                     </Col>
                 </Row>
