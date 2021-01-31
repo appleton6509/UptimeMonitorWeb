@@ -131,7 +131,7 @@ export class GenericTable extends Component {
         if (isLoading && data.length === 0 && toggleRefresh)
             return (<LoadingSpinner />);
         return (
-            <Table className="table-small" hover responsive id="table">
+            <Table className="table-borderless table-small table-responsive-md" hover responsive id="table">
                 {showHeaders ?
                     <thead>
                         <tr><DataToHeaderConverter headersMap={headersMap} hideColumns={hideColumns} /></tr>

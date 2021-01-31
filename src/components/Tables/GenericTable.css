@@ -2,7 +2,9 @@
     display: none
 }
 .table-small {
-    font-size: 10px !important
+    vertical-align: middle;
+    font-size: small;
+    display: table;
 }
 
 .on-icon {

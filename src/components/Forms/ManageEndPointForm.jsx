@@ -16,20 +16,18 @@ export class ManageEndPointForm extends Component {
         this.state = {
             isModifying: false,
             dropdownOpen: false,
-            endpoint: {
                 ip: "",
                 description: "",
                 id: "",
                 protocol: "Https",
                 userid: "",
                 notifyonfailure: true
-            }
         }
     }
     processEndPointProps = () => {
         const {ip,description, id, protocol, userid, notifyonfailure} = {...this.props.endpoint}
-         this.setState({ isModifying: true, endpoint: { ip: ip, description: description, id: id, 
-            protocol: protocol, userid: userid, notifyonfailure: notifyonfailure === 'true' ? true : false } });
+         this.setState({ isModifying: true, ip: ip, description: description, id: id, 
+            protocol: protocol, userid: userid, notifyonfailure: notifyonfailure === 'true' ? true : false });
     }
     componentDidUpdate(prevProps, prevState) {
         if (JSON.stringify(prevProps.endpoint) != JSON.stringify(this.props.endpoint)) {
@@ -55,31 +53,31 @@ export class ManageEndPointForm extends Component {
     }
 
     onClickReset = () => {
+        this.setState({isModifying: false});
         this.resetEndPointState();
     }
 
     onSubmitAddEndpoint = async (event) => {
         event.preventDefault();
-        const { ip, description, id, protocol, userid, notifyonfailure } = event.target;
+        const { ip, description, id, protocol, userid } = event.target;
 
         if (!this.isValidUrl(ip.value)) {
             toast.error("Site must be a valid web/ip address");
             return;
         }
 
-
         let endPointPost = {
             Ip: ip.value,
             Description: description.value,
             Protocol: protocol.innerText,
-            NotifyOnFailure: this.state.endpoint.notifyonfailure
+            NotifyOnFailure: this.state.notifyonfailure
         };
         let endPointPut = {
             Id: id.value,
             Ip: ip.value,
             Description: description.value,
             Protocol: protocol.innerText,
-            NotifyOnFailure: this.state.endpoint.notifyonfailure,
+            NotifyOnFailure: this.state.notifyonfailure,
             UserId: userid.value
         };
 
@@ -87,6 +85,7 @@ export class ManageEndPointForm extends Component {
             this.fetchPutEndPoint(endPointPut).then(res => {
                 if (res !== undefined && res.ok) {
                     this.resetEndPointState();
+                    this.setState({isModifying: false});
                     this.props.onPostSuccess();
                 }
             })
@@ -100,34 +99,26 @@ export class ManageEndPointForm extends Component {
         }
     }
     resetEndPointState = () => {
-        this.setState({ endpoint: { ip: "", description: "", userid: "", notifyonfailure: "",
-        id: "", protocol: "Https" } });
+        this.setState({ ip: "", description: "", userid: "", notifyonfailure: false,
+        id: "", protocol: "Https" });
     }
     toggleDropDown = () => {
         const { dropdownOpen } = this.state;
         this.setState({ dropdownOpen: !dropdownOpen });
     }
-    onDropDownSelect = (e) => {
-        const { ip, description, id, userid, notifyonfailure } = {...this.state.endpoint}
+    onDropDown_Protocol = (e) => {
         if (e.target.innerText === '')
             return;
-        this.setState({
-            endpoint: {
-                protocol: e.target.innerText, id: id,
-                ip: ip, description: description, 
-                userid: userid, notifyonfailure: notifyonfailure
-            }
-        });
+        this.setState({ protocol: e.target.innerText });
     }
 
-    onCheckedChange = (e) => {
-        const { ip, description, id, userid,protocol, notifyonfailure } = {...this.state.endpoint}
-       this.setState({ endpoint: { description: description, ip: ip, id: id, protocol: protocol,userid: userid,
-             notifyonfailure: !notifyonfailure }});
+    onChecked_NotifyOnFailure = (e) => {
+        const { notifyonfailure } = {...this.state}
+       this.setState({ notifyonfailure: !notifyonfailure });
     }
     render() {
         const { dropdownOpen } = this.state;
-        const {ip,protocol, description, id, notifyonfailure, userid} = {...this.state.endpoint}
+        const {ip,protocol, description, id, notifyonfailure, userid} = {...this.state}
 
         return (
             <Form onSubmit={this.onSubmitAddEndpoint} autoComplete="new-password">
@@ -138,28 +129,28 @@ export class ManageEndPointForm extends Component {
                             <InputGroup>
                                 <Dropdown addonType="prepend" isOpen={dropdownOpen} toggle={this.toggleDropDown}>
                                     <DropdownToggle caret id="protocol" name="protocol">{protocol}</DropdownToggle>
-                                    <DropdownMenu onClick={this.onDropDownSelect}>
+                                    <DropdownMenu onClick={this.onDropDown_Protocol}>
                                     {this.props.protocols.map((value, index) => {
                                         const keyval = "dropdown-"+index;
                                         return (<DropdownItem key={keyval}>{value}</DropdownItem>);
                                     })}
                                     </DropdownMenu>
                                 </Dropdown>
-                                <Input autoComplete="new-password" onChange={e => this.setState({ endpoint: { ip: e.target.value, id: id, description: description, protocol: protocol,userid: userid, notifyonfailure: notifyonfailure} })} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />
+                                <Input autoComplete="new-password" onChange={e => this.setState({ ip: e.target.value })} id="ip" name="ip" value={ip} placeholder="www.uptime.com" />
                             </InputGroup>
                         </FormGroup>
                     </Col>
                     <Col>
                         <FormGroup>
                             <Label>Description</Label>
-                            <Input autoComplete="new-password" onChange={e => this.setState({ endpoint: { description: e.target.value, ip: ip, id: id, protocol: protocol,userid: userid, notifyonfailure: notifyonfailure } })} id="description" name="description" value={description}
+                            <Input autoComplete="new-password" onChange={e => this.setState({  description: e.target.value })} id="description" name="description" value={description}
                                 placeholder="Site Description" />
                         </FormGroup>
                         <FormGroup>
-                            <Input id="id" name="id" value={id} hidden={true} />
+                            <Input id="id" name="id" value={id} readOnly hidden={true} />
                         </FormGroup>
                         <FormGroup>
-                            <Input id="userid" name="userid" value={userid} hidden={true} />
+                            <Input id="userid" name="userid" value={userid} readOnly hidden={true} />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -171,13 +162,11 @@ export class ManageEndPointForm extends Component {
                             <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
                         <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
                             <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
-
                     </Col>
                     <Col>
              <FormGroup className="ml-4">
-             <Input type="checkbox" id="notifyonfailure" name="notifyonfailure" checked={notifyonfailure} onChange={this.onCheckedChange} />
+             <Input type="checkbox" id="notifyonfailure" name="notifyonfailure" checked={notifyonfailure} onChange={this.onChecked_NotifyOnFailure} />
                  <Label check>Email on Failure?</Label>
-
              </FormGroup>
                     </Col>
                 </Row>

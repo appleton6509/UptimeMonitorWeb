@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import '../Utilities/protocolmapper';
-import protocolmapper from '../Utilities/protocolmapper';
+import "./DataToCellConverter.css";
 /**
  * unqiue number used for keys/id's
  */
@@ -26,6 +25,7 @@ export class DataToCellConverter extends Component {
         uniqueId++
         return uniqueId;
     }
+
     formatDate = () => {
         const { hideColumns, header, index, value } = this.props;
         const id = this.getId();
@@ -35,7 +35,7 @@ export class DataToCellConverter extends Component {
             var date = moment.utc(value).toDate()
             newValue = moment(date).format("LLL")
         }
-        return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
+        return <td headers={header} className={(header === hideColumns[header] ? "hide " : "cell")}
             id={id} key={"cell-" + index}>{newValue}</td>;
     }
     formatLatency() {
@@ -47,8 +47,16 @@ export class DataToCellConverter extends Component {
     formatProtocol() {
         const { hideColumns, header, index, value } = this.props;
         const id = this.getId();
-        return <td headers={header} className={(header === hideColumns[header] ? "hide" : "")}
-            id={id} key={"cell-" + index}>{value}</td>;
+        return <td headers={header} className={(header === hideColumns[header] ? "hide" : "cell")}
+            id={id} key={"cell-" + index}><div style={{fontSize: "0.8rem", fontWeight: "lighter", fontFamily: ""}}><div className="p-2 badge badge-primary">{value}</div></div></td>;
+    }
+    formatNotify() {
+        const { hideColumns, header, index, value } = this.props;
+        const id = this.getId();
+        return <td headers={header} data-fetch={value} className={(header === hideColumns[header] ? "hide" : "cell")}
+            id={id} key={"cell-" + index}>
+            {value ? <a className="fa fa-check mt-auto mb-auto"></a> : ""}
+            </td>;
     }
     formatDefault() {
         const { hideColumns, header, index, value } = this.props;
@@ -83,8 +91,12 @@ export class DataToCellConverter extends Component {
             returnValue = "date";
         else if (head === "latency" || head === "averagelatency")
             returnValue = "latency";
-        else if (head === "isreachable")
+            else if (head === "isreachable")
             returnValue = "isreachable"
+            else if (head === "protocol")
+            returnValue = "protocol"
+            else if (head === "notifyonfailure")
+            returnValue = "notifyonfailure"
         else returnValue = head;
         return returnValue;
     }
@@ -101,9 +113,12 @@ export class DataToCellConverter extends Component {
             case "date":
                 htmlData = this.formatDate();
                 break;
-            case "protocol":
-                htmlData = this.formatProtocol();
-                break;
+                case "protocol":
+                    htmlData = this.formatProtocol();
+                    break;
+                    case "notifyonfailure":
+                        htmlData = this.formatNotify();
+                        break;
             default:
                 htmlData = this.formatDefault();
         }

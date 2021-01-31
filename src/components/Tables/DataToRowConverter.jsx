@@ -94,7 +94,7 @@ export class DataToRowConverter extends Component {
                         })}
                         {showDeleteIcon ?
                             <td id={"trashcancell-" + generatedId}>
-                                <i onClick={this.onClick_DeleteIcon} id={"trashicon-" + generatedId} className="fa fa-trash-o trashcan"></i>
+                                <i onClick={this.onClick_DeleteIcon} id={"trashicon-" + generatedId} className="p-1 fa fa-trash-o trashcan text-danger"></i>
                             </td> : null}
                     </tr>
                 );

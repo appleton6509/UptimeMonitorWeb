@@ -15,7 +15,7 @@ export class ResultLogs extends PureComponent {
             headersMap: {
                 "id": "id",
                 "isReachable": "",
-                "timeStamp": "",
+                "timeStamp": "Timestamp",
                 "protocol": "Protocol",
                 "ip": "Site",
                 "description": "Description",

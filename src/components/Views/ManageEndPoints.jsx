@@ -14,7 +14,14 @@ export class ManageEndPoints extends Component {
         super(props);
         this.state = {
             isFetching: false,
-            endpoint: { ip: "", description: "", id: "", protocol: "", notifyonfailure: "", userid: "" },
+            endpoint: {
+                ip: "",
+                description: "",
+                id: "", 
+                protocol: "", 
+                notifyonfailure: "", 
+                userid: "" 
+            },
             refreshChild: false
         }
     }
@@ -36,8 +43,7 @@ export class ManageEndPoints extends Component {
             userid: epobject["userId"],
             notifyonfailure: epobject["notifyOnFailure"]
         }
-        this.setState({ endpoint: { ip: ep.ip, id: ep.id, notifyonfailure: ep.notifyonfailure,
-            description: ep.description, protocol: ep.protocol, userid: ep.userid } });
+        this.setState({endpoint: {...ep}});
     }
     toggleRefresh = () => {
         const refreshChild = !this.state.refreshChild;
@@ -51,12 +57,11 @@ export class ManageEndPoints extends Component {
             "description": "Description",
             "protocol" : "Protocol",
             "userId" : "userId",
-            "notifyOnFailure": "notifyOnFailure"
+            "notifyOnFailure": "Notify?"
         }
         const hideColumns = {
             "id": "id",
-            "userId": "userId",
-            "notifyOnFailure": "notifyOnFailure"
+            "userId": "userId"
         }
         const uri = "EndPoints";
         const { endpoint, refreshChild } = this.state;
@@ -71,7 +76,7 @@ export class ManageEndPoints extends Component {
                 </Row>
                 <Row>
                     <Col lg="12" >
-                        <ShadowBox className="p-2">
+                        <ShadowBox className="p-2 text-center">
                             <GenericTable
                                 interval={160000}
                                 uri={uri}
