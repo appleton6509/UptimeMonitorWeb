@@ -28,7 +28,7 @@ export class DataToRowConverter extends Component {
         if (e.target.localName === "i")
             return;
         this.getSelectedRow(e).then((data) => {
-            if (Object.values(data).length > 0)
+            if (data && Object.values(data).length > 0)
                 this.props.onClickGetRow(data);
         })
     }
@@ -40,29 +40,35 @@ export class DataToRowConverter extends Component {
         return uniqueId;
     }
     getSelectedRow = async (e) => {
-        let x = document.getElementById(e.target.id).closest('td');
+        let x;
+        try {
+            x = e.target.closest('td');
+        } catch {/** may be null if certain cells clicked. */}
+
+        if (!x)
+        return;
+
         let rowData = {}
         let fetchdata;
         while (x != null) {
-            if (x.headers !== '')
+            if (x.headers !== '') {
                 fetchdata = x.getAttribute('data-fetch');
                 rowData[x.headers] = x.outerText !== "" ? x.outerText : fetchdata;
+            }
             try {
-                x = document.getElementById(x.id).nextSibling
+                x = x.nextSibling
             } catch {
                 x = null
             }
         }
-        x = document.getElementById(e.target.id).closest('td');
+        x = e.target.closest('td');
         while (x != null) {
             if (x.headers !== '') {
-                try {
-                    fetchdata = x.getAttribute('data-fetch');
-                } catch { /** this attribute may not always be present */}
+                fetchdata = x.getAttribute('data-fetch');
                 rowData[x.headers] = x.outerText !== "" ? x.outerText : fetchdata;
             }
             try {
-                x = document.getElementById(x.id).previousSibling
+                x = x.previousSibling
             } catch {
                 x = null
             }
