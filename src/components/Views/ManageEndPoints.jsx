@@ -50,7 +50,7 @@ export class ManageEndPoints extends Component {
         this.setState({ refreshChild: refreshChild})
     }
     render() {
-        const protocols = ["http","https", "ftp", "ftps", "sftp"];
+        const protocols = ["http","https", "ftp", "ftps", "sftp", "ssh", "telnet"];
         const headersMap = {
             "id": "id",
             "ip": "Site",
