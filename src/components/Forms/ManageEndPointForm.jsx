@@ -160,7 +160,7 @@ export class ManageEndPointForm extends Component {
                             <i className="fa fa-plus"></i>&nbsp;ADD</Button>
                         <Button type="submit" color="info" hidden={!this.state.isModifying} className="mr-3">
                             <i className="fa fa-refresh"></i>&nbsp;UPDATE</Button>
-                        <Button type="reset" color="info" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
+                        <Button type="reset" color="danger" onClick={this.onClickReset} hidden={!this.state.isModifying} className="mr-3">
                             <i className="fa fa-arrow-circle-up"></i>&nbsp;RESET</Button>
                     </Col>
                     <Col>

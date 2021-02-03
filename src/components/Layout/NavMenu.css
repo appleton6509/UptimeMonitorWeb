@@ -1,5 +1,11 @@
 ﻿
+i.lock:hover {
+  color: rgb(179, 167, 167);   
+}
+
+.fa-stack { font-size: 1.3em; }
 
 
-
-
+.linkicon {
+    font-size: 1.3rem;
+}

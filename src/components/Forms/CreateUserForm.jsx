@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Button,Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Spinner } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
 
-export class CreateLoginForm extends Component {
+export class CreateUserForm extends Component {
     static contextType = AuthContext;
     constructor(props){
         super(props);

@@ -15,8 +15,8 @@ export class NavMenu extends Component {
             isOpen: false
         };
     }
-    toggleOpen = () =>{
-        this.setState({isOpen: !this.state.isOpen});
+    toggleOpen = () => {
+        this.setState({ isOpen: !this.state.isOpen });
     }
 
     authenticated = (auth) => (
@@ -24,31 +24,45 @@ export class NavMenu extends Component {
             <Nav className="mr-auto" navbar>
                 <NavItem>
                     <NavLink tag={Link} className="text-dark  pr-5" to="/Performance">
-                    <i className="fa fa-bar-chart"></i>&nbsp;Performance</NavLink>
+                        <i className="linkicon fa fa-bar-chart"></i>&nbsp;Performance</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} className="text-dark  pr-5" to="/ManageEndPoints">
-                    <i className="fa fa-cog"></i>&nbsp;Manage</NavLink>
+                        <i className="linkicon fa fa-cog"></i>&nbsp;Manage</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} className="text-dark pr-5" to="/Logs">
-                    <i className="fa fa-dashboard"></i>&nbsp;Logs</NavLink>
+                        <i className="linkicon fa fa-dashboard"></i>&nbsp;Logs</NavLink>
                 </NavItem>
             </Nav>
             <Nav className="ml-auto" navbar>
+                <NavItem className="pr-2">
+                    <NavLink tag={Link} className="text-dark p-0" to="/Profile">
+                        <span className="fa-stack fa-2x">
+                            <i className="fa fa-circle fa-stack-2x"></i>
+                            <i className="fa fa-user fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </NavLink>
+                    {/* <NavLink>Hello! {auth.user.name}</NavLink> */}
+                </NavItem>
                 <NavItem >
-                    <Button onClick={auth.logout}>Logout</Button>
+                    <NavLink tag={Link} className="text-dark p-0" onClick={auth.logout}>
+
+                        <span className="fa-stack fa-2x">
+                            <i className="fa fa-circle fa-stack-2x"></i>
+                            <i className="fa fa-unlock-alt fa-stack-1x fa-inverse"></i>
+                        </span>
+                        
+                    </NavLink>
                 </NavItem>
-                <NavItem>
-                    <NavLink>Hello! {auth.user.name}</NavLink>
-                </NavItem>
+
             </Nav>
         </Fragment>
     );
     notAuthenticated = () => (
         <Nav navbar className="ml-auto">
             <NavItem className="pr-4">
-                <Button tag={Link} color="secondary" outline  className="pl-3 pr-3"to="/SignIn">Login</Button>
+                <Button tag={Link} color="secondary" outline className="pl-3 pr-3" to="/SignIn">Login</Button>
             </NavItem>
             <NavItem >
                 <Button tag={Link} color="primary" to="/SignUp">Get Started</Button>
@@ -56,20 +70,20 @@ export class NavMenu extends Component {
         </Nav>
     );
     render() {
-        const {isOpen} = this.state;
+        const { isOpen } = this.state;
         return (
             <header>
                 <Navbar light expand="sm" className="box-shadow">
                     <NavbarToggler onClick={this.toggleOpen} />
-                        <AuthConsumer>
-                            {(auth) => {
-                                return (
-                                    <Collapse isOpen={isOpen} navbar >
+                    <AuthConsumer>
+                        {(auth) => {
+                            return (
+                                <Collapse isOpen={isOpen} navbar >
                                     {auth.user.isAuthenticated ? this.authenticated(auth) : this.notAuthenticated()}
-                                    </Collapse>
-                                );
-                            }}
-                        </AuthConsumer>
+                                </Collapse>
+                            );
+                        }}
+                    </AuthConsumer>
                 </Navbar>
             </header>
         );

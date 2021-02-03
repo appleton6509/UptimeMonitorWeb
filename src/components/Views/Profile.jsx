@@ -1,23 +1,20 @@
-import React, { PureComponent } from 'react';
-import { Card, Container, Row, Col, CardBody } from 'reactstrap';
-import { CreateUserForm } from '../Forms/CreateUserForm';
-import '../Settings/theme.css';
-import { ShadowBox } from 'components/Design/ShadowBox';
+import { ShadowBox } from "components/Design/ShadowBox";
+import { EditUserForm } from "components/Forms/EditUserForm";
+import React, { Component } from "react"
+import { Container, Row,Col } from "reactstrap";
 
-export class SignUp extends PureComponent {
-    static displayName = SignUp.name;
-
+export class Profile extends Component {
     constructor(props) {
         super(props);
     }
     render() {
-        return (
-            <Container>
-                    <Row  className="justify-content-center">
+        return(
+        <Container>
+                <Row  className="justify-content-center">
                     <Col md="6">
                     <ShadowBox className="bg-white">
                     <h1 className="mt-3 mb-3 text-center">
-                            Create a <i>FREE</i> account
+                            Personal Profile
                         </h1>
                     </ShadowBox>
                     </Col>
@@ -25,12 +22,11 @@ export class SignUp extends PureComponent {
                 <Row className="justify-content-center" >
                     <Col md="6" >
                         <ShadowBox>
-                            <CreateUserForm />
+                        <EditUserForm/>
                         </ShadowBox>
                     </Col>
                 </Row>
             </Container>
-        )
+            );
     }
-
 }
