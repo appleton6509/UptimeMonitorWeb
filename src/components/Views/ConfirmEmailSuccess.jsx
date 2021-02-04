@@ -8,7 +8,7 @@ export class ConfirmEmailSuccess extends Component {
     render() {
         return(
         <ShadowBox>
-            Confirmation successful, please sign in;
+            Email Confirmed! 
         </ShadowBox>);
     }
 }

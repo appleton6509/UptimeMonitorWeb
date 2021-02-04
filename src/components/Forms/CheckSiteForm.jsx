@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import DropDownFilter from 'components/Design/DropDownFilter';
 
 export class CheckSiteForm extends Component {
     static propTypes = {

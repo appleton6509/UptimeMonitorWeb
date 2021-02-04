@@ -15,10 +15,6 @@ export class SignIn extends Component {
                 <Row className="justify-content-center" >
                     <Col md="6" >
                         <ShadowBox>
-                        <h1 className="mt-3 mb-3 text-center">
-                            Lets get you LOGGED IN.
-                        </h1>
-                        <br/>
                         <br/>
                             <LoginForm />
                         </ShadowBox>

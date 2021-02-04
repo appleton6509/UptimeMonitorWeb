@@ -17,7 +17,7 @@ export class SignUp extends PureComponent {
                     <Col md="6" >
                         <ShadowBox>
                         <h1 className="mt-3 mb-3 text-center">
-                            Create a <i>FREE</i> account
+                            Create a <i><u>Free</u></i> account
                         </h1>
                         <br/>
                             <CreateUserForm />

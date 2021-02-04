@@ -40,7 +40,7 @@ export class LoginForm extends Component {
         return (
             <Form onSubmit={this.onSubmit}>
                 <FormGroup>
-                    <Label>Email / UserName</Label>
+                    <Label>Email </Label>
                     <InputGroup>
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText><i className="fa fa-envelope"></i></InputGroupText>
@@ -58,8 +58,9 @@ export class LoginForm extends Component {
                 </InputGroup>
              </FormGroup>
                 <FormGroup className="text-center">
+                <br/>
                     <Button type="submit" color="info" id="btnSubmit" className="mb-4">
-                        <div hidden={this.state.isLoading}> OK </div>
+                        <div hidden={this.state.isLoading}>&nbsp;Login&nbsp;<i className="fa fa-sign-in"></i></div>
                         <Spinner hidden={!this.state.isLoading} as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
                     </Button>
                 </FormGroup>

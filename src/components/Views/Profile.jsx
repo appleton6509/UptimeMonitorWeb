@@ -10,17 +10,12 @@ export class Profile extends Component {
     render() {
         return(
         <Container>
-                <Row  className="justify-content-center">
-                    <Col md="6">
-                    <ShadowBox className="bg-white">
+                <Row className="justify-content-center" >
+                    <Col md="6" >
                     <h1 className="mt-3 mb-3 text-center">
                             Personal Profile
                         </h1>
-                    </ShadowBox>
-                    </Col>
-                </Row>
-                <Row className="justify-content-center" >
-                    <Col md="6" >
+                        <br/>
                         <ShadowBox>
                         <EditUserForm/>
                         </ShadowBox>

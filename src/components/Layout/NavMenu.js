@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import '../Settings/theme.css';
 import { AuthConsumer } from '../Authorization/AuthProvider';
+import { ProfileNavLink } from './ProfileNavLink';
 
 
 export class NavMenu extends Component {
@@ -37,25 +38,14 @@ export class NavMenu extends Component {
             </Nav>
             <Nav className="ml-auto" navbar>
                 <NavItem className="pr-2">
-                    <NavLink tag={Link} className="text-dark p-0" to="/Profile">
+                    <Button outline color="transparent" className="text-dark p-0" id="ProfileTrigger">
                         <span className="fa-stack fa-2x">
                             <i className="fa fa-circle fa-stack-2x"></i>
                             <i className="fa fa-user fa-stack-1x fa-inverse"></i>
                         </span>
-                    </NavLink>
-                    {/* <NavLink>Hello! {auth.user.name}</NavLink> */}
+                    </Button>
+                    <ProfileNavLink target="ProfileTrigger" />
                 </NavItem>
-                <NavItem >
-                    <NavLink tag={Link} className="text-dark p-0" onClick={auth.logout}>
-
-                        <span className="fa-stack fa-2x">
-                            <i className="fa fa-circle fa-stack-2x"></i>
-                            <i className="fa fa-unlock-alt fa-stack-1x fa-inverse"></i>
-                        </span>
-                        
-                    </NavLink>
-                </NavItem>
-
             </Nav>
         </Fragment>
     );
