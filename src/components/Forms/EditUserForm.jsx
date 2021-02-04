@@ -52,7 +52,7 @@ export class EditUserForm extends Component {
         {
             toast.error("passwords dont match")
             return false;
-    }
+        }
     }
     validateUserName = (username) => {
         let user = username.toLowerCase();
