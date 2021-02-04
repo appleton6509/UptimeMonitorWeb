@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import DropDownFilter from 'components/Design/DropDownFilter';
 
 export class CheckSiteForm extends Component {
     static propTypes = {
@@ -41,7 +42,7 @@ export class CheckSiteForm extends Component {
         this.setState({ dropdownOpen: !dropdownOpen });
     }
     onClick_DropDown = (e) => {
-        if (e.target.innerText === '')
+        if (e.target.innerText === '' || (e.target.innerText !== "https://" && e.target.innerText !== "http://"))
             return;
 
         this.setState({ urlPrepend: e.target.innerText });
@@ -57,6 +58,14 @@ export class CheckSiteForm extends Component {
                         <DropdownMenu>
                             <DropdownItem>https://</DropdownItem>
                             <DropdownItem>http://</DropdownItem>
+                            <DropdownItem divider disabled astupid/>
+                            <DropdownItem header disabled astupid>Also Avaliable:</DropdownItem>
+                            <DropdownItem disabled astupid>ftp</DropdownItem>
+                            <DropdownItem disabled>ftps</DropdownItem>
+                            <DropdownItem disabled>sftp</DropdownItem>
+                            <DropdownItem disabled>telnet</DropdownItem>
+                            <DropdownItem disabled>ssh</DropdownItem>
+                            <DropdownItem disabled>& More!</DropdownItem>
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                     <Input type="url" placeholder="www.mysite.com" id="urlInput" />

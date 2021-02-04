@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
-    "bootstrap": "^4.5.3",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.6.3",
+    "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
-    "dayjs": "^1.10.3",
+    "dayjs": "^1.10.4",
     "font-awesome": "^4.7.0",
     "ip-regex": "^4.3.0",
     "jquery": "^3.5.1",
@@ -20,7 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-toastify": "^6.2.0",
-    "reactstrap": "^8.7.1",
+    "reactstrap": "^8.9.0",
     "timezone": "^1.0.23",
     "toastr": "^2.1.4",
     "url-regex-safe": "^1.0.2",
@@ -52,7 +52,7 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.17.0",
+    "eslint": "^7.19.0",
     "eslint-plugin-react": "^7.22.0"
   }
 }

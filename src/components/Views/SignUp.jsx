@@ -13,18 +13,13 @@ export class SignUp extends PureComponent {
     render() {
         return (
             <Container>
-                    <Row  className="justify-content-center">
-                    <Col md="6">
-                    <ShadowBox className="bg-white">
-                    <h1 className="mt-3 mb-3 text-center">
-                            Create a <i>FREE</i> account
-                        </h1>
-                    </ShadowBox>
-                    </Col>
-                </Row>
                 <Row className="justify-content-center" >
                     <Col md="6" >
                         <ShadowBox>
+                        <h1 className="mt-3 mb-3 text-center">
+                            Create a <i>FREE</i> account
+                        </h1>
+                        <br/>
                             <CreateUserForm />
                         </ShadowBox>
                     </Col>
@@ -32,5 +27,4 @@ export class SignUp extends PureComponent {
             </Container>
         )
     }
-
 }
