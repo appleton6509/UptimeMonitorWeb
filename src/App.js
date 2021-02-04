@@ -10,6 +10,7 @@ import { ResultLogs } from './components/Views/ResultLogs';
 import { Performance } from './components/Views/Performance';
 import { Profile } from './components/Views/Profile';
 import { ConfirmEmailSuccess } from 'components/Views/ConfirmEmailSuccess';
+import { ConfirmEmailFailure } from 'components/Views/ConfirmEmailFailure';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -26,6 +27,7 @@ export default class App extends Component {
         <Route exact path='/Performance' component={Performance} />
         <Route exact path='/Profile' component={Profile} />
         <Route exact path='/ConfirmEmailSuccess' component={ConfirmEmailSuccess} />
+        <Route exact path='/ConfirmEmailFailure' component={ConfirmEmailFailure} />
       </Layout>
     );
   }

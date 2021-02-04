@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Spinner } from 'reactstrap';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default class LoadingSpinner extends Component {
+    static propTypes = {
+        type: PropTypes.string,
+        size: PropTypes.string,
+        height: PropTypes.string,
+    }
     constructor(props) {
         super(props);
 
@@ -30,11 +35,6 @@ export default class LoadingSpinner extends Component {
                 </div>
             );
     }
-}
-LoadingSpinner.propTypes = {
-    type: PropType.string,
-    size: PropType.string,
-    height: PropType.string,
 }
 LoadingSpinner.defaultProps = {
     height: "12rem",
