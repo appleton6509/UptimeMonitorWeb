@@ -2,9 +2,11 @@ import { CheckSiteForm } from '../Forms/CheckSiteForm';
 import { WebTestResult } from '../Design/WebTestResult';
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
+import { AuthContext } from '../Authorization/AuthContext';
 import './Home.css'
 
 export class Home extends Component {
+    static contextType = AuthContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -16,6 +18,11 @@ export class Home extends Component {
     }
     static displayName = Home.name;
 
+    componentDidMount() {
+        let context = this.context;
+        if(context.user.isAuthenticated)
+            window.location.replace("/Performance")
+    }
     onClick = (url) => {
         this.setState({ url: url, cssTransitionClass: "box-transition" })
     }
