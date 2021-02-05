@@ -11,6 +11,7 @@ import { Profile } from './components/Views/Profile';
 import { ConfirmEmailSuccess } from 'components/Views/ConfirmEmailSuccess';
 import { ConfirmEmailFailure } from 'components/Views/ConfirmEmailFailure';
 import { ForgotPassword } from 'components/Views/ForgotPassword';
+import { ResetPassword } from 'components/Views/ResetPassword';
 
 export class CustomRoutes extends Component {
   render() {
@@ -27,6 +28,7 @@ export class CustomRoutes extends Component {
         <Route exact path='/ConfirmEmailSuccess' component={ConfirmEmailSuccess} />
         <Route exact path='/ConfirmEmailFailure' component={ConfirmEmailFailure} />
         <Route exact path='/ForgotPassword' component={ForgotPassword} />
+        <Route exact path='/ResetPassword' component={ResetPassword} />
       </Fragment>
     );
   }

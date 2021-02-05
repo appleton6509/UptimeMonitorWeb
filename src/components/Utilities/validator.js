@@ -19,4 +19,9 @@ export default class validator {
         else
             return false;
     }
+    static passwordsMatch(password, confirmpassword) {
+        if (password === confirmpassword) 
+            return true;
+         return false;
+    }
 }
