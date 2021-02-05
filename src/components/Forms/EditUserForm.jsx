@@ -1,3 +1,4 @@
+import validator from 'components/Utilities/validator';
 import { type } from 'jquery';
 import React,{Component} from 'react';
 import { toast } from 'react-toastify';
@@ -55,14 +56,11 @@ export class EditUserForm extends Component {
         }
     }
     validateUserName = (username) => {
-        let user = username.toLowerCase();
-        const validUser = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
-        if (validUser.test(user))
-            return user;
-        else {
+        let isValidEmail = validator.isValidEmail(username)
+        if (isValidEmail)
+            return username.toLowerCase();
+        else 
             toast.error("Please enter a valid email address");
-            return false;
-        }
     }
     render() {
         const {username,newpassword,password, confirmnewpassword } = this.state;

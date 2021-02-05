@@ -3,8 +3,8 @@ import { Row, Col, Form, Button, Label, Input, FormGroup, InputGroup, DropdownMe
 import { EndPointService } from '../Services/endpointservice';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import ipRegex from 'ip-regex';
-import urlRegex from 'url-regex-safe'
+import validator from 'components/Utilities/validator';
+
 export class ManageEndPointForm extends Component {
     static propTypes = {
         endpoint: PropTypes.object.isRequired,
@@ -44,9 +44,8 @@ export class ManageEndPointForm extends Component {
         return value
     }
     isValidUrl = (url) => {
-        let isValidIp = ipRegex().test(url);
-        let isValidUrl = urlRegex({localhost: false}).test(url);
-         if (isValidIp || isValidUrl)
+        let isValid = validator.isValidUrl(url)
+         if (isValid)
             return true
         else
             return false;

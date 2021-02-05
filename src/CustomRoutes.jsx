@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout/Layout'
-import { SignUp} from './components/Views/SignUp';
-import { SignIn} from './components/Views/SignIn';
-import { Home} from './components/Views/Home';
+import { SignUp } from './components/Views/SignUp';
+import { SignIn } from './components/Views/SignIn';
+import { Home } from './components/Views/Home';
 import { ManageEndPoints } from './components/Views/ManageEndPoints';
 import { Deauthorize } from './components/Authorization/Deauthorize';
 import { ResultLogs } from './components/Views/ResultLogs';
@@ -11,13 +10,12 @@ import { Performance } from './components/Views/Performance';
 import { Profile } from './components/Views/Profile';
 import { ConfirmEmailSuccess } from 'components/Views/ConfirmEmailSuccess';
 import { ConfirmEmailFailure } from 'components/Views/ConfirmEmailFailure';
+import { ForgotPassword } from 'components/Views/ForgotPassword';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render () {
+export class CustomRoutes extends Component {
+  render() {
     return (
-      <Layout>
+      <Fragment>
         <Route exact path='/SignUp' component={SignUp} />
         <Route exact path='/SignIn' component={SignIn} />
         <Route exact path='/Deauthorize' component={Deauthorize} />
@@ -28,7 +26,8 @@ export default class App extends Component {
         <Route exact path='/Profile' component={Profile} />
         <Route exact path='/ConfirmEmailSuccess' component={ConfirmEmailSuccess} />
         <Route exact path='/ConfirmEmailFailure' component={ConfirmEmailFailure} />
-      </Layout>
+        <Route exact path='/ForgotPassword' component={ForgotPassword} />
+      </Fragment>
     );
   }
 }

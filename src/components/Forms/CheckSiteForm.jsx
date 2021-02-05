@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import validator from 'components/Utilities/validator';
 
 export class CheckSiteForm extends Component {
     static propTypes = {
@@ -28,10 +29,9 @@ export class CheckSiteForm extends Component {
         }
     }
     validateUrl = (url, prepend) => {
-        let urlcopy = url.toLowerCase();
-        let newUrl = prepend + urlcopy;
-        const validUrlRegEx = new RegExp('^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$');
-        if (validUrlRegEx.test(newUrl))
+        let newUrl = prepend + url.toLowerCase();
+        let isValid = validator.isValidUrl(newUrl);
+        if (isValid)
             return newUrl;
         else
             throw new Error("Invalid web address - " + newUrl);
@@ -57,9 +57,9 @@ export class CheckSiteForm extends Component {
                         <DropdownMenu>
                             <DropdownItem>https://</DropdownItem>
                             <DropdownItem>http://</DropdownItem>
-                            <DropdownItem divider disabled astupid/>
-                            <DropdownItem header disabled astupid>Also Avaliable:</DropdownItem>
-                            <DropdownItem disabled astupid>ftp</DropdownItem>
+                            <DropdownItem divider disabled />
+                            <DropdownItem header disabled >Also Avaliable:</DropdownItem>
+                            <DropdownItem disabled >ftp</DropdownItem>
                             <DropdownItem disabled>ftps</DropdownItem>
                             <DropdownItem disabled>sftp</DropdownItem>
                             <DropdownItem disabled>telnet</DropdownItem>

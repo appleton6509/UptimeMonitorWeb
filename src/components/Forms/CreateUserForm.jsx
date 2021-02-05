@@ -1,3 +1,4 @@
+import validator from 'components/Utilities/validator';
 import React,{Component} from 'react';
 import { toast } from 'react-toastify';
 import { Button,Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Spinner } from 'reactstrap';
@@ -32,14 +33,11 @@ export class CreateUserForm extends Component {
          setTimeout(()=> {this.setState({isLoading: false});},250);
     }
     validateUserName = (username) => {
-        let user = username.toLowerCase();
-        const validUser = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
-        if (validUser.test(user))
-            return user;
-        else {
+        let isValidEmail = validator.isValidEmail(username)
+        if (isValidEmail)
+            return username.toLowerCase();
+        else 
             toast.error("Please enter a valid email address");
-            return false;
-        }
     }
     render() {
         return(
