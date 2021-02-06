@@ -1,4 +1,4 @@
-import { ShadowBox } from 'components/Design/ShadowBox';
+import { ShadowBox } from 'components/Generic/Design/ShadowBox';
 import { Component, React } from 'react'
 import { Button, Col, Container, NavLink, Row, UncontrolledPopover } from 'reactstrap';
 import { AuthContext } from '../Authorization/AuthContext';
@@ -39,7 +39,7 @@ export class ProfileNavLink extends Component {
                                 <NavLink tag={Link} to="/Profile" style={{ float: "left" }}>Profile</NavLink>
                                 <AuthConsumer>
                                     {(auth) => {
-                                        return (<NavLink tag={Link} style={{ float: "right" }} onClick={auth.logout}>Logout</NavLink>);
+                                        return (<NavLink tag={Link} style={{ float: "right" }} onClick={auth.logout} to='#'>Logout</NavLink>);
                                     }}
                                 </AuthConsumer>
                             </Col>

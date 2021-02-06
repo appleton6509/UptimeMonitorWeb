@@ -57,3 +57,6 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+body, html {
+  height: 100%;
+}

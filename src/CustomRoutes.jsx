@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router';
-import { SignUp } from './components/Views/SignUp';
-import { SignIn } from './components/Views/SignIn';
-import { Home } from './components/Views/Home';
-import { ManageEndPoints } from './components/Views/ManageEndPoints';
+import { SignUp } from './components/Views/Accounts/SignUp';
+import { SignIn } from './components/Views/Accounts/SignIn';
+import { Home } from './components/Views/Home/Home';
+import { ManageEndPoints } from './components/Views/Manage/ManageEndPoints';
 import { Deauthorize } from './components/Authorization/Deauthorize';
-import { ResultLogs } from './components/Views/ResultLogs';
-import { Performance } from './components/Views/Performance';
-import { Profile } from './components/Views/Profile';
-import { ConfirmEmailSuccess } from 'components/Views/ConfirmEmailSuccess';
-import { ConfirmEmailFailure } from 'components/Views/ConfirmEmailFailure';
-import { ForgotPassword } from 'components/Views/ForgotPassword';
-import { ResetPassword } from 'components/Views/ResetPassword';
+import { ResultLogs } from './components/Views/Logs/ResultLogs';
+import { Performance } from './components/Views/Performance/Performance';
+import { Profile } from './components/Views/Accounts/Profile';
+import { ConfirmEmailSuccess } from 'components/Views/Accounts/ConfirmEmailSuccess';
+import { ConfirmEmailFailure } from 'components/Views/Accounts/ConfirmEmailFailure';
+import { ForgotPassword } from 'components/Views/Accounts/ForgotPassword';
+import { ResetPassword } from 'components/Views/Accounts/ResetPassword';
 
 export class CustomRoutes extends Component {
   render() {

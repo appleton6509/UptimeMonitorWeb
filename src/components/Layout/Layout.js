@@ -4,6 +4,7 @@ import { AuthProvider } from '../Authorization/AuthProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Container } from 'reactstrap';
+import { ShadowBox } from 'components/Generic/Design/ShadowBox';
 
 toast.configure({
    position:"bottom-center",
@@ -33,7 +34,7 @@ export class Layout extends Component {
     const { isLoaded } = this.state;
     return (
       <AuthProvider isLoaded={this.handleLoadChange}> 
-          {isLoaded ? <div><NavMenu /></div> : ""}
+          {isLoaded ? <NavMenu /> : ""}
           {isLoaded ? <Container className="mb-2 mt-2 mr-10 ml-10" fluid={true}>{this.props.children}</Container> : ""}
       </AuthProvider>
     );
