@@ -30,9 +30,10 @@ export class WebTestResult extends Component {
     }
     fetchStatus = async () => {
         const rawUrl = this.props.url.toLowerCase();
-        const url = 'EndPoints/OnlineStatus/' + encodeURIComponent(rawUrl);
+        const url = 'EndPoints/OnlineStatus';
+        const body = encodeURIComponent(rawUrl);
         let isSuccess = true;
-        await FetchService.fetchNow(url,"GET").then(res => {
+        await FetchService.fetchNow(url,"POST",body).then(res => {
             if (res.ok)
                 return res.text();
         }).then(body => {
