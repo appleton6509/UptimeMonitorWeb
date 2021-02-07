@@ -16,7 +16,6 @@ export class ForgotPassword extends Component {
                     <Col md="5" >
                         <ShadowBox>
                         <h2 className="text-center">Reset Password</h2>
-
                             <ForgotPasswordForm/>
                         </ShadowBox>
                     </Col>
