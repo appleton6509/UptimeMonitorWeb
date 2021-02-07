@@ -1,6 +1,7 @@
 import LoadingSpinner from 'components/Generic/Design/LoadingSpinner';
 import { ShadowBox } from 'components/Generic/Design/ShadowBox';
 import {Component, React} from 'react'
+import { Redirect } from 'react-router';
 import { Col, Container, Row } from 'reactstrap';
 export class ConfirmEmailSuccess extends Component {
 
@@ -8,9 +9,10 @@ export class ConfirmEmailSuccess extends Component {
         super(props);
     }
     componentDidMount() {
-        setTimeout(()=> {
-            window.location.replace("/SignIn");
-        },3000)
+            setTimeout(() => {
+                this.props.history.push("/SignIn");
+            }, 3000)
+        
     }
     render() {
         return(
@@ -23,6 +25,7 @@ export class ConfirmEmailSuccess extends Component {
                              redirecting to login page...
                             <LoadingSpinner />
                         </ShadowBox>
+    
                     </Col>
                 </Row>
             </Container>

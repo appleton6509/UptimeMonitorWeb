@@ -23,11 +23,11 @@ class AuthProvider extends Component {
             },
             login: async (username, password) => { },
             createLogin: async (username, password) => { },
-            updateLogin: async (username, password) => { },
             logout: () => { },
             unauthorized: () => { },
             checkauthorization: () => { },
-            getUserName: () => { }
+            getUserName: () => { },
+            getUserId: () => { }
         }
     }
     componentDidMount = () => {
@@ -40,10 +40,10 @@ class AuthProvider extends Component {
         const createLogin = this.createLogin;
         const login = this.login;
         const unauthorized = this.unauthorized;
-        const update = this.updateLogin;
         const checkauthorization = this.checkauthorization;
         const getUserName = this.getUserName;
-        this.setState({ user, login, createLogin, logout, unauthorized, getUserName, update, checkauthorization });
+        const getUserId = this.getUserId;
+        this.setState({ user, login, createLogin, logout, unauthorized, getUserName, checkauthorization,getUserId });
     }
     checkauthorization = () => {
         if (!this.state.user.isAuthenticated)
@@ -101,53 +101,7 @@ class AuthProvider extends Component {
             return status;
         });
     }
-    /**
-    * @returns {Object} a object containing "error" message and boolean "success"
-    * @param {string} username 
-    * @param {string} password 
-    */
-   updateLogin = async (username, password) => {
-        const id = this.getUserID();
-        const uri = API_URI + 'Auth/Update/' + this.getUserID();
-        const jsonbody = JSON.stringify({ Username: username,Id: id, Password: password });
-        const toastid = toast.info("Updating Account...");
-        let status = {
-            error: "",
-            success: false
-        }
-        return await fetch(uri, {
-            method: 'PUT',
-            body: jsonbody,
-            headers: {
-                'Accept': '*/*',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => {
-            if (res.ok) 
-                status.success = true;
-            else {
-                toast.dismiss(toastid);
-                res.text().then(text => {
-                    status.error = text
-                    try {
-                        let json = JSON.parse(text);
-                        if (json["errors"]) {
-                            for (let value of Object.values(json["errors"]))
-                                status.error = value.pop(); 
-                        }
-                    } catch {console.log(""); }
-                    toast.error(status.error);
-                })
-            }
-            return status;
-        }).catch(() => {
-            status.error = "Something broke. Try again?"
-            toast.dismiss(toastid);
-            toast.warning(status.error);
-            return status;
-        });
-    }
-
+ 
     /**
      * 
      * @param {string} username 
@@ -160,7 +114,7 @@ class AuthProvider extends Component {
             error: "",
             success: false
         }
-        const id = this.getUserID();
+        const id = this.getUserId();
         const uri = API_URI + "Auth/SignIn"
         const jsonbody = JSON.stringify({ Username: username,Id : id, Password: password });
         return await fetch(uri, {
@@ -215,7 +169,7 @@ class AuthProvider extends Component {
     getUserAuthentication = () => {
         const token = this.getToken();
         const username = this.getUserName();
-        const id = this.getUserID();
+        const id = this.getUserId();
         const auth = token ? true : false;
         return {
             name: username,
@@ -232,7 +186,7 @@ class AuthProvider extends Component {
         return username;
     }
 
-    getUserID = () => {
+    getUserId = () => {
         const token = this.getToken();
         if (!token) return "";
         const decoded = jwt_decode(token);

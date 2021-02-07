@@ -4,6 +4,7 @@ import DoughnutChart from "components/Generic/Charts/DoughnutChart";
 import PropTypes from 'prop-types'
 import uribuilder from "components/Utilities/uribuilder";
 import moment from 'moment';
+
 export default class UptimeDoughtnutChart extends PureComponent {
     static propTypes = {
         endpointId: PropTypes.string,

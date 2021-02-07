@@ -9,9 +9,9 @@ export const AuthContext = React.createContext({
     },
     login: async (username, password) => { },
     createLogin: async (username, password) => { },
-    updateLogin: async (username, password) => { },
     logout: () => { },
     unauthorized: () => { },
     checkauthorization: () => { },
-    getUserName: () => { }
+    getUserName: () => { },
+    getUserId: () => { }
 }); // Create a context object

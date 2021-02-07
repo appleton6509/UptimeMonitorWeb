@@ -27,24 +27,27 @@ export class FetchService extends Component {
         })
             .then(res => {
                 if (res.status === 401) {
-                    console.log("user not authorized");
+                    console.log("Error 401: user not authorized");
                     window.location.replace("/deauthorize")
                 }
                 if (res.ok)
                     return res;
                 else {
+                    console.log("Error Status Code: "+ res.status);
                     let error = "Something went wrong. Try Again?";
                     return res.text().then(text => {
-                        error = text;
-                        try {
-                            let json = JSON.parse(text);
-                            if (json["errors"]) {
-                                for (let value of Object.values(json["errors"]))
-                                    error = value.pop();
-                            } 
-                        } catch {throw error}
+                        if (text.length > 0) {
+                            error = text;
+                            try {
+                                let json = JSON.parse(text);
+                                if (json["errors"]) {
+                                    for (let value of Object.values(json["errors"]))
+                                        error = value.pop();
+                                }
+                            } catch { throw error }
+                        }
                         throw error
-                    }).catch(err => { throw err})
+                    }).catch(err => { throw err })
                 }
             })
             .catch(err => {

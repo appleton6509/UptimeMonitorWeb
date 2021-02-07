@@ -1,5 +1,4 @@
 import React, {Component } from 'react';
-import { toast } from 'react-toastify';
 import { AuthContext } from '../Authorization/AuthContext';
 
 export class Deauthorize extends Component {

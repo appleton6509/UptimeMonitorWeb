@@ -81,7 +81,7 @@ export class WebTestResult extends Component {
                         <br/>
                         {isLoading ? <LoadingSpinner height="5rem"></LoadingSpinner> : ""}
                             {message}
-                        <br/>
+                        <br/><br/>
                         {isLoading ? "" : <Button color="primary" onClick={this.props.onClick}>Start Monitoring</Button> }
                     </CardBody>
                 </Card>

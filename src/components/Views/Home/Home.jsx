@@ -10,9 +10,7 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: "",
-            cssTransitionClass: "box",
-            hideClass: ""
+            url: ""
         }
 
     }
@@ -24,26 +22,29 @@ export class Home extends Component {
             window.location.replace("/Performance")
     }
     onClick = (url) => {
-        this.setState({ url: url, cssTransitionClass: "box-transition" })
+        this.setState({ url: url})
     }
     onClick_StartMonitoring = () => {
         window.location.replace("/SignUp")
     }
 
     render() {
-        const { cssTransitionClass, url, hideClass } = this.state;
-        return (
-            <Container>
-                {url !== "" ?
+        const { url } = this.state;
+        if (url!== "") 
+            return (
+                <Container>
                     <div className="resultBox">
                         <WebTestResult onClick={this.onClick_StartMonitoring} url={url} />
                     </div>
-                    : <div></div>}
-                <div className={cssTransitionClass}>
+                </Container>
+            );
+        else 
+            return(
+            <Container>
+                <div className="box">
                     <CheckSiteForm onClick={this.onClick} />
                 </div>
-
             </Container>
-        );
+            );
     }
 }
