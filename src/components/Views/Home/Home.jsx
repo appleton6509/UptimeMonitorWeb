@@ -19,13 +19,13 @@ export class Home extends Component {
     componentDidMount() {
         let context = this.context;
         if(context.user.isAuthenticated)
-            window.location.replace("/Performance")
+            this.props.history.push("/Performance");
     }
     onClick = (url) => {
         this.setState({ url: url})
     }
     onClick_StartMonitoring = () => {
-        window.location.replace("/SignUp")
+        this.props.history.push("/SignUp");
     }
 
     render() {

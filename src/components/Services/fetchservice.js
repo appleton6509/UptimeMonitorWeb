@@ -8,12 +8,21 @@ export class FetchService extends Component {
     };
 
     static getHeaders = (token) => {
-        return {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
+        let header;
+        if (token)
+            header = {
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        else
+            header = {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+        return header
     };
+
     static fetchNow = async (route, method, body = null) => {
         const token = this.getToken();
         if (!token)
@@ -33,7 +42,7 @@ export class FetchService extends Component {
                 if (res.ok)
                     return res;
                 else {
-                    console.log("Error Status Code: "+ res.status);
+                    console.log("Error Status Code: " + res.status);
                     let error = "Something went wrong. Try Again?";
                     return res.text().then(text => {
                         if (text.length > 0) {

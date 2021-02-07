@@ -20,7 +20,7 @@ export class ProfileNavLink extends Component {
                         <Row>
                             <Col>
                                 <div className="text-center">
-                                    <i className="fa fa-user-circle fa-3x" style={{ fontSize: "6rem" }}></i>
+                                    <i className="fa fa-user-circle fa-2x" style={{ fontSize: "6rem" }}></i>
                                 </div>
 
                             </Col>

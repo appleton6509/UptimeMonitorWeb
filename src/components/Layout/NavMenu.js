@@ -36,10 +36,16 @@ export class NavMenu extends Component {
                         <i className="linkicon fa fa-dashboard"></i>&nbsp;Logs</NavLink>
                 </NavItem>
             </Nav>
+
             <Nav className="ml-auto" navbar>
                 <NavItem className="pr-2">
                     <Button outline color="transparent" className="text-dark p-0" id="ProfileTrigger">
-                        <span className="fa-stack fa-2x">
+                    <div style={{ display: "inline-block" }}>
+                    <NavItem style={{cursor:"pointer",fontSize:"0.7rem", display: "inline-block" ,verticalAlign: "middle" }}>
+                        {auth.user.name}
+                    </NavItem>
+                </div>
+                        <span className="fa-stack fa">
                             <i className="fa fa-circle fa-stack-2x"></i>
                             <i className="fa fa-user fa-stack-1x fa-inverse"></i>
                         </span>
